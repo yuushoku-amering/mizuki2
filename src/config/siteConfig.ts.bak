@@ -109,16 +109,12 @@ export const siteConfig: SiteConfig = {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
 			desktop: [
+				"/images/backgrounds/1.jpg",
+				"/images/backgrounds/2.jpg",
 				"/images/backgrounds/3.jpg",
 				"/images/backgrounds/4.jpg",
-				"/images/backgrounds/5.jpg",
-				"/images/backgrounds/6.jpg",
-				"/images/backgrounds/7.jpg",
-				"/images/backgrounds/8.jpg",
 			], // 桌面横幅图片
 			mobile: [
-				"/images/backgrounds/3.jpg",
-				"/images/backgrounds/4.jpg",
 				"/images/backgrounds/5.jpg",
 				"/images/backgrounds/6.jpg",
 				"/images/backgrounds/7.jpg",

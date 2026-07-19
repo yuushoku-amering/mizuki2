@@ -112,6 +112,7 @@ export interface SiteConfig {
 					mobile?: string | string[];
 			  };
 		position?: "top" | "center" | "bottom";
+			imagePosition?: Record<string, "top" | "center" | "bottom">; // 按图片路径单独覆盖 position
 		carousel?: {
 			enable: boolean;
 			interval: number;
