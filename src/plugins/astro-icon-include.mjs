@@ -102,15 +102,16 @@ export function buildIconInclude() {
 	const include = {};
 	for (const [collection, names] of found) {
 		if (names.size === 0) {
+			// Still register the collection with an empty array so
+			// loadIconifyCollections won't wildcard it to ["*"].
+			include[collection] = [];
 			continue;
 		}
 		const valid = loadCollectionNames(collection);
 		// Keep only names that actually exist in the collection; unknown names
 		// (from comments, typos, or CDN-only icons) would fail the build.
 		const usable = valid ? [...names].filter((n) => valid.has(n)) : [...names];
-		if (usable.length > 0) {
-			include[collection] = usable.sort();
-		}
+		include[collection] = usable.sort();
 	}
 	return include;
 }

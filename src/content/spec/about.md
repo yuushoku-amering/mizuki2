@@ -1,49 +1,45 @@
 
-This website is built with the **Astro** framework using the [Mizuki](https://github.com/LyraVoid/Mizuki) theme.
+## 👋 关于我
 
-::github{repo="LyraVoid/Mizuki"}
+你好，我是**吕家欣**，目前就读于**广东海洋大学社会学专业**（2023-2027），专业排名前 25%。
 
-## 🌟 Theme Features
-
-### 🎨 Design & User Experience
-- **Modern & Elegant Design** - Clean, minimalist interface with beautiful typography
-- **Fully Responsive** - Optimized for all devices from mobile to desktop
-- **Dark/Light Mode** - Automatic theme switching with smooth transitions
-- **Beautiful Typography** - Enhanced readability with JetBrains Mono font
-- **Smooth Animations** - Fluid page transitions and interactive elements
-
-### 🔍 Content & Search
-- **Advanced Search** - Powered by [Pagefind](https://pagefind.app/) for fast, accurate results
-- **Enhanced Markdown** - Extended syntax with code highlighting and math support
-- **Interactive Table of Contents** - Auto-scroll navigation for long articles
-- **RSS Feed Generation** - Stay updated with automatic feed generation
-- **Reading Time Estimation** - Know how long articles take to read
-- **Post Categorization** - Organize content with tags and categories
-
-
-
-### 📱 Special Pages
-- **Anime Tracking Page** - Track your anime watching progress with ratings
-- **Friends Links Page** - Showcase friend websites with beautiful cards
-- **Diary/Moments Page** - Share life moments like social media posts
-- **Archive Page** - Organized timeline view of all posts
-- **About Page** - Customizable personal introduction (this page!)
-
-### 🛠 Technical Features
-- **Enhanced Code Blocks** - Powered by [Expressive Code](https://expressive-code.com/)
-- **Math Support** - LaTeX rendering with KaTeX for mathematical expressions
-- **Image Optimization** - PhotoSwipe gallery with lazy loading
-- **SEO Optimized** - Built-in sitemap and meta tags for better search visibility
-- **Performance Optimized** - Fast loading with caching and optimization
-- **Comment System Ready** - Integration support for Twikoo comments
-
-### 🎯 Advanced Markdown Features
-- **Callouts & Admonitions** - Beautiful info boxes with `> [!NOTE]`, `> [!TIP]`, `> [!WARNING]`
-- **Mathematical Equations** - Write LaTeX math with `$inline$` and `$$block$$` syntax
-- **GitHub Cards** - Embed repository cards with `::github{repo="user/repo"}`
-- **Syntax Highlighting** - Advanced code highlighting with line numbers
-- **Copy Code Buttons** - Easy code copying functionality
+我具备社会学专业背景，拥有结构化分析视角与用户行为洞察能力，系统掌握社会统计学与定量定性研究方法。同时，我注重将社会学理论知识与数据分析工具相结合，致力于将专业能力迁移到实际应用场景中。
 
 ---
 
-*Built with ❤️ using Astro and inspired by modern web design principles.*
+## 🎓 教育背景
+
+- **广东海洋大学** · 社会学本科 · 2023 年 9 月 — 2027 年 6 月
+- 专业排名前 25%，系统学习社会统计学、定量与定性研究方法
+- 持有**计算机二级证书**
+- 曾任院团委秘书部财务秘书，协同对接 10+ 个团学部门的财务相关需求
+
+---
+
+## 💡 核心能力
+
+### 数据分析与研究
+- 熟练运用 **SPSS**、**Excel**、**SQL** 完成数据采集、清洗、建模全流程
+- 掌握社会统计学方法，可独立输出完整的分析结论
+- 具备问卷设计、访谈提纲设计、调研执行与结构化整理能力
+
+### 工具与技术
+- 熟练使用 **Word**、**Excel**、**PowerPoint** 进行行政工作处理
+- 可使用 **CCSwitch**、**Cherry Studio** 等 Agent 工具辅助工作
+- 基本掌握 **Photoshop**、**After Effects** 进行图片与视频处理
+
+### 综合素质
+- 丰富的行政工作与活动策划执行经验
+- 具备团队协作与跨部门沟通能力
+- 善于将社会学用户研究理论与数据分析结合
+
+---
+
+## 📬 联系方式
+
+- 📧 邮箱：`2330704234@qq.com`
+- 📱 电话：`17888601929`
+
+---
+
+*本网站基于 [Mizuki](https://github.com/LyraVoid/Mizuki) 主题搭建，部署于 EdgeOne 平台。*
