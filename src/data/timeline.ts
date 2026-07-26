@@ -65,16 +65,16 @@ export const timelineData: TimelineItem[] = [
 		color: "#EA580C",
 	},
 	{
-		id: "library-volunteer",
-		title: "图书馆志愿者",
+		id: "library-intern",
+		title: "图书馆实习助理",
 		description:
-			"在清远图书馆承担前台读者咨询答疑、入馆及业务办理指引工作，协助完成多项文化活动的方案策划与现场落地执行。",
+			"在清远图书馆担任实习助理，负责前台读者咨询答疑、入馆及业务办理指引，协助策划并落地执行多项文化活动，积累读者服务与活动组织经验。",
 		type: "work",
 		startDate: "2024-01-01",
 		endDate: "2024-02-28",
 		location: "广东清远",
 		organization: "清远图书馆",
-		position: "读者服务志愿者",
+		position: "实习助理",
 		skills: ["读者服务", "活动策划", "图书管理", "沟通协调"],
 		achievements: [
 			"服务响应及时率达 100%",
