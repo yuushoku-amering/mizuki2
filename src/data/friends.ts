@@ -23,7 +23,7 @@ export const friendsData: FriendItem[] = [
 	{
 		id: 2,
 		title: "DeepSeek",
-		imgurl: "/assets/friend-logos/deepseek.svg",
+		imgurl: "https://www.google.com/s2/favicons?domain=deepseek.com&sz=64",
 		desc: "好用",
 		siteurl: "https://chat.deepseek.com/",
 		tags: ["AI", "对话助手"],
@@ -47,7 +47,7 @@ export const friendsData: FriendItem[] = [
 	{
 		id: 5,
 		title: "Cherry Studio",
-		imgurl: "/assets/friend-logos/cherry-studio.png",
+		imgurl: "https://www.google.com/s2/favicons?domain=cherry-ai.com&sz=64",
 		desc: "AI 桌面客户端，集成多模型对话与 Agent 能力，项目协作与内容管理的效率利器",
 		siteurl: "https://cherry-ai.com/",
 		tags: ["AI", "效率"],
