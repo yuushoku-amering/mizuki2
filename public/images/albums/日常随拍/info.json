@@ -1,0 +1,13 @@
+{
+	"title": "日常随拍",
+	"hidden": false,
+	"description": "记录生活中的点滴瞬间",
+	"date": "2026-07-26",
+	"location": "",
+	"tags": [
+		"日常",
+		"生活"
+	],
+	"layout": "masonry",
+	"columns": 3
+}

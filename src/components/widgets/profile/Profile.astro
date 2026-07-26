@@ -57,6 +57,18 @@ import TypewriterText from "../../atoms/typewriter-text/TypewriterText.astro";
 			}
 		</div>
 
+		{
+			profileConfig.interests && profileConfig.interests.length > 0 && (
+				<div class="flex flex-wrap gap-1.5 justify-center mb-2.5 px-1">
+					{profileConfig.interests.map((tag) => (
+						<span class="px-2 py-0.5 text-xs rounded-md bg-(--primary)/10 text-(--primary)">
+							{tag}
+						</span>
+					))}
+				</div>
+			)
+		}
+
 		<div class="flex flex-wrap gap-2 justify-center mb-1">
 			{
 				profileConfig.links.length > 1 &&

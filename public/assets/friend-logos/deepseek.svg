@@ -1,0 +1,16 @@
+<html>
+<head>
+<title>404 Not Found</title>
+</head>
+<body>
+<h1>404 Not Found</h1>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>RequestId: 0000019F8ADA734C941431892C7B3928</li>
+<li>HostId: yfMcpYKbqrMksN2pgFTqgcIV1OGXTxrmGJU01HzOXnlWdK7zbKx8z9PQAmkPPkSw</li>
+<li>Key: chat/icon.svg</li>
+</ul>
+<hr/>
+</body>
+</html>

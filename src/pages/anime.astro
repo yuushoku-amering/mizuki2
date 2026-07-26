@@ -63,7 +63,6 @@ const statusMap = getStatusMap();
 const INITIAL_DISPLAY_COUNT = 24;
 const visibleAnimeList = animeList.slice(0, INITIAL_DISPLAY_COUNT);
 const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
-const showExtendedFilters = ANIME_MODE === "bangumi";
 const emptyMessage = i18n(I18nKey.animeEmpty);
 ---
 
@@ -84,14 +83,10 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 				<div class="mb-6">
 					<AnimeFilters
 						filterAllLabel={i18n(I18nKey.animeFilterAll)}
-						statusWatchingLabel={i18n(I18nKey.animeStatusWatching)}
-						statusPlannedLabel={i18n(I18nKey.animeStatusPlanned)}
-						statusCompletedLabel={i18n(
-							I18nKey.animeStatusCompleted,
-						)}
-						statusOnHoldLabel={i18n(I18nKey.animeStatusOnHold)}
-						statusDroppedLabel={i18n(I18nKey.animeStatusDropped)}
-						showExtendedFilters={showExtendedFilters}
+						typeAnimeLabel={i18n(I18nKey.animeStatusWatching)}
+						typeMangaLabel={i18n(I18nKey.animeStatusCompleted)}
+						typeLightNovelLabel={i18n(I18nKey.animeStatusPlanned)}
+						typeNovelLabel={i18n(I18nKey.animeStatusOnHold)}
 					/>
 				</div>
 			</div>
@@ -114,7 +109,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 							hiddenAnimeList={hiddenAnimeList}
 							statusMap={statusMap}
 							yearLabel={i18n(I18nKey.animeYear)}
-							studioLabel={i18n(I18nKey.animeStudio)}
+							authorLabel={i18n(I18nKey.animeStudio)}
 						/>
 					)
 				}

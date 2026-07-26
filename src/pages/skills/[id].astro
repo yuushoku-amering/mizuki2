@@ -1,0 +1,177 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import Icon from "../../components/misc/Icon.astro";
+import { skillsData } from "../../data/skills";
+import { projectsData } from "../../data/projects";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+
+export function getStaticPaths() {
+	return skillsData.map((skill) => ({
+		params: { id: skill.id },
+	}));
+}
+
+const { id } = Astro.params;
+const skill = skillsData.find((s) => s.id === id);
+
+if (!skill) {
+	return Astro.redirect("/404/");
+}
+
+const title = skill.name;
+const description = skill.description;
+const skillColor = skill.color || "#3B82F6";
+
+const getLevelText = (level: string) => {
+	switch (level) {
+		case "expert": return i18n(I18nKey.skillsExpert);
+		case "advanced": return i18n(I18nKey.skillsAdvanced);
+		case "intermediate": return i18n(I18nKey.skillsIntermediate);
+		case "beginner": return i18n(I18nKey.skillsBeginner);
+		default: return level;
+	}
+};
+
+const getLevelWidth = (level: string) => {
+	switch (level) {
+		case "expert": return "100%";
+		case "advanced": return "80%";
+		case "intermediate": return "60%";
+		case "beginner": return "40%";
+		default: return "20%";
+	}
+};
+
+const formatExperience = (exp: { years: number; months: number }) => {
+	const parts: string[] = [];
+	if (exp.years > 0) parts.push(`${exp.years} ${i18n(I18nKey.skillYears)}`);
+	if (exp.months > 0) parts.push(`${exp.months} ${i18n(I18nKey.skillMonths)}`);
+	return parts.join(" ");
+};
+
+const getCategoryText = (category: string) => {
+	switch (category) {
+		case "frontend": return i18n(I18nKey.skillsFrontend);
+		case "backend": return i18n(I18nKey.skillsBackend);
+		case "database": return i18n(I18nKey.skillsDatabase);
+		case "tools": return i18n(I18nKey.skillsTools);
+		case "other": return i18n(I18nKey.skillsOther);
+		default: return category;
+	}
+};
+
+const relatedProjects = skill.projects
+	? projectsData.filter((p) => skill.projects!.includes(p.id))
+	: [];
+---
+
+<MainGridLayout title={title} description={description}>
+	<script>
+		import("../../scripts/right-sidebar-layout.js");
+		import { loadIconify } from "../../utils/icon-loader";
+
+		loadIconify().catch((error) => {
+			console.error("Failed to load Iconify:", error);
+		});
+	</script>
+
+	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
+			<div class="flex items-center gap-5 mb-6">
+				<div
+					class="w-16 h-16 shrink-0 rounded-xl flex items-center justify-center text-2xl"
+					style={`background-color: ${skillColor}20`}
+				>
+					<Icon icon={skill.icon} class="text-3xl" color={skillColor} fallback={skill.name.charAt(0)} loading="eager" />
+				</div>
+				<div>
+					<h1 class="text-2xl font-bold text-black/90 dark:text-white/90">{skill.name}</h1>
+					<p class="text-sm text-black/50 dark:text-white/50 mt-1">{getCategoryText(skill.category)}</p>
+				</div>
+			</div>
+
+			<div class="flex flex-wrap items-center gap-3 mb-6">
+				<span class="px-3 py-1 text-sm rounded-md font-medium" style={`background-color: ${skillColor}20; color: ${skillColor}`}>
+					{getLevelText(skill.level)}
+				</span>
+				<span class="text-sm text-black/40 dark:text-white/40">{formatExperience(skill.experience)}</span>
+			</div>
+
+			<div class="mb-6 w-full bg-(--btn-regular-bg) rounded-full h-2">
+				<div class="h-2 rounded-full transition-all duration-500" style={`width: ${getLevelWidth(skill.level)}; background-color: ${skillColor}`}></div>
+			</div>
+
+			<div class="mb-6">
+				<h2 class="text-sm font-semibold text-black/50 dark:text-white/50 uppercase tracking-wider mb-2">
+					{i18n(I18nKey.projectDescription)}
+				</h2>
+				<p class="text-black/80 dark:text-white/80 leading-relaxed">{skill.description}</p>
+			</div>
+
+			{
+				skill.documents && skill.documents.length > 0 && (
+					<div class="mb-6">
+						<h2 class="text-sm font-semibold text-black/50 dark:text-white/50 uppercase tracking-wider mb-2">相关文档</h2>
+						<div class="flex flex-col gap-2">
+							{skill.documents.map((doc) => (
+								<div class="flex items-center gap-3 p-3 rounded-lg border border-black/5 dark:border-white/5">
+									<Icon icon="material-symbols:description" class="w-5 h-5 text-(--primary) shrink-0" />
+									<span class="flex-1 text-sm text-black/80 dark:text-white/80 truncate">{doc.name}</span>
+									<a
+										href={doc.path}
+										target="_blank"
+										class="btn-regular flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium shrink-0"
+									>
+										<Icon icon="material-symbols:download" class="w-3.5 h-3.5" />
+										查看 / 下载
+									</a>
+								</div>
+							))}
+						</div>
+					</div>
+				)
+			}
+
+			{
+				relatedProjects.length > 0 && (
+					<div class="mb-6">
+						<h2 class="text-sm font-semibold text-black/50 dark:text-white/50 uppercase tracking-wider mb-2">{i18n(I18nKey.projects)}</h2>
+						<div class="flex flex-col gap-2">
+							{relatedProjects.map((project) => (
+								<a href={`/projects/${project.id}/`} class="flex items-center gap-3 p-3 rounded-lg border border-black/5 dark:border-white/5 hover:border-(--primary)/30 transition-colors">
+									<Icon icon="material-symbols:folder" class="w-5 h-5 text-(--primary)" />
+									<div>
+										<p class="text-sm font-medium text-black/80 dark:text-white/80">{project.title}</p>
+										<p class="text-xs text-black/40 dark:text-white/40 line-clamp-1">{project.description}</p>
+									</div>
+									<Icon icon="material-symbols:chevron-right" class="w-4 h-4 ml-auto text-black/20 dark:text-white/20" />
+								</a>
+							))}
+						</div>
+					</div>
+				)
+			}
+
+			{
+				skill.certifications && skill.certifications.length > 0 && (
+					<div class="mb-6">
+						<h2 class="text-sm font-semibold text-black/50 dark:text-white/50 uppercase tracking-wider mb-2">证书</h2>
+						<div class="flex flex-wrap gap-2">
+							{skill.certifications.map((cert) => (
+								<span class="px-3 py-1.5 text-sm rounded-md bg-(--primary)/10 text-(--primary) font-medium">{cert}</span>
+							))}
+						</div>
+					</div>
+				)
+			}
+
+			<div class="mt-8 pt-4 border-t border-black/5 dark:border-white/5">
+				<a href="/skills/" class="inline-flex items-center gap-1.5 text-sm text-black/40 dark:text-white/40 hover:text-(--primary) transition-colors">
+					<Icon icon="material-symbols:arrow-back" class="w-4 h-4" />
+					返回技能列表
+				</a>
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

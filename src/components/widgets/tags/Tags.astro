@@ -1,23 +1,13 @@
 ---
+import { profileConfig } from "../../../config";
 import I18nKey from "../../../i18n/i18nKey";
 import { i18n } from "../../../i18n/translation";
-import { getTagList } from "../../../utils/content-utils";
-import { getTagUrl } from "../../../utils/url-utils";
-import { widgetManager } from "../../../utils/widget-manager";
-import ButtonTag from "../../control/ButtonTag.astro";
 import WidgetLayout from "../common/WidgetLayout.astro";
 
-const tags = await getTagList();
+const tags = profileConfig.interests || [];
 
 const COLLAPSED_HEIGHT = "7.5rem";
-
-// 使用统一的组件管理器检查是否应该折叠
-const tagsComponent = widgetManager
-	.getConfig()
-	.properties.find((p) => p.type === "tags");
-const isCollapsed = tagsComponent
-	? widgetManager.isCollapsed(tagsComponent, tags.length)
-	: false;
+const isCollapsed = tags.length > 6;
 
 interface Props {
 	class?: string;
@@ -37,13 +27,10 @@ const style = Astro.props.style;
 >
 	<div class="flex gap-2 flex-wrap">
 		{
-			tags.map((t) => (
-				<ButtonTag
-					href={getTagUrl(t.name)}
-					label={`View all posts with the ${t.name.trim()} tag`}
-				>
-					{t.name.trim()}
-				</ButtonTag>
+			tags.map((tag) => (
+				<span class="px-2.5 py-1 text-xs rounded-md bg-(--primary)/10 text-(--primary) cursor-default">
+					{tag}
+				</span>
 			))
 		}
 	</div>

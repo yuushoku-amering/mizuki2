@@ -1,22 +1,18 @@
 ---
 interface Props {
 	filterAllLabel: string;
-	statusWatchingLabel: string;
-	statusPlannedLabel: string;
-	statusCompletedLabel: string;
-	statusOnHoldLabel?: string;
-	statusDroppedLabel?: string;
-	showExtendedFilters: boolean;
+	typeAnimeLabel: string;
+	typeMangaLabel: string;
+	typeLightNovelLabel: string;
+	typeNovelLabel: string;
 }
 
 const {
 	filterAllLabel,
-	statusWatchingLabel,
-	statusPlannedLabel,
-	statusCompletedLabel,
-	statusOnHoldLabel,
-	statusDroppedLabel,
-	showExtendedFilters,
+	typeAnimeLabel,
+	typeMangaLabel,
+	typeLightNovelLabel,
+	typeNovelLabel,
 } = Astro.props;
 ---
 
@@ -24,25 +20,16 @@ const {
 	<button class="anime-filter-tag anime-active" data-status="all"
 		>{filterAllLabel}</button
 	>
-	<button class="anime-filter-tag" data-status="watching"
-		>{statusWatchingLabel}</button
+	<button class="anime-filter-tag" data-status="anime"
+		>{typeAnimeLabel}</button
 	>
-	<button class="anime-filter-tag" data-status="planned"
-		>{statusPlannedLabel}</button
+	<button class="anime-filter-tag" data-status="manga"
+		>{typeMangaLabel}</button
 	>
-	<button class="anime-filter-tag" data-status="completed"
-		>{statusCompletedLabel}</button
+	<button class="anime-filter-tag" data-status="light_novel"
+		>{typeLightNovelLabel}</button
 	>
-	{
-		showExtendedFilters && (
-			<>
-				<button class="anime-filter-tag" data-status="onhold">
-					{statusOnHoldLabel}
-				</button>
-				<button class="anime-filter-tag" data-status="dropped">
-					{statusDroppedLabel}
-				</button>
-			</>
-		)
-	}
+	<button class="anime-filter-tag" data-status="novel"
+		>{typeNovelLabel}</button
+	>
 </div>

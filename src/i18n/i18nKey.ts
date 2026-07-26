@@ -386,6 +386,26 @@ enum I18nKey {
 	randomPosts = "randomPosts",
 	smartRecommend = "smartRecommend",
 	randomRecommend = "randomRecommend",
+
+	// 游戏经验页面
+	games = "games",
+	gamesTitle = "gamesTitle",
+	gamesSubtitle = "gamesSubtitle",
+	gamesTotalPlaytime = "gamesTotalPlaytime",
+	gamesTotalSpending = "gamesTotalSpending",
+	gamesTotalCount = "gamesTotalCount",
+	gamesProficient = "gamesProficient",
+	gamesProficientGames = "gamesProficientGames",
+	gamesProficientBadge = "gamesProficientBadge",
+	gamesPlatform = "gamesPlatform",
+	gamesPlaytime = "gamesPlaytime",
+	gamesSpending = "gamesSpending",
+	gamesFilterAll = "gamesFilterAll",
+	gamesCategorySingleplayer = "gamesCategorySingleplayer",
+	gamesCategoryCompetitive = "gamesCategoryCompetitive",
+	gamesCategoryGacha = "gamesCategoryGacha",
+	gamesCategoryBrowser = "gamesCategoryBrowser",
+	gamesCategoryMobile = "gamesCategoryMobile",
 }
 
 export default I18nKey;

@@ -59,4 +59,9 @@ export const LinkPresets: Record<LinkPreset, NavBarLink> = {
 		url: "/ai-tools/",
 		icon: "material-symbols:smart-toy",
 	},
+	[LinkPreset.Games]: {
+		name: i18n(I18nKey.games),
+		url: "/games/",
+		icon: "material-symbols:sports-esports",
+	},
 };

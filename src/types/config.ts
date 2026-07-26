@@ -42,6 +42,7 @@ export interface SiteConfig {
 		albums: boolean; // 相册页面开关
 		devices: boolean; // 设备页面开关
 		aiTools: boolean; // AI 工具页面开关
+			games: boolean; // 游戏经验页面开关
 	};
 
 	// 文章列表布局配置
@@ -202,6 +203,7 @@ export enum LinkPreset {
 	Skills = 8,
 	Timeline = 9,
 	AITools = 10,
+	Games = 11,
 }
 
 export interface NavBarLink {
@@ -229,6 +231,7 @@ export interface ProfileConfig {
 		enable: boolean; // 是否启用打字机效果
 		speed?: number; // 打字速度（毫秒）
 	};
+	interests?: string[];
 }
 
 export interface LicenseConfig {

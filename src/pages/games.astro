@@ -1,0 +1,387 @@
+---
+import "../styles/games.css";
+
+import { GameFilters, GameGrid } from "@components/features/games";
+import { PageHeader } from "@components/features/page-header";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+
+import { siteConfig } from "../config";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import {
+	getGameList,
+	getCategoryMap,
+	getGameStats,
+} from "../utils/games-data";
+import { widgetManager } from "../utils/widget-manager";
+
+if (!siteConfig.featurePages.games) {
+	return Astro.redirect("/404/");
+}
+
+const hasRightSidebars =
+	widgetManager.getComponentsByPosition("top", "right", "desktop").length > 0 ||
+	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length >
+		0;
+
+const games = getGameList();
+const stats = getGameStats();
+const categoryMap = getCategoryMap();
+
+const filterCategories = [
+	{ key: "all", info: categoryMap.all },
+	{ key: "singleplayer", info: categoryMap.singleplayer },
+	{ key: "competitive", info: categoryMap.competitive },
+	{ key: "gacha", info: categoryMap.gacha },
+	{ key: "browser", info: categoryMap.browser },
+	{ key: "mobile", info: categoryMap.mobile },
+];
+---
+
+<MainGridLayout
+	title={i18n(I18nKey.games)}
+	description={i18n(I18nKey.gamesSubtitle)}
+>
+	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+		<div class="card-base games-card-base z-10 px-9 py-6 relative w-full">
+			<div class="relative w-full mb-8">
+				<PageHeader
+					title={i18n(I18nKey.gamesTitle)}
+					subtitle={i18n(I18nKey.gamesSubtitle)}
+				/>
+
+				{/* 统计概览卡片 */}
+				<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+					<div class="bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) p-3 text-center">
+						<div class="text-2xl font-bold text-(--primary)">{stats.totalPlaytime}h</div>
+						<div class="text-xs text-black/50 dark:text-white/50 mt-1">{i18n(I18nKey.gamesTotalPlaytime)}</div>
+					</div>
+					<div class="bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) p-3 text-center">
+						<div class="text-2xl font-bold text-(--primary)">{stats.totalSpending}</div>
+						<div class="text-xs text-black/50 dark:text-white/50 mt-1">{i18n(I18nKey.gamesTotalSpending)}</div>
+					</div>
+					<div class="bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) p-3 text-center">
+						<div class="text-2xl font-bold text-(--primary)">{stats.totalGames}</div>
+						<div class="text-xs text-black/50 dark:text-white/50 mt-1">{i18n(I18nKey.gamesTotalCount)}</div>
+					</div>
+					<div class="bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) p-3 text-center">
+						<div class="text-2xl font-bold text-(--primary)">{stats.proficientCount}</div>
+						<div class="text-xs text-black/50 dark:text-white/50 mt-1">{i18n(I18nKey.gamesProficient)}</div>
+					</div>
+				</div>
+
+				{/* 精通游戏 */}
+				<div class="mb-6 p-3 bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large)">
+					<span class="text-xs text-black/50 dark:text-white/50 mr-2">{i18n(I18nKey.gamesProficientGames)}:</span>
+					<span class="text-sm text-black/80 dark:text-white/80 font-medium">
+						{stats.proficientGames.join(" · ")}
+					</span>
+				</div>
+
+				{/* 分类筛选 */}
+				<div class="mb-6">
+					<GameFilters categories={filterCategories} activeKey="all" />
+				</div>
+			</div>
+
+			{/* 游戏列表 */}
+			<div class="mb-8">
+				<GameGrid
+					games={games}
+					categoryMap={categoryMap}
+					platformLabel={i18n(I18nKey.gamesPlatform)}
+					playtimeLabel={i18n(I18nKey.gamesPlaytime)}
+					spendingLabel={i18n(I18nKey.gamesSpending)}
+					proficientLabel={i18n(I18nKey.gamesProficientBadge)}
+				/>
+			</div>
+		</div>
+	</div>
+
+	{/* ====== 布局脚本 ====== */}
+	<script is:inline define:vars={{ hasRightSidebars }}>
+		(function () {
+			const containerId = "games-list-container";
+
+			function updateGamesLayout(layout, shouldAnimate = true) {
+				const container = document.getElementById(containerId);
+				if (!container) return;
+				container.dataset.currentLayout = layout;
+
+				const items = Array.from(
+					document.querySelectorAll("[data-game-category]"),
+				);
+				const visibleItems = items.filter(
+					(item) => item.offsetParent !== null,
+				);
+				const firstPositions = new Map();
+				if (shouldAnimate) {
+					visibleItems.forEach((item) => {
+						const rect = item.getBoundingClientRect();
+						firstPositions.set(item, {
+							left: rect.left,
+							top: rect.top,
+							width: rect.width,
+							height: rect.height,
+						});
+					});
+				}
+
+				const style = document.createElement("style");
+				style.innerHTML = `.games-grid-container .group { transition: none !important; }`;
+				document.head.appendChild(style);
+				container.classList.remove("games-list-mode", "games-grid-mode");
+				if (layout === "grid") {
+					container.classList.add("games-grid-mode");
+					if (hasRightSidebars) {
+						const rightSidebar = document.querySelector(".right-sidebar-container");
+						if (rightSidebar) {
+							rightSidebar.style.display = "none";
+							rightSidebar.classList.add("hidden-in-grid-mode");
+						}
+					}
+					const mainGrid = document.getElementById("main-grid");
+					if (mainGrid) {
+						mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
+						mainGrid.classList.add("two-column-layout");
+					}
+				} else {
+					container.classList.add("games-list-mode");
+					if (hasRightSidebars) {
+						const rightSidebar = document.querySelector(".right-sidebar-container");
+						if (rightSidebar) {
+							rightSidebar.style.display = "";
+							rightSidebar.classList.remove("hidden-in-grid-mode");
+						}
+					}
+					const mainGrid = document.getElementById("main-grid");
+					if (mainGrid) {
+						mainGrid.style.gridTemplateColumns = "";
+						mainGrid.classList.remove("two-column-layout");
+					}
+				}
+
+				void container.offsetHeight;
+				if (!shouldAnimate) {
+					if (style.parentNode) style.parentNode.removeChild(style);
+					return;
+				}
+
+				requestAnimationFrame(() => {
+					if (style.parentNode) style.parentNode.removeChild(style);
+					visibleItems.forEach((item) => {
+						const first = firstPositions.get(item);
+						if (!first) return;
+						const last = item.getBoundingClientRect();
+						const deltaX = Math.round(first.left - last.left);
+						const deltaY = Math.round(first.top - last.top);
+						const deltaW = first.width / last.width;
+						const deltaH = first.height / last.height;
+						if (Math.abs(deltaX) < 1 && Math.abs(deltaY) < 1 && Math.abs(deltaW - 1) < 0.01 && Math.abs(deltaH - 1) < 0.01) return;
+						item.style.willChange = "transform";
+						item.style.transition = "none";
+						item.style.transformOrigin = "top left";
+						item.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
+					});
+					void container.offsetHeight;
+					requestAnimationFrame(() => {
+						visibleItems.forEach((item) => {
+							item.style.transition = "transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)";
+							item.style.transform = "";
+						});
+						setTimeout(() => {
+							visibleItems.forEach((item) => {
+								item.style.transition = "";
+								item.style.transformOrigin = "";
+								item.style.transform = "";
+								item.style.willChange = "";
+							});
+						}, 500);
+					});
+				});
+			}
+
+			function isPostListLayoutEnabled() {
+				return document.documentElement.getAttribute("data-post-list-layout-enabled") !== "false";
+			}
+
+			function initLayout() {
+				const container = document.getElementById(containerId);
+				if (!container) return false;
+				const currentLayout = (isPostListLayoutEnabled() ? localStorage.getItem("postListLayout") : null) || "list";
+				updateGamesLayout(currentLayout, false);
+				requestAnimationFrame(() => {
+					container.classList.remove("opacity-0");
+				});
+				return true;
+			}
+
+			let retryCount = 0;
+			const maxRetries = 10;
+			function tryInit() {
+				if (initLayout()) return;
+				if (retryCount < maxRetries) {
+					retryCount++;
+					setTimeout(tryInit, Math.min(100 * Math.pow(1.5, retryCount), 1000));
+				} else {
+					setTimeout(() => {
+						const container = document.getElementById(containerId);
+						if (container) {
+							const layout = (isPostListLayoutEnabled() ? localStorage.getItem("postListLayout") : null) || "list";
+							updateGamesLayout(layout, false);
+							container.classList.remove("opacity-0");
+						}
+					}, 2000);
+				}
+			}
+
+			if (document.readyState === "loading") {
+				document.addEventListener("DOMContentLoaded", tryInit);
+			} else {
+				tryInit();
+			}
+
+			window.addEventListener("layoutChange", (event) => {
+				updateGamesLayout(event.detail.layout);
+			});
+		})();
+	</script>
+
+	{/* ====== 筛选脚本 ====== */}
+	<script is:inline>
+		if (typeof window.gamesFilterEventListeners === "undefined") {
+			window.gamesFilterEventListeners = [];
+		}
+
+		function initGamesFilters() {
+			const filterTags = document.querySelectorAll(".games-filter-tag");
+			const listContainer = document.getElementById("games-list-container");
+			const noResults = document.getElementById("games-no-results");
+
+			window.gamesFilterEventListeners.forEach((listener) => {
+				const [element, type, handler] = listener;
+				element.removeEventListener(type, handler);
+			});
+			window.gamesFilterEventListeners = [];
+
+			filterTags.forEach((tag) => {
+				const clickHandler = function () {
+					if (this.classList.contains("games-active")) return;
+
+					filterTags.forEach((t) => t.classList.remove("games-active"));
+					this.classList.add("games-active");
+
+					const category = this.getAttribute("data-category");
+					const items = Array.from(
+						listContainer.querySelectorAll("[data-game-category]"),
+					);
+
+					let visibleCount = 0;
+					const itemsToHide = [];
+					const itemsToShow = [];
+
+					items.forEach((item) => {
+						const itemCategory = item.getAttribute("data-game-category");
+						const shouldShow = category === "all" || itemCategory === category;
+						const isCurrentlyVisible = !item.classList.contains("games-hidden");
+
+						if (shouldShow) {
+							if (!isCurrentlyVisible) itemsToShow.push(item);
+							visibleCount++;
+						} else {
+							if (isCurrentlyVisible) itemsToHide.push(item);
+						}
+					});
+
+					// Toggle no-results
+					if (noResults) {
+						noResults.classList.toggle("hidden", visibleCount > 0);
+					}
+
+					const firstPositions = new Map();
+					items.forEach((item) => {
+						if (!itemsToHide.includes(item) && !itemsToShow.includes(item)) {
+							const rect = item.getBoundingClientRect();
+							firstPositions.set(item, { left: rect.left, top: rect.top });
+						}
+					});
+
+					const runAnimation = () => {
+						itemsToHide.forEach((item) => {
+							item.classList.add("games-hidden");
+							item.classList.remove("games-fade-out");
+						});
+						itemsToShow.forEach((item) => {
+							item.classList.remove("games-hidden");
+							item.classList.add("games-fade-in");
+							item.style.transition = "none";
+						});
+						firstPositions.forEach((first, item) => {
+							const rect = item.getBoundingClientRect();
+							const deltaX = Math.round(first.left - rect.left);
+							const deltaY = Math.round(first.top - rect.top);
+							if (deltaX !== 0 || deltaY !== 0) {
+								item.style.willChange = "transform";
+								item.style.transition = "none";
+								item.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+							}
+						});
+						requestAnimationFrame(() => {
+							firstPositions.forEach((first, item) => {
+								item.style.transition = "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
+								item.style.transform = "";
+							});
+							const STAGGER_LIMIT = 20;
+							itemsToShow.forEach((item, index) => {
+								item.style.transition = "";
+								item.style.willChange = "opacity, transform";
+								const delay = index < STAGGER_LIMIT ? index * 30 : 0;
+								item.style.transitionDelay = `${delay}ms`;
+								requestAnimationFrame(() => {
+									item.classList.remove("games-fade-in");
+									item.classList.add("games-fade-in-active");
+								});
+							});
+							setTimeout(() => {
+								const allAnimated = [...firstPositions.keys(), ...itemsToShow];
+								allAnimated.forEach((item) => {
+									item.classList.remove("games-fade-in-active");
+									item.style.transition = "";
+									item.style.transform = "";
+									item.style.opacity = "";
+									item.style.willChange = "";
+									item.style.transitionDelay = "";
+								});
+							}, 600 + (itemsToShow.length > 0 ? Math.min(itemsToShow.length, 20) * 30 : 0));
+						});
+					};
+
+					if (itemsToHide.length > 0) {
+						itemsToHide.forEach((item) => item.classList.add("games-fade-out"));
+						setTimeout(runAnimation, 200);
+					} else {
+						runAnimation();
+					}
+				};
+
+				tag.addEventListener("click", clickHandler);
+				window.gamesFilterEventListeners.push([tag, "click", clickHandler]);
+			});
+		}
+
+		document.addEventListener("DOMContentLoaded", initGamesFilters);
+		function setupSwupListeners() {
+			if (window.swup) {
+				window.swup.hooks.on("content:replace", () => setTimeout(initGamesFilters, 150));
+				window.swup.hooks.on("page:view", () => setTimeout(initGamesFilters, 150));
+			}
+		}
+		if (typeof window !== "undefined") {
+			if (window.swup) {
+				setupSwupListeners();
+			} else {
+				document.addEventListener("swup:enable", setupSwupListeners);
+			}
+		}
+	</script>
+</MainGridLayout>

@@ -14,6 +14,7 @@ export interface Skill {
 	};
 	projects?: string[]; // Related project IDs
 	certifications?: string[];
+	documents?: { name: string; path: string }[];
 	color?: string; // Skill card theme color
 }
 
@@ -41,17 +42,19 @@ export const skillsData: Skill[] = [
 		level: "advanced",
 		experience: { years: 3, months: 0 },
 		color: "#217346",
+		documents: [
+			{ name: "语料", path: "/documents/语料.xlsx" },
+		],
 	},
 	{
 		id: "sql",
 		name: "SQL",
 		description:
-			"掌握SQL数据查询与操作，能够完成数据采集、清洗、建模全流程操作，持有计算机二级证书。",
+			"掌握SQL数据查询与操作，能够完成数据采集、清洗等基础数据处理工作。",
 		icon: "vscode-icons:file-type-sql",
 		category: "database",
-		level: "intermediate",
-		experience: { years: 1, months: 6 },
-		certifications: ["计算机二级证书"],
+		level: "beginner",
+		experience: { years: 0, months: 6 },
 		color: "#CC2927",
 	},
 	{
@@ -78,6 +81,12 @@ export const skillsData: Skill[] = [
 		level: "advanced",
 		experience: { years: 3, months: 0 },
 		color: "#2B579A",
+		documents: [
+			{ name: "网络世界一个名字何以成为取消对话的标签", path: "/documents/网络世界一个名字何以成为取消对话的标签.docx" },
+			{ name: "道德资本争夺与道德审判——互联网激进化转向的社会分析", path: "/documents/道德资本争夺与道德审判.docx" },
+			{ name: "关于大学生群体近亲相恋伦理观的访谈", path: "/documents/关于大学生群体近亲相恋伦理观的访谈.docx" },
+			{ name: "红树林保护区管理工作访谈", path: "/documents/红树林保护区管理工作访谈.docx" },
+		],
 	},
 	{
 		id: "powerpoint",
@@ -89,6 +98,10 @@ export const skillsData: Skill[] = [
 		level: "advanced",
 		experience: { years: 3, months: 0 },
 		color: "#D24726",
+		documents: [
+			{ name: "23财秘学干培训PPT", path: "/documents/23财秘学干培训PPT.pptx" },
+			{ name: "感知与意识", path: "/documents/感知与意识.pptx" },
+		],
 	},
 
 	// AI/Agent 工具

@@ -1,0 +1,99 @@
+---
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+
+const sections = [
+	{
+		title: i18n(I18nKey.about),
+		desc: "了解我的教育背景、核心能力与联系方式",
+		icon: "material-symbols:person",
+		href: "/about/",
+		color: "#6366F1",
+	},
+	{
+		title: i18n(I18nKey.projects),
+		desc: "浏览我做过的项目与竞赛经历",
+		icon: "material-symbols:rocket-launch",
+		href: "/projects/",
+		color: "#059669",
+	},
+	{
+		title: i18n(I18nKey.skills),
+		desc: "查看我的专业技能与工具掌握情况",
+		icon: "material-symbols:build",
+		href: "/skills/",
+		color: "#EA580C",
+	},
+	{
+		title: i18n(I18nKey.timeline),
+		desc: "按时间线回顾我的学习、工作与项目经历",
+		icon: "material-symbols:timeline",
+		href: "/timeline/",
+		color: "#DC2626",
+	},
+	{
+		title: i18n(I18nKey.friends),
+		desc: "我日常使用的工具与推荐资源",
+		icon: "material-symbols:favorite",
+		href: "/friends/",
+		color: "#EC4899",
+	},
+];
+
+const title = "Mizuki";
+---
+
+<MainGridLayout title={title}>
+	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+		<div class="card-base z-10 px-6 sm:px-9 py-8 relative w-full">
+			<div class="text-center mb-10">
+				<h1 class="text-3xl sm:text-4xl font-bold text-black/90 dark:text-white/90 mb-3">
+					👋 欢迎来访
+				</h1>
+				<p class="text-black/50 dark:text-white/50 text-lg max-w-lg mx-auto">
+					这里是吕家欣的个人站点，记录学习、项目与日常思考。
+				</p>
+			</div>
+
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+				{sections.map((section) => (
+					<a
+						href={section.href}
+						class="group relative rounded-xl border border-black/10 dark:border-white/10 p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden"
+					>
+						<div
+							class="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-300"
+							style={`background-color: ${section.color}`}
+						>
+						</div>
+
+						<div class="relative">
+							<div
+								class="w-11 h-11 rounded-lg flex items-center justify-center mb-3 text-xl"
+								style={`background-color: ${section.color}18`}
+							>
+								<Icon name={section.icon} class="text-2xl" color={section.color} />
+							</div>
+
+							<h2 class="text-base font-bold text-black/85 dark:text-white/85 mb-1.5 group-hover:text-(--primary) transition-colors">
+								{section.title}
+							</h2>
+
+							<p class="text-sm text-black/45 dark:text-white/45 leading-relaxed">
+								{section.desc}
+							</p>
+						</div>
+
+						<div
+							class="absolute bottom-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+							style={`background-color: ${section.color}`}
+						>
+						</div>
+					</a>
+				))}
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

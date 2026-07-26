@@ -1,0 +1,171 @@
+---
+import { Icon } from "astro-icon/components";
+import { PageHeader } from "@components/features/page-header";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { projectsData } from "../../data/projects";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+
+export function getStaticPaths() {
+	return projectsData.map((project) => ({
+		params: { id: project.id },
+	}));
+}
+
+const { id } = Astro.params;
+const project = projectsData.find((p) => p.id === id);
+
+if (!project) {
+	return Astro.redirect("/404/");
+}
+
+const title = project.title;
+const description = project.description;
+const hasImage = !!project.image && project.showImage !== false;
+const hasVisitUrl = !!project.visitUrl;
+const hasSourceCode = !!project.sourceCode;
+
+const getStatusText = (status: string) => {
+	switch (status) {
+		case "completed":
+			return i18n(I18nKey.projectsCompleted);
+		case "in-progress":
+			return i18n(I18nKey.projectsInProgress);
+		case "planned":
+			return i18n(I18nKey.projectsPlanned);
+		default:
+			return status;
+	}
+};
+
+const formatDate = (dateStr: string) => {
+	const date = new Date(dateStr);
+	return date.toLocaleDateString("zh-CN", { year: "numeric", month: "long" });
+};
+---
+
+<MainGridLayout title={title} description={description}>
+	<script>
+		import("../../scripts/right-sidebar-layout.js");
+		import { loadIconify } from "../../utils/icon-loader";
+
+		loadIconify().catch((error) => {
+			console.error("Failed to load Iconify:", error);
+		});
+	</script>
+
+	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
+			<PageHeader title={title} />
+
+			<!-- 状态 + 日期 -->
+			<div class="flex flex-wrap items-center gap-3 mb-6">
+				<span class="px-3 py-1 text-sm rounded-md bg-(--primary)/10 text-(--primary) font-medium">
+					{getStatusText(project.status)}
+				</span>
+				<span class="text-sm text-black/40 dark:text-white/40">
+					{formatDate(project.startDate)}
+					{project.endDate && ` — ${formatDate(project.endDate)}`}
+				</span>
+			</div>
+
+			<!-- 封面图 -->
+			{
+				hasImage && (
+					<div class="mb-6 rounded-lg overflow-hidden">
+						<img
+							src={project.image!}
+							alt={project.title}
+							class="w-full max-h-96 object-cover"
+							loading="lazy"
+						/>
+					</div>
+				)
+			}
+
+			<!-- 项目描述 -->
+			<div class="mb-6">
+				<h2 class="text-sm font-semibold text-black/50 dark:text-white/50 uppercase tracking-wider mb-2">
+					{i18n(I18nKey.projectDescription)}
+				</h2>
+				<p class="text-black/80 dark:text-white/80 leading-relaxed">
+					{project.description}
+				</p>
+			</div>
+
+			<!-- 技术栈 -->
+			{
+				project.techStack && project.techStack.length > 0 && (
+					<div class="mb-6">
+						<h2 class="text-sm font-semibold text-black/50 dark:text-white/50 uppercase tracking-wider mb-2">
+							{i18n(I18nKey.projectTechStack)}
+						</h2>
+						<div class="flex flex-wrap gap-2">
+							{project.techStack.map((tech) => (
+								<span class="px-3 py-1.5 text-sm rounded-md bg-(--primary)/10 text-(--primary) font-medium">
+									{tech}
+								</span>
+							))}
+						</div>
+					</div>
+				)
+			}
+
+			<!-- 标签 -->
+			{
+				project.tags && project.tags.length > 0 && (
+					<div class="mb-6">
+						<div class="flex flex-wrap gap-2">
+							{project.tags.map((tag) => (
+								<span class="px-2.5 py-1 text-xs rounded-full border border-black/10 dark:border-white/10 text-black/50 dark:text-white/50">
+									#{tag}
+								</span>
+							))}
+						</div>
+					</div>
+				)
+			}
+
+			<!-- 外部链接 -->
+			{
+				(hasVisitUrl || hasSourceCode) && (
+					<div class="flex flex-wrap gap-3 pt-4 border-t border-black/5 dark:border-white/5">
+						{hasVisitUrl && (
+							<a
+								href={project.visitUrl!}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="btn-regular flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium"
+							>
+								<Icon name="material-symbols:open-in-new" class="w-4 h-4" />
+								{i18n(I18nKey.projectsVisit)}
+							</a>
+						)}
+						{hasSourceCode && (
+							<a
+								href={project.sourceCode!}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="btn-regular flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium"
+							>
+								<Icon name="mdi:github" class="w-4 h-4" />
+								{i18n(I18nKey.projectsGitHub)}
+							</a>
+						)}
+					</div>
+				)
+			}
+
+			<!-- 返回 -->
+			<div class="mt-8 pt-4 border-t border-black/5 dark:border-white/5">
+				<a
+					href="/projects/"
+					class="inline-flex items-center gap-1.5 text-sm text-black/40 dark:text-white/40 hover:text-(--primary) transition-colors"
+				>
+					<Icon name="material-symbols:arrow-back" class="w-4 h-4" />
+					返回项目列表
+				</a>
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

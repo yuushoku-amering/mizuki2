@@ -17,8 +17,8 @@ if (!siteConfig.featurePages.devices) {
 // 设备数据
 const devices = devicesData;
 const brands = Object.keys(devices);
-const viewDetailsText = i18n(I18nKey.devicesViewDetails);
 ---
+
 
 <MainGridLayout title={i18n(I18nKey.devices)}>
 	<!-- 引入右侧边栏布局管理器 -->
@@ -70,7 +70,7 @@ const viewDetailsText = i18n(I18nKey.devicesViewDetails);
 							<DeviceCard
 								device={device}
 								index={index}
-								viewDetailsText={viewDetailsText}
+								
 							/>
 						))
 				}
@@ -87,7 +87,7 @@ const viewDetailsText = i18n(I18nKey.devicesViewDetails);
 				is:inline
 				id="i18n-data"
 				type="application/json"
-				set:html={JSON.stringify({ viewDetails: viewDetailsText })}
+				
 			/>
 		</div>
 	</div>

@@ -1,7 +1,7 @@
 ---
 import AnimeCard from "./AnimeCard.astro";
 
-interface StatusInfo {
+interface TypeInfo {
 	text: string;
 	class: string;
 	icon: string;
@@ -9,27 +9,25 @@ interface StatusInfo {
 
 interface AnimeItem {
 	title: string;
+	type: string;
 	cover: string;
 	link: string;
-	status: string;
 	rating: number;
-	progress: number;
-	totalEpisodes: number;
 	description: string;
 	year: string;
-	studio: string;
+	author: string;
 	genre: string[];
 }
 
 interface Props {
 	visibleAnimeList: AnimeItem[];
 	hiddenAnimeList: AnimeItem[];
-	statusMap: Record<string, StatusInfo>;
+	statusMap: Record<string, TypeInfo>;
 	yearLabel: string;
-	studioLabel: string;
+	authorLabel: string;
 }
 
-const { visibleAnimeList, hiddenAnimeList, statusMap, yearLabel, studioLabel } =
+const { visibleAnimeList, hiddenAnimeList, statusMap, yearLabel, authorLabel } =
 	Astro.props;
 
 const hasHiddenItems = hiddenAnimeList.length > 0;
@@ -41,17 +39,17 @@ const hasHiddenItems = hiddenAnimeList.length > 0;
 >
 	{
 		visibleAnimeList.map((anime) => {
-			const statusInfo = statusMap[anime.status] || {
-				text: anime.status,
+			const typeInfo = statusMap[anime.type] || {
+				text: anime.type,
 				class: "btn-regular",
-				icon: "?",
+				icon: "📚",
 			};
 			return (
 				<AnimeCard
 					anime={anime}
-					statusInfo={statusInfo}
+					typeInfo={typeInfo}
 					yearLabel={yearLabel}
-					studioLabel={studioLabel}
+					authorLabel={authorLabel}
 				/>
 			);
 		})
@@ -61,17 +59,17 @@ const hasHiddenItems = hiddenAnimeList.length > 0;
 <template id="anime-lazy-store">
 	{
 		hiddenAnimeList.map((anime) => {
-			const statusInfo = statusMap[anime.status] || {
-				text: anime.status,
+			const typeInfo = statusMap[anime.type] || {
+				text: anime.type,
 				class: "btn-regular",
-				icon: "?",
+				icon: "📚",
 			};
 			return (
 				<AnimeCard
 					anime={anime}
-					statusInfo={statusInfo}
+					typeInfo={typeInfo}
 					yearLabel={yearLabel}
-					studioLabel={studioLabel}
+					authorLabel={authorLabel}
 				/>
 			);
 		})

@@ -7,29 +7,25 @@ import { i18n } from "../i18n/translation";
 
 export interface RawAnimeItem {
 	title?: string;
+	type?: string;
 	cover?: string;
 	link?: string;
-	status?: string;
 	rating?: number | string;
-	progress?: number | string;
-	totalEpisodes?: number | string;
 	description?: string;
 	year?: string;
-	studio?: string;
+	author?: string;
 	genre?: string[];
 }
 
 export interface AnimeItem {
 	title: string;
+	type: string;
 	cover: string;
 	link: string;
-	status: string;
 	rating: number;
-	progress: number;
-	totalEpisodes: number;
 	description: string;
 	year: string;
-	studio: string;
+	author: string;
 	genre: string[];
 }
 
@@ -56,15 +52,13 @@ export function loadAnimeData(filename: string): AnimeItem[] {
 
 		return rawData.map((item) => ({
 			title: item.title || "Unknown",
+			type: item.type || "anime",
 			cover: item.cover || "",
 			link: item.link || "",
-			status: item.status || "planned",
 			rating: Number(item.rating) || 0,
-			progress: Number(item.progress) || 0,
-			totalEpisodes: Number(item.totalEpisodes) || 12,
 			description: item.description || "",
 			year: item.year || "",
-			studio: item.studio || "",
+			author: item.author || "",
 			genre: Array.isArray(item.genre) ? item.genre : [],
 		}));
 	} catch (error) {
@@ -128,33 +122,30 @@ export function getStatusMap(): Record<
 	{ text: string; class: string; icon: string }
 > {
 	return {
-		watching: {
-			text: i18n(I18nKey.animeStatusWatching),
-			class:
-				"bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-			icon: "▶",
+		all: {
+			text: i18n(I18nKey.animeFilterAll),
+			class: "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300",
+			icon: "📚",
 		},
-		completed: {
-			text: i18n(I18nKey.animeStatusCompleted),
-			class: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-			icon: "✓",
+		anime: {
+			text: "动漫",
+			class: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300",
+			icon: "📺",
 		},
-		planned: {
-			text: i18n(I18nKey.animeStatusPlanned),
-			class:
-				"bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-			icon: "❤",
+		manga: {
+			text: "漫画",
+			class: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+			icon: "📖",
 		},
-		onhold: {
-			text: i18n(I18nKey.animeStatusOnHold),
-			class:
-				"bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
-			icon: "⏸",
+		light_novel: {
+			text: "轻小说",
+			class: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
+			icon: "✨",
 		},
-		dropped: {
-			text: i18n(I18nKey.animeStatusDropped),
-			class: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
-			icon: "✗",
+		novel: {
+			text: "小说",
+			class: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+			icon: "📕",
 		},
 	};
 }

@@ -51,7 +51,7 @@ const formatExperience = (exp: { years: number; months: number }) => {
 ---
 
 <div
-	class="skill-card group relative bg-transparent rounded-xl border border-black/10 dark:border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+	class="skill-card group relative bg-transparent rounded-xl border border-black/10 dark:border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
 	data-category={skill.category}
 >
 	<div class="p-5">
@@ -89,7 +89,7 @@ const formatExperience = (exp: { years: number; months: number }) => {
 		</div>
 
 		<p
-			class="text-sm text-black/60 dark:text-white/60 line-clamp-2 min-h-10"
+			class="text-sm text-black/60 dark:text-white/60 line-clamp-3 min-h-[3.75rem]"
 		>
 			{skill.description}
 		</p>
@@ -107,6 +107,14 @@ const formatExperience = (exp: { years: number; months: number }) => {
 		class="absolute inset-0 bg-linear-to-br from-(--primary)/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
 	>
 	</div>
+
+	<!-- 覆盖层链接：点击卡片跳转详情页 -->
+	<a
+		href={`/skills/${skill.id}/`}
+		class="absolute inset-0 z-10"
+		aria-label={`查看 ${skill.name} 详情`}
+	>
+	</a>
 </div>
 
 <style>
@@ -167,9 +175,9 @@ const formatExperience = (exp: { years: number; months: number }) => {
 		animation-delay: 0.36s;
 	}
 
-	.line-clamp-2 {
+	.line-clamp-3 {
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

@@ -27,7 +27,7 @@ const getStatusText = (status: string) => {
 ---
 
 <div
-	class="project-card group relative rounded-xl border border-black/10 dark:border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+	class="project-card group relative rounded-xl border border-black/10 dark:border-white/10 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
 	data-category={project.category}
 >
 	{
@@ -76,7 +76,7 @@ const getStatusText = (status: string) => {
 		</div>
 
 		<p
-			class="text-sm text-black/60 dark:text-white/60 mb-4 line-clamp-2 min-h-10"
+			class="text-sm text-black/60 dark:text-white/60 mb-4 line-clamp-3 min-h-[3.75rem]"
 		>
 			{project.description}
 		</p>
@@ -100,7 +100,7 @@ const getStatusText = (status: string) => {
 
 		{
 			(hasVisitUrl || hasSourceCode) && (
-				<div class="flex gap-2">
+				<div class="flex gap-2 relative z-20">
 					{hasVisitUrl && (
 						<a
 							href={project.visitUrl!}
@@ -136,6 +136,14 @@ const getStatusText = (status: string) => {
 		class="absolute inset-0 bg-linear-to-br from-(--primary)/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
 	>
 	</div>
+
+	<!-- 覆盖层链接：点击卡片跳转详情页 -->
+	<a
+		href={`/projects/${project.id}/`}
+		class="absolute inset-0 z-10"
+		aria-label={`查看 ${project.title} 详情`}
+	>
+	</a>
 </div>
 
 <style>
@@ -184,9 +192,9 @@ const getStatusText = (status: string) => {
 		animation-delay: 0.4s;
 	}
 
-	.line-clamp-2 {
+	.line-clamp-3 {
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

@@ -1,0 +1,47 @@
+---
+import type { GameItem, CategoryInfo } from "../../../utils/games-data";
+import GameCard from "./GameCard.astro";
+
+interface Props {
+	games: GameItem[];
+	categoryMap: Record<string, CategoryInfo>;
+	platformLabel: string;
+	playtimeLabel: string;
+	spendingLabel: string;
+	proficientLabel: string;
+}
+
+const { games, categoryMap, platformLabel, playtimeLabel, spendingLabel, proficientLabel } = Astro.props;
+---
+
+<div id="games-list-container" class="games-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300">
+	{
+		games.map((game) => {
+			const categoryInfo = categoryMap[game.category] || {
+				text: game.category,
+				class: "btn-regular",
+				icon: "🎮",
+			};
+			return (
+				<GameCard
+					game={game}
+					categoryInfo={categoryInfo}
+					platformLabel={platformLabel}
+					playtimeLabel={playtimeLabel}
+					spendingLabel={spendingLabel}
+					proficientLabel={proficientLabel}
+				/>
+			);
+		})
+	}
+</div>
+
+<div id="games-no-results" class="hidden text-center py-12">
+	<div class="text-5xl mb-4">🎮</div>
+	<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
+		没有找到匹配的游戏
+	</h3>
+	<p class="text-black/60 dark:text-white/60">
+		试试切换其他分类筛选
+	</p>
+</div>

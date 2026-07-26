@@ -1,0 +1,118 @@
+.games-card-base {
+	container-type: inline-size;
+}
+
+.games-grid-container {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1.5rem;
+	transition: gap 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === Grid Mode === */
+.games-grid-container.games-grid-mode {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+@container (min-width: 30rem) {
+	.games-grid-container.games-grid-mode {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@container (min-width: 48rem) {
+	.games-grid-container.games-grid-mode {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@container (min-width: 64rem) {
+	.games-grid-container.games-grid-mode {
+		grid-template-columns: repeat(5, 1fr);
+	}
+}
+
+/* === List Mode === */
+.games-grid-container.games-list-mode {
+	grid-template-columns: repeat(1, 1fr);
+}
+@media (width >= 1280px) {
+	.games-grid-container.games-list-mode {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+.games-grid-container.games-list-mode .group {
+	display: flex;
+	flex-direction: row;
+	min-height: 10rem;
+}
+
+.games-grid-container.games-list-mode .p-4 {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 0.75rem 1rem;
+	min-width: 0;
+}
+
+/* === Filter Tags === */
+.games-filter-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.games-filter-tag {
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--line-divider);
+	border-radius: var(--radius-large);
+	background: var(--btn-regular-bg);
+	color: var(--btn-content);
+	font-size: 0.875rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	white-space: nowrap;
+}
+.games-filter-tag:hover:not(.games-active) {
+	background: var(--btn-hover-bg);
+	border-color: var(--primary);
+	transform: translateY(-1px);
+}
+.games-filter-tag.games-active {
+	background: var(--primary);
+	color: white;
+	border-color: var(--primary);
+}
+
+/* === Hidden & Animations === */
+.games-grid-container [data-game-category].games-hidden {
+	display: none !important;
+}
+
+.games-grid-container [data-game-category] {
+	transition:
+		opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+		transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+		box-shadow 0.15s ease-out;
+	content-visibility: auto;
+	contain-intrinsic-size: 1px 280px;
+}
+
+.games-grid-container [data-game-category].games-fade-out {
+	opacity: 0;
+	transform: scale(0.9);
+	pointer-events: none;
+}
+
+.games-grid-container [data-game-category].games-fade-in {
+	opacity: 0;
+	transform: scale(0.9);
+}
+
+.games-grid-container [data-game-category].games-fade-in-active {
+	opacity: 1;
+	transform: scale(1);
+}

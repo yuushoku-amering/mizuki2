@@ -1,0 +1,42 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+
+const title = "简历";
+---
+<MainGridLayout title={title}>
+	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
+			<div class="flex items-center justify-between mb-6">
+				<div>
+					<h1 class="text-3xl font-bold text-black/90 dark:text-white/90 mb-1 relative
+						before:w-1 before:h-7 before:rounded-md before:bg-(--primary)
+						before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
+						简历
+					</h1>
+					<p class="text-black/50 dark:text-white/50 text-sm">吕家欣 · 社会学本科生</p>
+				</div>
+				<a
+					href="/documents/简历.pdf"
+					target="_blank"
+					download
+					class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity"
+				>
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+					</svg>
+					下载 PDF
+				</a>
+			</div>
+
+			<div class="rounded-lg overflow-hidden border border-(--line-divider)" style="height: calc(100vh - 16rem);">
+				<iframe
+					src="/documents/简历.pdf"
+					class="w-full h-full"
+					style="border: none;"
+					title="简历预览"
+				>
+				</iframe>
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

@@ -1,0 +1,24 @@
+---
+import type { CategoryInfo } from "../../../utils/games-data";
+
+interface Props {
+	categories: { key: string; info: CategoryInfo }[];
+	activeKey?: string;
+}
+
+const { categories, activeKey = "all" } = Astro.props;
+---
+
+<div class="games-filter-container flex flex-wrap gap-2">
+	{
+		categories.map(({ key, info }) => (
+			<button
+				class={`games-filter-tag${key === activeKey ? " games-active" : ""}`}
+				data-category={key}
+			>
+				<span class="mr-1">{info.icon}</span>
+				<span>{info.text}</span>
+			</button>
+		))
+	}
+</div>
