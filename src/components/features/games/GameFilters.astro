@@ -2,23 +2,31 @@
 import type { CategoryInfo } from "../../../utils/games-data";
 
 interface Props {
-	categories: { key: string; info: CategoryInfo }[];
-	activeKey?: string;
+	primaryCategories: { key: string; info: CategoryInfo }[];
+	activePrimary?: string;
 }
 
-const { categories, activeKey = "all" } = Astro.props;
+const { primaryCategories, activePrimary = "all" } = Astro.props;
 ---
 
-<div class="games-filter-container flex flex-wrap gap-2">
-	{
-		categories.map(({ key, info }) => (
-			<button
-				class={`games-filter-tag${key === activeKey ? " games-active" : ""}`}
-				data-category={key}
-			>
-				<span class="mr-1">{info.icon}</span>
-				<span>{info.text}</span>
-			</button>
-		))
-	}
+<div class="games-filter-container">
+	{/* Level 1 — 商业模式 */}
+	<div class="games-filter-primary flex flex-wrap gap-2">
+		{
+			primaryCategories.map(({ key, info }) => (
+				<button
+					class={`games-filter-tag games-filter-primary-tag${key === activePrimary ? " games-active" : ""}`}
+					data-primary-category={key}
+				>
+					<span class="mr-1">{info.icon}</span>
+					<span>{info.text}</span>
+				</button>
+			))
+		}
+	</div>
+
+	{/* Level 2 — 玩法类型（初始隐藏，JS 动态填充） */}
+	<div class="games-filter-secondary flex flex-wrap gap-2 hidden" id="games-filter-secondary">
+		{/* 按钮由 JS 根据选中的一级分类动态生成 */}
+	</div>
 </div>

@@ -17,8 +17,8 @@ const { games, categoryMap, platformLabel, playtimeLabel, spendingLabel, profici
 <div id="games-list-container" class="games-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300">
 	{
 		games.map((game) => {
-			const categoryInfo = categoryMap[game.category] || {
-				text: game.category,
+			const categoryInfo = categoryMap[game.primaryCategory] || {
+				text: game.primaryCategory,
 				class: "btn-regular",
 				icon: "🎮",
 			};

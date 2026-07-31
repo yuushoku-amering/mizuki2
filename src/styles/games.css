@@ -60,8 +60,19 @@
 /* === Filter Tags === */
 .games-filter-container {
 	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.games-filter-primary,
+.games-filter-secondary {
+	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5rem;
+}
+
+.games-filter-secondary.hidden {
+	display: none;
 }
 
 .games-filter-tag {

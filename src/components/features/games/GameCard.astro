@@ -16,7 +16,8 @@ const { game, categoryInfo, platformLabel, playtimeLabel, spendingLabel, profici
 
 <div
 	class="group relative bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
-	data-game-category={game.category}
+	data-game-primary-category={game.primaryCategory}
+		data-game-secondary-category={game.secondaryCategory}
 >
 	<div class="p-4">
 		{/* 顶部：类型标签 + 精通标识 */}
