@@ -430,4 +430,6 @@ export const zh_TW: Translation = {
 	[Key.gamesSecondaryStrategy]: "策略",
 	[Key.gamesSecondaryCard]: "卡牌",
 	[Key.gamesSecondaryTpsGacha]: "TPS",
+	[Key.gamesDeveloper]: "廠商",
+	[Key.gamesReleaseDate]: "發行",
 };

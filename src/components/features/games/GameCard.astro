@@ -9,9 +9,11 @@ interface Props {
 	playtimeLabel: string;
 	spendingLabel: string;
 	proficientLabel: string;
+	developerLabel: string;
+	releaseDateLabel: string;
 }
 
-const { game, categoryInfo, platformLabel, playtimeLabel, spendingLabel, proficientLabel } = Astro.props;
+const { game, categoryInfo, platformLabel, playtimeLabel, spendingLabel, proficientLabel, developerLabel, releaseDateLabel } = Astro.props;
 ---
 
 <div
@@ -48,10 +50,18 @@ const { game, categoryInfo, platformLabel, playtimeLabel, spendingLabel, profici
 			</div>
 		</div>
 
-		{/* 描述 */}
-		<p class="text-black/60 dark:text-white/60 text-xs mb-3 line-clamp-2" title={game.description}>
-			{game.description}
-		</p>
+		{/* 厂商 / 发行时间 */}
+		<div class="flex items-center gap-3 text-xs text-black/55 dark:text-white/55 mb-3">
+			<span class="flex items-center gap-1">
+				<span class="opacity-60">{developerLabel}</span>
+				<span class="font-medium text-black/70 dark:text-white/70">{game.developer}</span>
+			</span>
+			<span class="text-black/20 dark:text-white/20">|</span>
+			<span class="flex items-center gap-1">
+				<span class="opacity-60">{releaseDateLabel}</span>
+				<span class="font-medium text-black/70 dark:text-white/70">{game.releaseDate}</span>
+			</span>
+		</div>
 
 		{/* 标签：平台 */}
 		<div class="flex items-center gap-1 mb-2 text-xs text-black/50 dark:text-white/50">

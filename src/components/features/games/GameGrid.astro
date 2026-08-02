@@ -9,9 +9,11 @@ interface Props {
 	playtimeLabel: string;
 	spendingLabel: string;
 	proficientLabel: string;
+	developerLabel: string;
+	releaseDateLabel: string;
 }
 
-const { games, categoryMap, platformLabel, playtimeLabel, spendingLabel, proficientLabel } = Astro.props;
+const { games, categoryMap, platformLabel, playtimeLabel, spendingLabel, proficientLabel, developerLabel, releaseDateLabel } = Astro.props;
 ---
 
 <div id="games-list-container" class="games-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300">
@@ -30,6 +32,8 @@ const { games, categoryMap, platformLabel, playtimeLabel, spendingLabel, profici
 					playtimeLabel={playtimeLabel}
 					spendingLabel={spendingLabel}
 					proficientLabel={proficientLabel}
+					developerLabel={developerLabel}
+					releaseDateLabel={releaseDateLabel}
 				/>
 			);
 		})

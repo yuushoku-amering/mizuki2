@@ -445,4 +445,6 @@ export const ja: Translation = {
 	[Key.gamesSecondaryStrategy]: "ストラテジー",
 	[Key.gamesSecondaryCard]: "カード",
 	[Key.gamesSecondaryTpsGacha]: "TPS",
+	[Key.gamesDeveloper]: "開発元",
+	[Key.gamesReleaseDate]: "リリース",
 };

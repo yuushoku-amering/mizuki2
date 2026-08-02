@@ -420,6 +420,8 @@ enum I18nKey {
 	gamesSecondaryStrategy = "gamesSecondaryStrategy",
 	gamesSecondaryCard = "gamesSecondaryCard",
 	gamesSecondaryTpsGacha = "gamesSecondaryTpsGacha",
+	gamesDeveloper = "gamesDeveloper",
+	gamesReleaseDate = "gamesReleaseDate",
 }
 
 export default I18nKey;

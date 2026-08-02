@@ -19,6 +19,8 @@ export interface GameItem {
 	spending?: string; // 氪金金额（二游）
 	rating: number; // 1-10
 	description: string;
+	developer: string; // 开发商/发行商
+	releaseDate: string; // 发行时间
 	isProficient?: boolean; // 是否精通
 }
 
@@ -46,6 +48,8 @@ const gameList: GameItem[] = [
 		playtime: "1000+",
 		rating: 9,
 		description: "FPS竞技的经典，从CSGO到CS2，枪法与战术的极致博弈。",
+		developer: "Valve",
+		releaseDate: "2012",
 	},
 	{
 		title: "瓦罗兰特",
@@ -56,6 +60,8 @@ const gameList: GameItem[] = [
 		playtime: "1000+",
 		rating: 9,
 		description: "拳头出品的战术FPS，技能+枪法的完美融合。",
+		developer: "Riot Games",
+		releaseDate: "2020",
 		isProficient: true,
 	},
 	{
@@ -66,6 +72,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8.5,
 		description: "快节奏大逃杀FPS，英雄技能+流畅移动系统带来独特体验。",
+		developer: "Respawn / EA",
+		releaseDate: "2019",
 	},
 	{
 		title: "彩虹六号：围攻",
@@ -75,6 +83,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8.5,
 		description: "硬核战术FPS，拆迁与防守的极致策略对抗。",
+		developer: "Ubisoft",
+		releaseDate: "2015",
 	},
 	{
 		title: "穿越火线",
@@ -84,6 +94,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 7,
 		description: "童年回忆级别的FPS，国内射击游戏的启蒙之作。",
+		developer: "Smilegate",
+		releaseDate: "2007",
 	},
 	{
 		title: "守望先锋",
@@ -93,6 +105,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8,
 		description: "暴雪的英雄射击游戏，技能配合与团队协作的核心体验。",
+		developer: "Blizzard",
+		releaseDate: "2016",
 	},
 	{
 		title: "命运扳机",
@@ -102,6 +116,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 7,
 		description: "比较小众的竞技射击游戏，有过不同程度的游玩。",
+		developer: "NetEase",
+		releaseDate: "2022",
 	},
 	{
 		title: "卡拉彼丘",
@@ -112,6 +128,8 @@ const gameList: GameItem[] = [
 		playtime: "500+",
 		rating: 8.5,
 		description: "二次元战术射击，3D与2D切换的独特机制，纸片人老婆打枪。",
+		developer: "创梦天地",
+		releaseDate: "2024",
 		isProficient: true,
 	},
 	{
@@ -123,6 +141,8 @@ const gameList: GameItem[] = [
 		playtime: "1000+",
 		rating: 9,
 		description: "MOBA常青树，十余年魅力不减，英雄池深似海。",
+		developer: "Riot Games",
+		releaseDate: "2009",
 	},
 	{
 		title: "永劫无间",
@@ -133,6 +153,8 @@ const gameList: GameItem[] = [
 		playtime: "1000+",
 		rating: 9,
 		description: "武侠大逃杀，冷兵器格斗的快感+飞索立体机动，熟练度最高的游戏之一。",
+		developer: "网易",
+		releaseDate: "2021",
 		isProficient: true,
 	},
 	{
@@ -143,6 +165,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "主机"],
 		rating: 8,
 		description: "格斗游戏标杆，现代模式让新手也能享受对战的乐趣。",
+		developer: "Capcom",
+		releaseDate: "2023",
 	},
 
 	// ==================== 二游 ====================
@@ -156,6 +180,8 @@ const gameList: GameItem[] = [
 		spending: "有氪",
 		rating: 9,
 		description: "现象级开放世界二游，提瓦特大陆的探索与角色养成令人沉迷。",
+		developer: "米哈游",
+		releaseDate: "2020",
 	},
 	{
 		title: "鸣潮",
@@ -166,6 +192,8 @@ const gameList: GameItem[] = [
 		spending: "有氪",
 		rating: 8.5,
 		description: "库洛开放世界动作RPG，高速战斗+跑酷探索，动作手感一流。",
+		developer: "库洛",
+		releaseDate: "2024",
 	},
 	{
 		title: "异环",
@@ -176,6 +204,8 @@ const gameList: GameItem[] = [
 		spending: "有氪",
 		rating: 8,
 		description: "都市开放世界二游，风格独特值得期待。",
+		developer: "Hotta Studio",
+		releaseDate: "待定",
 	},
 	{
 		title: "崩坏3",
@@ -186,6 +216,8 @@ const gameList: GameItem[] = [
 		playtime: "300+",
 		rating: 8.5,
 		description: "米哈游成名作，高速ACT战斗+宏大世界观+感人剧情。",
+		developer: "米哈游",
+		releaseDate: "2016",
 	},
 	{
 		title: "战双帕弥什",
@@ -195,6 +227,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "手机"],
 		rating: 8.5,
 		description: "库洛高速ACT二游，硬核动作+末世科幻世界观，三消战斗独树一帜。",
+		developer: "库洛",
+		releaseDate: "2019",
 	},
 	{
 		title: "深空之眼",
@@ -204,6 +238,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "手机"],
 		rating: 7.5,
 		description: "小厂制作的科幻动作二游，三人小队连携战斗有特色。",
+		developer: "勇仕网络",
+		releaseDate: "2022",
 	},
 	{
 		title: "崩坏学园2",
@@ -213,6 +249,8 @@ const gameList: GameItem[] = [
 		platform: ["手机"],
 		rating: 7.5,
 		description: "米哈游起家之作，横版射击二游的经典。",
+		developer: "米哈游",
+		releaseDate: "2014",
 	},
 	{
 		title: "崩坏：星穹铁道",
@@ -224,6 +262,8 @@ const gameList: GameItem[] = [
 		spending: "有氪",
 		rating: 9,
 		description: "米哈游太空喜剧RPG，精致的箱庭探索与爽快的回合制战斗。",
+		developer: "米哈游",
+		releaseDate: "2023",
 	},
 	{
 		title: "明日方舟：终末地",
@@ -233,6 +273,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "手机"],
 		rating: 8,
 		description: "方舟IP新作，不一样的玩法不一样的塔卫二。",
+		developer: "鹰角网络",
+		releaseDate: "2025",
 	},
 	{
 		title: "公主连结Re:Dive",
@@ -242,6 +284,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "手机"],
 		rating: 8,
 		description: "Cygames 经典IP，精美的动画演出+深度的公会战系统。",
+		developer: "Cygames",
+		releaseDate: "2018",
 	},
 	{
 		title: "碧蓝档案",
@@ -251,6 +295,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "手机"],
 		rating: 8.5,
 		description: "青春×物语×战术RPG，可爱的画风+轻松的故事+策略战斗。",
+		developer: "Nexon",
+		releaseDate: "2021",
 	},
 	{
 		title: "碧蓝航线",
@@ -260,6 +306,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "手机"],
 		rating: 8,
 		description: "战舰拟人二游，弹幕射击玩法+超丰富的舰船收集养成。",
+		developer: "蛮啾 / 勇仕",
+		releaseDate: "2017",
 	},
 	{
 		title: "明日方舟",
@@ -271,6 +319,8 @@ const gameList: GameItem[] = [
 		spending: "有氪",
 		rating: 9,
 		description: "硬核塔防二游，独特的美术风格+深度策略+庞大世界观。",
+		developer: "鹰角网络",
+		releaseDate: "2019",
 	},
 	{
 		title: "影之诗",
@@ -280,6 +330,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "手机"],
 		rating: 8,
 		description: "Cygames出品的卡牌对战游戏，精美的卡面与丰富的策略性。",
+		developer: "Cygames",
+		releaseDate: "2016",
 	},
 	{
 		title: "尘白禁区",
@@ -289,6 +341,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "手机"],
 		rating: 7.5,
 		description: "小厂TPS二游，枪战+技能的战斗模式有一定特色。",
+		developer: "狸花猫工作室",
+		releaseDate: "2023",
 	},
 
 	// ==================== 单机 ====================
@@ -300,6 +354,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8,
 		description: "旧金山黑客传奇，自由开放的城市沙盒，玩法丰富有趣。",
+		developer: "Ubisoft",
+		releaseDate: "2016",
 	},
 	{
 		title: "刺客信条系列（3部）",
@@ -309,6 +365,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8,
 		description: "历史观光模拟器，每部换个时代背景爬不同的楼。",
+		developer: "Ubisoft",
+		releaseDate: "2007-",
 	},
 	{
 		title: "上古卷轴",
@@ -318,6 +376,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 9.5,
 		description: "开放世界RPG的标杆，MOD让这个游戏有了无限的生命力。",
+		developer: "Bethesda",
+		releaseDate: "2011",
 	},
 	{
 		title: "怪物猎人系列",
@@ -328,6 +388,8 @@ const gameList: GameItem[] = [
 		playtime: "500+",
 		rating: 9,
 		description: "狩猎巨龙的快感无与伦比，每一作都有独特的系统和魅力。",
+		developer: "Capcom",
+		releaseDate: "2004-",
 	},
 	{
 		title: "剑星",
@@ -337,6 +399,8 @@ const gameList: GameItem[] = [
 		platform: ["PS5", "PC"],
 		rating: 8.5,
 		description: "韩国动作游戏新标杆，爽快的战斗系统与惊艳的视觉表现。",
+		developer: "Shift Up",
+		releaseDate: "2024",
 	},
 	{
 		title: "碧蓝幻想 Relink",
@@ -346,6 +410,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "PS5"],
 		rating: 8.5,
 		description: "Cygames 倾力打造的动作RPG，精美的画面与爽快的连击系统。",
+		developer: "Cygames",
+		releaseDate: "2024",
 	},
 	{
 		title: "骑马与砍杀",
@@ -355,6 +421,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8.5,
 		description: "从无名小卒到大陆霸主，真实的冷兵器战争体验。",
+		developer: "TaleWorlds",
+		releaseDate: "2008",
 	},
 	{
 		title: "Eternal Night",
@@ -364,6 +432,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 7.5,
 		description: "风格独特的动作冒险游戏。",
+		developer: "独立开发者",
+		releaseDate: "2023",
 	},
 	{
 		title: "宝可梦系列",
@@ -374,6 +444,8 @@ const gameList: GameItem[] = [
 		playtime: "500+",
 		rating: 9,
 		description: "从小玩到大的经典，收集养成对战的乐趣永远不过时。",
+		developer: "Game Freak",
+		releaseDate: "1996-",
 	},
 	{
 		title: "女神异闻录5",
@@ -384,6 +456,8 @@ const gameList: GameItem[] = [
 		playtime: "100+",
 		rating: 9.5,
 		description: "风格化JRPG的天花板，怪盗团青春物语与殿堂冒险令人沉迷。",
+		developer: "Atlus",
+		releaseDate: "2016",
 	},
 	{
 		title: "古剑奇谭3",
@@ -393,6 +467,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 9,
 		description: "国产仙侠RPG的巅峰之作，剧情画面战斗全面突破。",
+		developer: "网元圣唐",
+		releaseDate: "2018",
 	},
 	{
 		title: "觅长生",
@@ -402,6 +478,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8,
 		description: "修仙题材的策略RPG，从凡人到飞升的完整修炼体验。",
+		developer: "独立开发者",
+		releaseDate: "2022",
 	},
 	{
 		title: "鬼谷八荒",
@@ -411,6 +489,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8,
 		description: "开放世界修仙RPG，自由探索修真界的无限可能。",
+		developer: "鬼谷工作室",
+		releaseDate: "2021",
 	},
 	{
 		title: "影视改编游戏",
@@ -420,6 +500,8 @@ const gameList: GameItem[] = [
 		platform: ["PC", "主机"],
 		rating: 7,
 		description: "少量涉猎，包括各类电影IP改编的游戏作品。",
+		developer: "多家厂商",
+		releaseDate: "-",
 	},
 	{
 		title: "幻兽帕鲁",
@@ -429,6 +511,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 8.5,
 		description: "缝合怪但好玩到停不下来，抓帕鲁建基地的快乐你懂吗。",
+		developer: "Pocketpair",
+		releaseDate: "2024",
 	},
 	{
 		title: "星露谷物语",
@@ -439,6 +523,8 @@ const gameList: GameItem[] = [
 		playtime: "200+",
 		rating: 9,
 		description: "像素农场治愈系神作，种田钓鱼谈恋爱，一玩就是一整天。",
+		developer: "ConcernedApe",
+		releaseDate: "2016",
 	},
 	{
 		title: "泰拉瑞亚",
@@ -449,6 +535,8 @@ const gameList: GameItem[] = [
 		playtime: "200+",
 		rating: 9,
 		description: "2D沙盒的巅峰，挖矿打Boss建世界的快乐无穷无尽。",
+		developer: "Re-Logic",
+		releaseDate: "2011",
 	},
 	{
 		title: "Microsoft 模拟飞行",
@@ -458,6 +546,8 @@ const gameList: GameItem[] = [
 		platform: ["PC"],
 		rating: 7.5,
 		description: "体验驾驶飞机的乐趣，全地球真实地图令人惊叹。",
+		developer: "Asobo / Microsoft",
+		releaseDate: "2020",
 	},
 	{
 		title: "osu!",
@@ -468,6 +558,8 @@ const gameList: GameItem[] = [
 		playtime: "300+",
 		rating: 8,
 		description: "免费开源音游，社区海量谱面，从休闲到硬核都能找到乐趣。",
+		developer: "Dean Herbert",
+		releaseDate: "2007",
 	},
 	{
 		title: "视觉小说（大量）",
@@ -478,6 +570,8 @@ const gameList: GameItem[] = [
 		playtime: "1000+",
 		rating: 9,
 		description: "大量涉猎各类视觉小说，从Key社泣系到型月世界观到同人佳作均有涉猎。",
+		developer: "Key / 型月 / 多家",
+		releaseDate: "-",
 	},
 
 	// ==================== 手游 ====================
@@ -489,6 +583,8 @@ const gameList: GameItem[] = [
 		platform: ["手机"],
 		rating: 8,
 		description: "国民级MOBA手游，随时随地开一局的社交竞技体验。",
+		developer: "腾讯",
+		releaseDate: "2015",
 	},
 	{
 		title: "CF手游",
@@ -498,6 +594,8 @@ const gameList: GameItem[] = [
 		platform: ["手机"],
 		rating: 7,
 		description: "穿越火线移动版，手机上的经典FPS体验。",
+		developer: "腾讯",
+		releaseDate: "2015",
 	},
 
 	// ==================== 页游 ====================
@@ -509,6 +607,8 @@ const gameList: GameItem[] = [
 		platform: ["页游"],
 		rating: 7,
 		description: "4399 经典页游，童年的回忆之一。",
+		developer: "4399",
+		releaseDate: "-",
 	},
 	{
 		title: "洛克王国",
@@ -518,6 +618,8 @@ const gameList: GameItem[] = [
 		platform: ["页游"],
 		rating: 8,
 		description: "腾讯的精灵收集页游，抓宠+对战+社交，满满童年回忆。",
+		developer: "腾讯",
+		releaseDate: "2010",
 	},
 	{
 		title: "机甲旋风",
@@ -527,6 +629,8 @@ const gameList: GameItem[] = [
 		platform: ["页游"],
 		rating: 7,
 		description: "4399 机甲动作页游，当年沉迷过。",
+		developer: "4399",
+		releaseDate: "-",
 	},
 	{
 		title: "造梦西游",
@@ -536,6 +640,8 @@ const gameList: GameItem[] = [
 		platform: ["页游"],
 		rating: 8,
 		description: "4399 西游题材经典页游，横版动作闯关，童年神作。",
+		developer: "4399",
+		releaseDate: "2011",
 	},
 ];
 

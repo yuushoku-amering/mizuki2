@@ -442,4 +442,6 @@ export const en: Translation = {
 	[Key.gamesSecondaryStrategy]: "Strategy",
 	[Key.gamesSecondaryCard]: "Card",
 	[Key.gamesSecondaryTpsGacha]: "TPS",
+	[Key.gamesDeveloper]: "Developer",
+	[Key.gamesReleaseDate]: "Release",
 };
