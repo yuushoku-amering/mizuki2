@@ -154,6 +154,21 @@ export const skillsData: Skill[] = [
 		color: "#9999FF",
 	},
 
+	// 数据分析工具
+	{
+		id: "finebi",
+		name: "FineBI",
+		description:
+			"熟练使用 FineBI 进行商业智能数据分析与可视化仪表板搭建，能够独立完成从数据接入、清洗建模到交互式仪表板输出的全流程，已取得 FCA 认证。",
+		icon: "material-symbols:monitoring",
+		category: "other",
+		level: "intermediate",
+		experience: { years: 0, months: 6 },
+		projects: ["clothing-retail-dashboard"],
+		certifications: ["FCA 认证（帆软认证工程师）"],
+		color: "#1890FF",
+	},
+
 	// 研究方法
 	{
 		id: "quantitative-research",

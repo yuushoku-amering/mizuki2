@@ -66,6 +66,21 @@ export const projectsData: Project[] = [
 		showImage: false,
 	},
 	{
+		id: "clothing-retail-dashboard",
+		title: "服装零售数据仪表板",
+		description:
+			"基于 FineBI 搭建的服装零售数据分析仪表板。采用「人—货—场」零售分析框架，覆盖客户画像（性别/年龄结构、性别×年龄×销售额交叉分析、各年龄段销售贡献）、产品销售（品类占比、毛利额与毛利率、价格带分布）及经营地域（门店 TOP10、线上vs线下渠道、城市×春秋季销售）三个维度共 10 张工作表，样本量约 3.67 万笔交易、总销售额 354.41 万元，完整呈现从数据清洗到可视化仪表板的描述性分析全流程。",
+		image: "",
+		category: "other",
+		techStack: ["FineBI", "Excel", "数据可视化", "零售分析", "描述统计"],
+		status: "completed",
+		liveDemo: "https://demo.fanruan.com/webroot/decision/link/8aRP",
+		startDate: "2026-08-01",
+		endDate: "2026-08-09",
+		tags: ["FineBI", "仪表板", "零售分析", "人货场", "服装"],
+		showImage: false,
+	},
+	{
 		id: "mangrove-ecological-survey",
 		title: "湛江金牛岛红树林生态治理调查",
 		description:
