@@ -431,6 +431,7 @@ export const ja: Translation = {
 	[Key.gamesPrimarySingleplayer]: "ソロ",
 	[Key.gamesPrimaryMobile]: "モバイル",
 	[Key.gamesPrimaryBrowser]: "ブラウザ",
+	[Key.gamesPrimaryFeatured]: "よく遊ぶ／お気に入り",
 [Key.gamesSecondaryFps]: "FPS",
 [Key.gamesSecondaryTps]: "TPS",
 [Key.gamesSecondaryMoba]: "MOBA",
@@ -447,4 +448,6 @@ export const ja: Translation = {
 	[Key.gamesSecondaryTpsGacha]: "TPS",
 	[Key.gamesDeveloper]: "開発元",
 	[Key.gamesReleaseDate]: "リリース",
+	[Key.gamesExperience]: "ゲーム歴",
+	[Key.gamesFeaturedNote]: "遊んだゲームは多いため、ここでは代表的な一部の作品のみを紹介します。",
 };

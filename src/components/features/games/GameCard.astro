@@ -11,15 +11,17 @@ interface Props {
 	proficientLabel: string;
 	developerLabel: string;
 	releaseDateLabel: string;
+	experienceLabel: string;
 }
 
-const { game, categoryInfo, platformLabel, playtimeLabel, spendingLabel, proficientLabel, developerLabel, releaseDateLabel } = Astro.props;
+const { game, categoryInfo, platformLabel, playtimeLabel, spendingLabel, proficientLabel, developerLabel, releaseDateLabel, experienceLabel } = Astro.props;
 ---
 
 <div
 	class="group relative bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
 	data-game-primary-category={game.primaryCategory}
 		data-game-secondary-category={game.secondaryCategory}
+	data-game-featured={game.isFeatured ? "true" : "false"}
 >
 	<div class="p-4">
 		{/* 顶部：类型标签 + 精通标识 */}
@@ -107,5 +109,14 @@ const { game, categoryInfo, platformLabel, playtimeLabel, spendingLabel, profici
 				)
 			}
 		</div>
+
+		{
+			game.experience && (
+				<div class="mt-3 pt-3 border-t border-(--line-divider) text-xs leading-relaxed">
+					<span class="font-medium text-(--primary)">{experienceLabel}：</span>
+					<span class="text-black/60 dark:text-white/60">{game.experience}</span>
+				</div>
+			)
+		}
 	</div>
 </div>

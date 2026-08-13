@@ -428,6 +428,7 @@ export const en: Translation = {
 	[Key.gamesPrimarySingleplayer]: "Single Player",
 	[Key.gamesPrimaryMobile]: "Mobile",
 	[Key.gamesPrimaryBrowser]: "Browser",
+	[Key.gamesPrimaryFeatured]: "Featured / Favorites",
 [Key.gamesSecondaryFps]: "FPS",
 [Key.gamesSecondaryTps]: "TPS",
 [Key.gamesSecondaryMoba]: "MOBA",
@@ -444,4 +445,6 @@ export const en: Translation = {
 	[Key.gamesSecondaryTpsGacha]: "TPS",
 	[Key.gamesDeveloper]: "Developer",
 	[Key.gamesReleaseDate]: "Release",
+	[Key.gamesExperience]: "My Experience",
+	[Key.gamesFeaturedNote]: "Given the large number of games played, only a few representative titles are listed here.",
 };

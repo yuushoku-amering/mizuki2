@@ -416,6 +416,7 @@ export const zh_TW: Translation = {
 	[Key.gamesPrimarySingleplayer]: "單機",
 	[Key.gamesPrimaryMobile]: "手遊",
 	[Key.gamesPrimaryBrowser]: "頁遊",
+	[Key.gamesPrimaryFeatured]: "主要遊玩/較喜歡",
 [Key.gamesSecondaryFps]: "FPS",
 [Key.gamesSecondaryTps]: "TPS",
 [Key.gamesSecondaryMoba]: "MOBA",
@@ -432,4 +433,6 @@ export const zh_TW: Translation = {
 	[Key.gamesSecondaryTpsGacha]: "TPS",
 	[Key.gamesDeveloper]: "廠商",
 	[Key.gamesReleaseDate]: "發行",
+	[Key.gamesExperience]: "遊戲經歷",
+	[Key.gamesFeaturedNote]: "鑑於具體遊玩過的遊戲較多，在此僅選擇部分代表性作品羅列",
 };

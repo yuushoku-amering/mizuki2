@@ -18,6 +18,11 @@ export function getPrimaryCategoryMap(): Record<string, CategoryInfo> {
 			class: "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300",
 			icon: "🎮",
 		},
+		featured: {
+			text: i18n(I18nKey.gamesPrimaryFeatured),
+			class: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300",
+			icon: "💖",
+		},
 		competitive: {
 			text: i18n(I18nKey.gamesPrimaryCompetitive),
 			class: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",

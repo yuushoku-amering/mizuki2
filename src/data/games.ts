@@ -22,6 +22,8 @@ export interface GameItem {
 	developer: string; // 开发商/发行商
 	releaseDate: string; // 发行时间
 	isProficient?: boolean; // 是否精通
+	experience?: string; // 游戏经历介绍
+	isFeatured?: boolean; // 是否为主要游玩/较喜欢作品
 }
 
 // 游戏统计概览
@@ -50,6 +52,8 @@ const gameList: GameItem[] = [
 		description: "FPS竞技的经典，从CSGO到CS2，枪法与战术的极致博弈。",
 		developer: "Valve",
 		releaseDate: "2012",
+		experience: "六年以上游戏年龄，完美 5e 平台 A 段位，从 CS:GO 一路打到 CS2。",
+		isFeatured: true,
 	},
 	{
 		title: "瓦罗兰特",
@@ -57,12 +61,14 @@ const gameList: GameItem[] = [
 		secondaryCategory: "fps",
 		genre: ["FPS", "战术竞技"],
 		platform: ["PC"],
-		playtime: "1000+",
+		playtime: "2000+",
 		rating: 9,
 		description: "拳头出品的战术FPS，技能+枪法的完美融合。",
 		developer: "Riot Games",
 		releaseDate: "2020",
 		isProficient: true,
+		experience: "三年游戏年龄、2000h+，最高钻石段位，我战术 FPS 的主力游戏。",
+		isFeatured: true,
 	},
 	{
 		title: "Apex 英雄",
@@ -131,6 +137,8 @@ const gameList: GameItem[] = [
 		developer: "创梦天地",
 		releaseDate: "2024",
 		isProficient: true,
+		experience: "三年游戏年龄，段位夸克，二次元战术射击的深度玩家。",
+		isFeatured: true,
 	},
 	{
 		title: "英雄联盟",
@@ -150,12 +158,14 @@ const gameList: GameItem[] = [
 		secondaryCategory: "battleroyale",
 		genre: ["动作", "大逃杀", "武侠"],
 		platform: ["PC"],
-		playtime: "1000+",
+		playtime: "2000+",
 		rating: 9,
 		description: "武侠大逃杀，冷兵器格斗的快感+飞索立体机动，熟练度最高的游戏之一。",
 		developer: "网易",
 		releaseDate: "2021",
 		isProficient: true,
+		experience: "四年游戏年龄、2000h+，单排打上坠日、双三排上过修罗（未更新更高段位时期），我熟练度最高的竞技游戏。",
+		isFeatured: true,
 	},
 	{
 		title: "街霸6",
@@ -194,6 +204,8 @@ const gameList: GameItem[] = [
 		description: "库洛开放世界动作RPG，高速战斗+跑酷探索，动作手感一流。",
 		developer: "库洛",
 		releaseDate: "2024",
+		experience: "近两年游戏年龄，21 金，深塔连续一年满星。",
+		isFeatured: true,
 	},
 	{
 		title: "异环",
@@ -385,11 +397,13 @@ const gameList: GameItem[] = [
 		secondaryCategory: "action",
 		genre: ["动作", "RPG", "共斗"],
 		platform: ["PC", "掌机"],
-		playtime: "500+",
+		playtime: "230+",
 		rating: 9,
 		description: "狩猎巨龙的快感无与伦比，每一作都有独特的系统和魅力。",
 		developer: "Capcom",
 		releaseDate: "2004-",
+		experience: "230h+ 深度体验，世界·冰原高难四怪全通。",
+		isFeatured: true,
 	},
 	{
 		title: "剑星",
@@ -453,11 +467,13 @@ const gameList: GameItem[] = [
 		secondaryCategory: "rpg",
 		genre: ["RPG", "回合制", "校园"],
 		platform: ["PS4", "PC"],
-		playtime: "100+",
+		playtime: "130+",
 		rating: 9.5,
 		description: "风格化JRPG的天花板，怪盗团青春物语与殿堂冒险令人沉迷。",
 		developer: "Atlus",
 		releaseDate: "2016",
+		experience: "130h+ 深度体验，人格面具大多收集齐全。",
+		isFeatured: true,
 	},
 	{
 		title: "古剑奇谭3",
@@ -572,6 +588,8 @@ const gameList: GameItem[] = [
 		description: "大量涉猎各类视觉小说，从Key社泣系到型月世界观到同人佳作均有涉猎。",
 		developer: "Key / 型月 / 多家",
 		releaseDate: "-",
+		experience: "总游玩年龄六年以上，从 Key 泣系到型月再到同人佳作，大多宅系作品均有涉猎。",
+		isFeatured: true,
 	},
 
 	// ==================== 手游 ====================
@@ -585,6 +603,8 @@ const gameList: GameItem[] = [
 		description: "国民级MOBA手游，随时随地开一局的社交竞技体验。",
 		developer: "腾讯",
 		releaseDate: "2015",
+		experience: "八年以上 MOBA 年龄，最高打到最强王者。",
+		isFeatured: true,
 	},
 	{
 		title: "CF手游",

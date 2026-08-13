@@ -32,6 +32,7 @@ const primaryCategoryMap = getPrimaryCategoryMap();
 // Level 1 filter buttons
 const primaryCategories = [
 	{ key: "all", info: primaryCategoryMap.all },
+	{ key: "featured", info: primaryCategoryMap.featured },
 	{ key: "competitive", info: primaryCategoryMap.competitive },
 	{ key: "gacha", info: primaryCategoryMap.gacha },
 	{ key: "singleplayer", info: primaryCategoryMap.singleplayer },
@@ -49,6 +50,9 @@ for (const pk of primaryKeys) {
 		secondaryData[pk][sk] = { text: info.text, icon: info.icon };
 	}
 }
+
+// Featured 分类说明文案（注入到客户端筛选脚本）
+const featuredNote = i18n(I18nKey.gamesFeaturedNote);
 ---
 
 <MainGridLayout
@@ -108,6 +112,7 @@ for (const pk of primaryKeys) {
 					proficientLabel={i18n(I18nKey.gamesProficientBadge)}
 					developerLabel={i18n(I18nKey.gamesDeveloper)}
 					releaseDateLabel={i18n(I18nKey.gamesReleaseDate)}
+					experienceLabel={i18n(I18nKey.gamesExperience)}
 				/>
 			</div>
 		</div>
@@ -263,7 +268,7 @@ for (const pk of primaryKeys) {
 	</script>
 
 	{/* ====== 两级筛选脚本 ====== */}
-	<script is:inline define:vars={{ secondaryData }}>
+	<script is:inline define:vars={{ secondaryData, featuredNote }}>
 		// Level 2 category data injected from server
 		const SECONDARY_DATA = secondaryData;
 
@@ -290,7 +295,14 @@ for (const pk of primaryKeys) {
 			items.forEach((item) => {
 				const itemPrimary = item.getAttribute("data-game-primary-category");
 				const itemSecondary = item.getAttribute("data-game-secondary-category");
-				const primaryMatch = currentPrimary === "all" || itemPrimary === currentPrimary;
+				let primaryMatch;
+				if (currentPrimary === "all") {
+					primaryMatch = true;
+				} else if (currentPrimary === "featured") {
+					primaryMatch = item.getAttribute("data-game-featured") === "true";
+				} else {
+					primaryMatch = itemPrimary === currentPrimary;
+				}
 				const secondaryMatch = currentSecondary === "all" || itemSecondary === currentSecondary;
 				const shouldShow = primaryMatch && secondaryMatch;
 				const isCurrentlyVisible = !item.classList.contains("games-hidden");
@@ -410,6 +422,18 @@ for (const pk of primaryKeys) {
 			}
 		}
 
+		function showFeaturedNote() {
+			const container = document.getElementById("games-filter-secondary");
+			if (!container) return;
+
+			container.innerHTML = "";
+			const note = document.createElement("div");
+			note.className = "games-featured-note text-xs text-black/55 dark:text-white/55 px-1 py-0.5";
+			note.textContent = "💡 " + featuredNote;
+			container.appendChild(note);
+			container.classList.remove("hidden");
+		}
+
 		function initGamesFilters() {
 			const listContainer = document.getElementById("games-list-container");
 			if (!listContainer) return;
@@ -436,6 +460,8 @@ for (const pk of primaryKeys) {
 
 					if (currentPrimary === "all") {
 						hideSecondaryButtons();
+					} else if (currentPrimary === "featured") {
+						showFeaturedNote();
 					} else {
 						renderSecondaryButtons(currentPrimary);
 						// Re-bind Level 2 listeners after rendering new buttons
