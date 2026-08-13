@@ -66,6 +66,20 @@ export const projectsData: Project[] = [
 		showImage: false,
 	},
 	{
+		id: "p2w-game-survey",
+		title: "大学生游戏“Pay to Win”消费公平感知调查",
+		description:
+			"针对社会调查方法课程要求，围绕大学生游戏“Pay to Win”消费公平感知展开问卷设计、结构调整与数据分析。面向本校在读生线上发放问卷，收集游戏消费程度与消费动机因子，设计经济、社交、心理、游戏行为、公平感知五维度量表对消费公平感知进行量化评估。收集有效样本54份，发现受访群体倾向审美与情感消费（为心仪皮肤消费占83.7%），抽卡类成效未达预期在消费后悔中占77.6%，揭示消费实际所得与自身期望的差额——相比“Pay to Win”（付费变强），受访者更关注“Pay to Lose”（消费是否对得起这份差额）。",
+		image: "",
+		category: "other",
+		techStack: ["问卷设计", "SPSS", "五维度量表", "相关分析"],
+		status: "completed",
+		startDate: "2025-05-01",
+		endDate: "2025-06-30",
+		tags: ["游戏消费", "消费公平感知", "Pay to Lose", "课程项目"],
+		showImage: false,
+	},
+	{
 		id: "clothing-retail-dashboard",
 		title: "服装零售数据仪表板",
 		description:
@@ -75,7 +89,7 @@ export const projectsData: Project[] = [
 		techStack: ["FineBI", "Excel", "数据可视化", "零售分析", "描述统计"],
 		status: "completed",
 		liveDemo: "https://demo.fanruan.com/webroot/decision/link/8aRP",
-		startDate: "2026-08-01",
+		startDate: "2026-07-01",
 		endDate: "2026-08-09",
 		tags: ["FineBI", "仪表板", "零售分析", "人货场", "服装"],
 		showImage: false,

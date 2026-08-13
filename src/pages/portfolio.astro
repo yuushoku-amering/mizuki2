@@ -1,0 +1,150 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+
+import {
+	portfolioCatalog,
+	portfolioCover,
+	portfolioParts,
+	portfolioThanks,
+} from "../data/portfolio";
+
+const title = "作品集";
+const subtitle = "吕家欣 · 用户研究作品集 · 四季花语";
+---
+
+<MainGridLayout title={title} description={subtitle}>
+	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
+			<!-- 页头 + 下载按钮 -->
+			<div class="flex items-center justify-between mb-8 gap-4">
+				<div class="min-w-0">
+					<h1
+						class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+							before:w-1 before:h-8 before:rounded-md before:bg-(--primary)
+							before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
+					>
+						{title}
+					</h1>
+					<p class="text-lg text-black/60 dark:text-white/60">{subtitle}</p>
+				</div>
+				<a
+					href="/documents/作品集.pptx"
+					download="吕家欣-用户研究作品集.pptx"
+					class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity shrink-0"
+				>
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+					</svg>
+					下载 PPTX
+				</a>
+			</div>
+
+			<!-- 封面 -->
+			<div class="mb-6 rounded-lg overflow-hidden border border-(--line-divider)">
+				<a
+					href={portfolioCover.src}
+					data-fancybox="portfolio"
+					data-src={portfolioCover.src}
+					data-caption={portfolioCover.caption}
+					class="block group cursor-zoom-in"
+				>
+					<img
+						src={portfolioCover.src}
+						alt={portfolioCover.caption}
+						loading="lazy"
+						decoding="async"
+						class="w-full h-auto"
+					/>
+				</a>
+			</div>
+
+			<!-- 目录 -->
+			<div class="mb-6 rounded-lg overflow-hidden border border-(--line-divider)">
+				<a
+					href={portfolioCatalog.src}
+					data-fancybox="portfolio"
+					data-src={portfolioCatalog.src}
+					data-caption={portfolioCatalog.caption}
+					class="block group cursor-zoom-in"
+				>
+					<img
+						src={portfolioCatalog.src}
+						alt={portfolioCatalog.caption}
+						loading="lazy"
+						decoding="async"
+						class="w-full h-auto"
+					/>
+				</a>
+			</div>
+
+			<!-- 四部分 -->
+			{
+				portfolioParts.map((part) => (
+					<div class="mb-10">
+						<!-- 章节标题 -->
+						<div class="flex items-center gap-4 mb-6">
+							<span
+								class="flex items-center justify-center w-11 h-11 rounded-full text-white text-lg font-bold shrink-0"
+								style={`background-color: ${part.color};`}
+							>
+								{part.numeral}
+							</span>
+							<div class="min-w-0">
+								<h2 class="text-xl sm:text-2xl font-bold text-black/90 dark:text-white/90 leading-tight">
+									{part.title}
+								</h2>
+								<p class="text-sm text-black/45 dark:text-white/45 mt-0.5">
+									{part.subtitle}
+								</p>
+							</div>
+						</div>
+
+						<!-- 幻灯片列表 -->
+						<div class="flex flex-col gap-4">
+							{
+								part.slides.map((slide) => (
+									<div class="rounded-lg overflow-hidden border border-(--line-divider)">
+										<a
+											href={slide.src}
+											data-fancybox="portfolio"
+											data-src={slide.src}
+											data-caption={slide.caption}
+											class="block group cursor-zoom-in"
+										>
+											<img
+												src={slide.src}
+												alt={slide.caption}
+												loading="lazy"
+												decoding="async"
+												class="w-full h-auto"
+											/>
+										</a>
+									</div>
+								))
+							}
+						</div>
+					</div>
+				))
+			}
+
+			<!-- 结尾 -->
+			<div class="rounded-lg overflow-hidden border border-(--line-divider)">
+				<a
+					href={portfolioThanks.src}
+					data-fancybox="portfolio"
+					data-src={portfolioThanks.src}
+					data-caption={portfolioThanks.caption}
+					class="block group cursor-zoom-in"
+				>
+					<img
+						src={portfolioThanks.src}
+						alt={portfolioThanks.caption}
+						loading="lazy"
+						decoding="async"
+						class="w-full h-auto"
+					/>
+				</a>
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

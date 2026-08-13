@@ -179,7 +179,7 @@ export const skillsData: Skill[] = [
 		category: "other",
 		level: "advanced",
 		experience: { years: 2, months: 0 },
-		projects: ["mathorcup-modeling", "market-research-project"],
+		projects: ["mathorcup-modeling", "market-research-project", "p2w-game-survey"],
 		color: "#059669",
 	},
 	{
@@ -203,7 +203,7 @@ export const skillsData: Skill[] = [
 		category: "other",
 		level: "advanced",
 		experience: { years: 2, months: 0 },
-		projects: ["market-research-project", "mangrove-ecological-survey"],
+		projects: ["market-research-project", "mangrove-ecological-survey", "p2w-game-survey"],
 		color: "#EA580C",
 	},
 ];

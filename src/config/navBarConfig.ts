@@ -146,6 +146,12 @@ export const navBarConfig: NavBarConfig = {
 			url: "/resume/",
 			icon: "material-symbols:description",
 		},
+		// 作品集
+		{
+			name: "作品集",
+			url: "/portfolio/",
+			icon: "material-symbols:collections-bookmark",
+		},
 		// 更多
 		{
 			name: "更多",
