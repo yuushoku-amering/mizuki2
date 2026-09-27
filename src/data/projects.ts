@@ -21,6 +21,22 @@ export interface Project {
 
 export const projectsData: Project[] = [
 	{
+		id: "vesper-research-workbench",
+		title: "岚苔 Vesper · 用户研究工作台",
+		description:
+			"独立设计并开发的本地部署社调/用研分析工具，把社调/用研全模块拆解为「访谈转写 → 主题编码 → 问卷设计 → 数据清洗 → 统计分析」一条链（约 3 万行代码）。定位是 GitHub 用研领域独有的「全流程 + 人机交互」工作流——现有开源项目多偏纯用户分析或纯 AI 流程两端，本项目在模型辅助拆解与建议的同时，把方法学决策点交回研究者：数字全部由本机计算，方法选择由可修改的确定性规则驱动，决策由研究者自决。",
+		image: "",
+		category: "other",
+		techStack: ["Python", "SPSS", "统计建模", "问卷设计", "质性编码"],
+		status: "completed",
+		sourceCode: "https://github.com/yuushoku-amering/user-research",
+		startDate: "2026-09-01",
+		endDate: "2026-09-30",
+		featured: true,
+		tags: ["用户研究", "社会调查", "开源", "人机交互"],
+		showImage: false,
+	},
+	{
 		id: "mizuki-website",
 		title: "Mizuki 个人网站",
 		description:

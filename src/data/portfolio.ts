@@ -82,9 +82,11 @@ export const portfolioParts: PortfolioPart[] = [
 			slide(18, "第四部分 · 其余项目"),
 			slide(19, "红树林社区共治 · 定性研究"),
 			slide(20, "高血脂症风险预警 · 数学建模"),
+			slide(21, "岚苔 Vesper · 用户研究工作台"),
+			slide(22, "岚苔 Vesper · 设计取舍与人机交互"),
 		],
 	},
 ];
 
 // 结尾
-export const portfolioThanks: PortfolioSlide = slide(21, "感谢您的观看");
+export const portfolioThanks: PortfolioSlide = slide(23, "感谢您的观看");
