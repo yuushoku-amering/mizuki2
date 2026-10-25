@@ -1,42 +1,10 @@
 ---
-import { getEntry, render } from "astro:content";
-import Comment from "@components/comment/index.astro";
-import { PageHeader } from "@components/features/page-header";
+import {getEntry,render} from "astro:content";
+import JournalLayout from "@layouts/JournalLayout.astro";
 import Markdown from "@components/misc/Markdown.astro";
-
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
-import MainGridLayout from "../layouts/MainGridLayout.astro";
-
-const aboutPost = await getEntry("spec", "about");
-
-if (!aboutPost) {
-	throw new Error("About page content not found");
-}
-
-const { Content } = await render(aboutPost);
-const title = i18n(I18nKey.about);
+import Comment from "@components/comment/index.astro";
+const about=await getEntry("spec","about");
+if(!about)throw new Error("About page content not found");
+const {Content}=await render(about);
 ---
-
-<MainGridLayout title={title}>
-	<!-- 引入右侧边栏布局管理器 -->
-	<script>
-		import("../scripts/right-sidebar-layout.js");
-	</script>
-	<div
-		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
-	>
-		<div class="card-base z-10 px-9 py-6 relative w-full">
-			<PageHeader title={title} />
-
-			<!-- 从MD文件读取的内容 -->
-			<Markdown class="mt-2">
-				<Content />
-			</Markdown>
-		</div>
-	</div>
-
-	<div class="mt-4">
-		<Comment path="/about/" />
-	</div>
-</MainGridLayout>
+<JournalLayout title="关于我" description="个人介绍、博客内容与联系方式。"><div class="page-intro"><a class="breadcrumb" href="/">← 首页</a><h1>关于我</h1><p>个人介绍、博客内容与联系方式。</p></div><div class="about-layout"><article class="reading-body"><Markdown class="journal-about"><Content /></Markdown></article><aside class="profile-aside"><img class="avatar" src="/assets/journal/avatar.webp" alt="原站头像" width="66" height="66" /><h2>吕家欣</h2><p>广东海洋大学<br />社会学本科 · 2023—2027</p><div class="profile-tags"><span>用户研究</span><span>数据分析</span><span>社会学</span></div><a class="text-link" href="/resume/">查看简历 ↗</a></aside></div><Comment path="/about/" /></JournalLayout>

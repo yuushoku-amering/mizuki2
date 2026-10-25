@@ -22,7 +22,7 @@ export interface Project {
 export const projectsData: Project[] = [
 	{
 		id: "vesper-research-workbench",
-		title: "岚苔 Vesper · 用户研究工作台",
+		title: "Vesper · 用户研究工作台",
 		description:
 			"独立设计并开发的本地部署社调/用研分析工具，把社调/用研全模块拆解为「访谈转写 → 主题编码 → 问卷设计 → 数据清洗 → 统计分析」一条链（约 3 万行代码）。定位是 GitHub 用研领域独有的「全流程 + 人机交互」工作流——现有开源项目多偏纯用户分析或纯 AI 流程两端，本项目在模型辅助拆解与建议的同时，把方法学决策点交回研究者：数字全部由本机计算，方法选择由可修改的确定性规则驱动，决策由研究者自决。",
 		image: "",
@@ -35,6 +35,19 @@ export const projectsData: Project[] = [
 		featured: true,
 		tags: ["用户研究", "社会调查", "开源", "人机交互"],
 		showImage: false,
+	},
+	{
+		id: "melodyaiming",
+		title: "MelodyAiming · 节奏射击 Demo",
+		description:
+			"可在桌面浏览器游玩的节奏射击 Demo。玩家用鼠标瞄准随音乐出现的目标，通过点射或按住跟枪完成谱面；支持三首曲目、难度选择、得分与连击、灵敏度设置，以及后屏画面切换。谱面依据音频节拍和段落能量生成，并按难度筛选目标。",
+		image: "/assets/projects/melodyaiming.png",
+		category: "web",
+		techStack: ["JavaScript", "Canvas 2D", "HTML", "CSS", "音频分析"],
+		status: "in-progress",
+		startDate: "2026-10-19",
+		featured: true,
+		tags: ["节奏游戏", "网页游戏", "音乐", "交互设计"],
 	},
 	{
 		id: "mizuki-website",

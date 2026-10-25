@@ -1,0 +1,13 @@
+{
+  "title": "ComfyUI 作品集",
+  "hidden": false,
+  "description": "使用 ComfyUI 制作的角色与场景图像，记录构图、光线和风格上的尝试。",
+  "date": "2026-10-26",
+  "location": "",
+  "tags": [
+    "ComfyUI",
+    "视觉创作"
+  ],
+  "layout": "masonry",
+  "columns": 3
+}

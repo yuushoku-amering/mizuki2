@@ -1,0 +1,18 @@
+---
+import type { Project } from "@/data/projects";
+interface Props {projects: Project[];}
+const {projects} = Astro.props;
+const covers: Record<string,string> = {"p2w-game-survey":"/assets/portfolio/slide-4.webp","market-research-project":"/assets/portfolio/slide-10.webp","clothing-retail-dashboard":"/assets/portfolio/slide-15.webp"};
+---
+<div class="project-grid">
+  {projects.map((project,index)=>{
+    const cover = covers[project.id] || (project.showImage !== false ? project.image : "");
+    return <a class="project-card" data-filter-item data-category={project.category} data-tags={JSON.stringify(project.tags || [])} href={`/projects/${project.id}/`}>
+      <div class:list={["project-art",{"vesper-art":!cover}]}>
+        {cover ? <img src={cover} alt={`${project.title}封面`} loading="lazy" /> : <><span class="orbit one"></span><span class="orbit two"></span><span class="vesper-word">{project.id==="vesper-research-workbench" ? "Vesper" : "Research"}<small>{project.techStack[0]}</small></span></>}
+        <span class="project-index">{String(index+1).padStart(2,"0")} / 项目记录</span>
+      </div>
+      <div class="project-copy"><h3>{project.title}<span>↗</span></h3><p>{project.description}</p><div class="tags">{project.techStack.slice(0,2).map(tag=><span>{tag}</span>)}</div></div>
+    </a>;
+  })}
+</div>

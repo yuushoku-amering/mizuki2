@@ -1,56 +1,16 @@
 ---
-import ArchivePanel from "@components/features/archive/ArchivePanel.svelte";
-import CategoryBar from "@components/features/posts/CategoryBar.astro";
-import I18nKey from "@i18n/i18nKey";
-import { i18n } from "@i18n/translation";
-import MainGridLayout from "@layouts/MainGridLayout.astro";
+import JournalLayout from "@layouts/JournalLayout.astro";
+import PostList from "@components/journal/PostList.astro";
 import { getSortedPostsList } from "@utils/content-utils";
-
-import { siteConfig } from "../config";
-
-const sortedPostsList = await getSortedPostsList();
-
-const showCategoryBar = siteConfig.postListLayout.categoryBar?.enable ?? false;
-
-// 1. 修复类型兼容性：将 category 的 null 转换为 undefined
-const posts = sortedPostsList.map((post) => ({
-	id: post.id,
-	url: post.url,
-	data: {
-		title: post.data.title,
-		tags: post.data.tags,
-		category: post.data.category === null ? undefined : post.data.category,
-		published: post.data.published,
-		alias: post.data.alias,
-		permalink: post.data.permalink,
-	},
-}));
-
-// 2. 提取所有标签 (去重)
-const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
-
-// 3. 提取所有分类 (去重且过滤掉 undefined)
-const categories = [
-	...new Set(
-		posts
-			.map((post) => post.data.category)
-			.filter((c): c is string => typeof c === "string"),
-	),
-];
+const posts=await getSortedPostsList();
+const categories=[...new Set(posts.map(p=>p.data.category || "未分类"))];
+const tags=[...new Set(posts.flatMap(p=>p.data.tags))];
 ---
-
-<MainGridLayout title={i18n(I18nKey.archive)}>
-	{showCategoryBar && <CategoryBar />}
-	<!-- 引入右侧边栏布局管理器 -->
-	<script>
-		import("../scripts/right-sidebar-layout.js");
-	</script>
-
-	<!-- 修复：补全缺失的 tags 和 categories 属性 -->
-	<ArchivePanel
-		sortedPosts={posts}
-		tags={tags}
-		categories={categories}
-		client:only="svelte"
-	/>
-</MainGridLayout>
+<JournalLayout title="文章" description="课程论文、专题分析与访谈记录。">
+  <div class="page-intro"><a class="breadcrumb" href="/">← 首页</a><h1>文章</h1><p>课程论文、专题分析与访谈记录。</p></div>
+  <div data-collection data-unit="篇文章">
+    <div class="filters" role="group" aria-label="筛选文章"><button data-category-filter="all" aria-pressed="true">全部</button>{categories.map(category=><button data-category-filter={category} aria-pressed="false">{category}</button>)}<span class="result-count" aria-live="polite">{posts.length} 篇文章</span></div>
+    <label class="tag-selector">标签<select data-tag-filter aria-label="按标签筛选"><option value="">全部标签</option>{tags.map(tag=><option value={tag}>{tag}</option>)}</select></label>
+    <PostList posts={posts} /><p data-filter-empty hidden>没有符合条件的文章。</p>
+  </div>
+</JournalLayout>

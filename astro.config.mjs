@@ -108,6 +108,8 @@ export default defineConfig({
 			theme: false,
 			animationClass: "transition-swup-",
 			containers: ["main"],
+            // Journal pages use a complete layout; entering/leaving them must reload the document.
+            ignore: (url) => document.documentElement.dataset.journal === "true" || /^\/(?:$|archive(?:\/|$)|projects(?:\/|$)|about(?:\/|$)|albums(?:\/|$)|posts(?:\/|$))/.test(new URL(url, location.href).pathname),
 			smoothScrolling: false, // 禁用平滑滚动以提升性能，避免与锚点导航冲突
 			cache: true,
 			preload: false, // 禁用预加载以提升性能

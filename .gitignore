@@ -64,4 +64,6 @@ src/data/bilibili-data.json
 .env
 .edgeone/*
 .tef_dist/*
-  
+
+# Local design comparisons
+/public/design-lab/

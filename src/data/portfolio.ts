@@ -82,8 +82,8 @@ export const portfolioParts: PortfolioPart[] = [
 			slide(18, "第四部分 · 其余项目"),
 			slide(19, "红树林社区共治 · 定性研究"),
 			slide(20, "高血脂症风险预警 · 数学建模"),
-			slide(21, "岚苔 Vesper · 用户研究工作台"),
-			slide(22, "岚苔 Vesper · 设计取舍与人机交互"),
+			{ ...slide(21, "Vesper · 用户研究工作台"), src: "/assets/portfolio/slide-21-renamed.jpg" },
+			{ ...slide(22, "Vesper · 设计取舍与人机交互"), src: "/assets/portfolio/slide-22-renamed.jpg" },
 		],
 	},
 ];
