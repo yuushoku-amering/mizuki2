@@ -9,7 +9,7 @@ const covers: Record<string,string> = {"p2w-game-survey":"/assets/portfolio/slid
     const cover = covers[project.id] || (project.showImage !== false ? project.image : "");
     return <a class="project-card" data-filter-item data-category={project.category} data-tags={JSON.stringify(project.tags || [])} href={`/projects/${project.id}/`}>
       <div class:list={["project-art",{"vesper-art":!cover}]}>
-        {cover ? <img src={cover} alt={`${project.title}封面`} loading="lazy" /> : <><span class="orbit one"></span><span class="orbit two"></span><span class="vesper-word">{project.id==="vesper-research-workbench" ? "Vesper" : "Research"}<small>{project.techStack[0]}</small></span></>}
+        {cover ? <img src={cover} alt={`${project.title}封面`} loading="lazy" /> : <><span class="orbit one"></span><span class="orbit two"></span><span class="vesper-word">{project.id==="vesper-research-workbench" ? "Vesper" : project.id==="ai-collaboration-office" ? "Office" : "Research"}<small>{project.techStack[0]}</small></span></>}
         <span class="project-index">{String(index+1).padStart(2,"0")} / 项目记录</span>
       </div>
       <div class="project-copy"><h3>{project.title}<span>↗</span></h3><p>{project.description}</p><div class="tags">{project.techStack.slice(0,2).map(tag=><span>{tag}</span>)}</div></div>

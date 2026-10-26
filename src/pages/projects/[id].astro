@@ -13,6 +13,7 @@ const visit=project.visitUrl || project.liveDemo;
 <JournalLayout title={project.title} description={project.description}>
   <div class="page-intro"><a class="breadcrumb" href="/projects/">← 全部项目</a><h1 data-pagefind-meta="title">{project.title}</h1></div>
   <article class="project-detail" data-pagefind-body><div class="project-facts"><span>时间：{project.startDate}{project.endDate && ` 至 ${project.endDate}`}</span><span>状态：{status}</span></div><h2>项目介绍</h2><div class="reading-body"><p>{project.description}</p></div>{cover && <img class="detail-project-image" src={cover} alt={`${project.title}作品页面`} />}
+    {project.detailSections?.map(section=><section class="project-detail-section"><h2>{section.heading}</h2><div class="reading-body"><ul>{section.points.map(point=><li>{point}</li>)}</ul></div></section>)}
     <h2>方法与工具</h2><div class="tags">{project.techStack.map(tag=><span>{tag}</span>)}</div>
     {project.tags && <><h2>相关主题</h2><div class="tags">{project.tags.map(tag=><span>{tag}</span>)}</div></>}
     <div class="project-links">{project.sourceCode && <a class="primary-link" href={project.sourceCode} target="_blank" rel="noopener noreferrer">项目源码 ↗</a>}{visit && <a class="primary-link" href={visit} target="_blank" rel="noopener noreferrer">{project.liveDemo && !project.visitUrl ? "在线演示" : "访问项目"} ↗</a>}{project.id === "melodyaiming" ? <a class="text-link" href="/projects/">浏览其他项目 ↗</a> : <a class="text-link" href="/portfolio/">查看完整作品集 ↗</a>}</div>

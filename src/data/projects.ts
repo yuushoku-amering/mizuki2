@@ -17,9 +17,48 @@ export interface Project {
 	featured?: boolean;
 	tags?: string[];
 	showImage?: boolean;
+	detailSections?: { heading: string; points: string[] }[];
 }
 
 export const projectsData: Project[] = [
+	{
+		id: "ai-collaboration-office",
+		title: "本机 AI 协作办公室",
+		description:
+			"本地双 AI 协作工具：先讨论目标，再按任务和文件范围分工。两位参与者在独立副本中执行，改动经差异审阅和人工批准后合入共同项目。",
+		image: "",
+		category: "desktop",
+		techStack: ["Node.js", "JavaScript", "HTML / CSS", "Codex", "DeepSeek Harness"],
+		status: "in-progress",
+		startDate: "2026-10-26",
+		tags: ["AI 协作", "本地工具", "任务分工", "界面设计"],
+		showImage: false,
+		detailSections: [
+			{
+				heading: "协作流程",
+				points: [
+					"普通讨论保持只读，用来确定目标、边界和验收要求。",
+					"每批任务明确负责人和文件范围；范围冲突会在保存分工时提示。",
+					"任务基于共同项目分别执行；查看实际差异并记录验证结果后，再由人批准合入。",
+				],
+			},
+			{
+				heading: "本次界面更新",
+				points: [
+					"把讨论、项目协作与设置分为独立页面；任务状态、决定记录和文件差异集中在协作页。",
+					"可选择下一轮参与者，使用开场提示填写草稿，并切换日夜主题。",
+					"优化手机布局；发送失败时保留草稿。界面说明改为直接的功能标签。",
+				],
+			},
+			{
+				heading: "当前状态",
+				points: [
+					"2026 年 10 月版本已在本机安装，协作流程和界面通过本地测试；项目仍在迭代。",
+					"工具只在本机运行，暂不提供公开演示或项目源码链接。",
+				],
+			},
+		],
+	},
 	{
 		id: "vesper-research-workbench",
 		title: "Vesper · 用户研究工作台",
