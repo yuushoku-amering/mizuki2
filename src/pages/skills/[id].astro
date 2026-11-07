@@ -95,7 +95,7 @@ const relatedProjects = skill.projects
 				<span class="px-3 py-1 text-sm rounded-md font-medium" style={`background-color: ${skillColor}20; color: ${skillColor}`}>
 					{getLevelText(skill.level)}
 				</span>
-				<span class="text-sm text-black/40 dark:text-white/40">{formatExperience(skill.experience)}</span>
+				<span class="text-sm text-black/40 dark:text-white/40">{skill.experience && formatExperience(skill.experience)}</span>
 			</div>
 
 			<div class="mb-6 w-full bg-(--btn-regular-bg) rounded-full h-2">

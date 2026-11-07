@@ -1,4 +1,5 @@
 ---
+import "../styles/interiors.css";
 import FloatingControls from "@components/control/FloatingControls.astro";
 import { SidebarTOC } from "@components/features/toc";
 import Banner from "@components/layout/Banner.astro";
@@ -233,7 +234,7 @@ const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
 					class={`${mainContentClass} transition-main`}
 				>
 					<div
-						id="content-wrapper"
+						id="content-wrapper" data-interior={Astro.url.pathname.split("/")[1] || undefined}
 						class="onload-animation transition-leaving"
 					>
 						<div

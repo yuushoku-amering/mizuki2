@@ -1,0 +1,80 @@
+body[data-mode=clock]{color-scheme:light;background:#f7f7f2;color:#3b4942;--accent:#b77b8e;--clock-angle:0deg;--season-soft:#eed6dd;min-height:100svh;background-image:none}
+body[data-mode=clock][data-clock-season=autumn]{--accent:#9d8344;--season-soft:#e9dfbd;--clock-angle:120deg}
+body[data-mode=clock][data-clock-season=winter]{--accent:#826d80;--season-soft:#e4dfe6;--clock-angle:240deg}
+body[data-mode=clock] header{height:80px;margin:0 4%;border-bottom:1px solid #4d5b471c;color:#3b4942}
+body[data-mode=clock] .brand{font-size:20px;letter-spacing:4px;font-weight:400}
+body[data-mode=clock] .brand span{color:#8b958c;letter-spacing:1px;font-size:11px}
+body[data-mode=clock] nav{color:#687369;font-size:11px;gap:23px}
+body[data-mode=clock] nav button{border-color:#cfd4ca;color:#687369;font-size:11px;padding-left:22px}
+body[data-mode=clock] button:focus-visible,body[data-mode=clock] a:focus-visible{outline-color:var(--accent)}
+.clock-home{display:grid;grid-template-columns:minmax(0,1fr) 330px;max-width:1600px;margin:auto;min-height:calc(100svh - 80px);padding:0 4%;gap:32px}
+.tree-stage{min-width:0;position:relative;height:calc(100svh - 80px);min-height:710px;max-height:1000px}
+.tree-topline{position:absolute;left:0;right:0;top:26px;display:flex;justify-content:space-between;align-items:center;font:9px/1.7 Georgia,serif;letter-spacing:3px;color:#8c968b;z-index:3}
+#tree-season-note{font:11px/1.7 'Microsoft YaHei';letter-spacing:2px;color:var(--accent)}
+.botanical-wrap{position:absolute;top:38px;bottom:117px;left:0;right:0;display:flex;justify-content:center;align-items:center}
+.tree-art{position:relative;width:100%;height:100%;max-width:calc((100svh - 235px)*8/7);aspect-ratio:8/7}
+#botanical-tree{display:block;width:100%;height:100%;overflow:visible}
+.tree-crown{opacity:0;transition:opacity .9s ease;transform-origin:400px 450px}
+[data-clock-season=spring] .crown-spring,[data-clock-season=autumn] .crown-autumn,[data-clock-season=winter] .crown-winter{opacity:1}
+.season-changing .tree-crown{animation:canopy-arrive 1.1s ease both}
+@keyframes canopy-arrive{from{translate:0 5px}to{translate:0 0}}
+.tree-bottom{position:absolute;left:0;right:0;bottom:9px;height:132px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.tree-bottom>span{font-size:10px;color:#96a091;line-height:1.9;letter-spacing:1px;min-width:135px}
+.tree-bottom .clock-instruction{text-align:right}
+.season-clock{position:relative;width:150px;height:150px;flex-shrink:0;color:var(--accent);margin:0 12px}
+.season-clock svg{width:100%;height:100%}
+.clock-hand{transform:rotate(var(--clock-angle));transform-origin:75px 75px;transition:transform 1s cubic-bezier(.3,.8,.2,1)}
+.season-clock button{position:absolute;border-radius:50%;width:30px;height:30px;padding:0;color:#8f988b;background:#f7f7f2;border:1px solid transparent;transition:color .4s,border-color .4s;font-family:'SimSun';font-size:17px}
+.season-clock button[aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:#fafaf7;box-shadow:0 0 0 4px #f7f7f2}
+.clock-spring{left:60px;top:0}.clock-autumn{right:1px;bottom:21px}.clock-winter{left:1px;bottom:21px}
+.project-aside{border-left:1px solid #56655021;padding:46px 0 25px 33px;display:flex;flex-direction:column;min-width:0;min-height:710px}
+.section-index{font:9px Georgia,serif;letter-spacing:3px;color:var(--accent)}
+.season-heading h1{font-size:28px;font-weight:400;font-family:'SimSun',serif;letter-spacing:2px;line-height:1.5;margin:13px 0}
+.season-heading>p{font-size:11px;line-height:2;color:#8a958a;margin:0;max-width:260px}
+#project-description{flex:1;padding:40px 0 30px}
+.empty-state{padding-top:60px;color:#9ba496}
+.empty-flower{color:var(--accent);font-size:29px;opacity:.5}
+.empty-state h2{font-family:'SimSun',serif;font-weight:400;font-size:25px;line-height:1.8;letter-spacing:2px;margin:14px 0}
+.empty-state p{font-size:11px;line-height:2.2;color:#9ca595}
+.aside-bottom{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #56655021;padding-top:20px;font-size:9px;color:#939d8e;letter-spacing:1px}
+#project-flowers{position:absolute;inset:0;pointer-events:none}
+.project-flower{position:absolute;width:48px;height:48px;margin:-24px 0 0 -24px;padding:5px;border-radius:50%;pointer-events:auto;z-index:2;color:var(--accent);transition:transform .3s;animation:node-bloom .8s both;animation-delay:var(--delay)}
+.project-flower svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 2px 5px #f7f7f2)}
+.project-flower:before{content:'';position:absolute;inset:3px;border:1px solid var(--accent);border-radius:50%;opacity:.55;box-shadow:0 0 0 5px #fafaf5a6;background:#f7f7f2bd;z-index:-1;transition:box-shadow .3s}
+.project-flower:hover,.project-flower[aria-pressed=true]{transform:scale(1.15)}
+.project-flower[aria-pressed=true]:before{box-shadow:0 0 0 8px var(--season-soft);opacity:.9}
+.project-flower .node-number{position:absolute;bottom:-5px;right:-3px;font:9px Georgia,serif;background:#f7f7f2;border-radius:50%;width:17px;height:17px;line-height:17px;color:var(--accent);border:1px solid #c7cbbd}
+.node-label{position:absolute;left:50%;top:calc(100% + 9px);translate:-50% 0;background:#f7f7f2de;padding:3px 8px;white-space:nowrap;border-radius:3px;color:#657260;font-size:10px;letter-spacing:.5px;opacity:0;pointer-events:none;transition:opacity .2s}
+.project-flower:hover .node-label,.project-flower:focus-visible .node-label,.project-flower[aria-pressed=true] .node-label{opacity:1}
+@keyframes node-bloom{from{opacity:0;scale:.4}to{opacity:1;scale:1}}
+.case-note{animation:note-in .4s both}
+@keyframes note-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.case-note .note-label{font:9px Georgia,serif;letter-spacing:2px;color:var(--accent)}
+.case-note h2{font-family:'SimSun',serif;font-weight:400;font-size:25px;line-height:1.6;letter-spacing:1px;margin:12px 0 18px}
+.case-note>p{font-size:12px;line-height:2;color:#768172;margin:0 0 20px}
+.note-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}.note-tags span{font-size:9px;padding:3px 8px;border:1px solid #89967a33;border-radius:20px;color:#7e8a74}
+.case-note h3{font-size:10px;letter-spacing:1px;color:#53614e;font-weight:500;margin:20px 0 8px}
+.case-note .note-method{font-size:11px;line-height:1.9;margin-bottom:25px;color:#879180}
+.open-experience{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #a3ad983f;border-bottom:1px solid #a3ad983f;width:100%;padding:13px 0;color:var(--accent);font-size:12px;letter-spacing:1px;text-align:left}
+.open-experience:hover{color:#3a4b32}.note-foot{font-size:9px;color:#a1aa97;line-height:1.8;margin-top:10px}
+body[data-mode=clock] #transition{color-scheme:dark}
+@media(min-width:1600px){.clock-home{grid-template-columns:minmax(0,1fr) 370px;gap:45px}.project-aside{padding-left:45px}.season-heading h1{font-size:31px}}
+@media(max-width:1000px){.clock-home{grid-template-columns:minmax(0,1fr) 280px;gap:15px}.project-aside{padding-left:23px}.tree-bottom>span{min-width:90px;font-size:9px;letter-spacing:0}.tree-bottom{gap:5px}.season-clock{width:130px;height:130px}.clock-spring{left:50px}.clock-autumn,.clock-winter{bottom:16px}.season-heading h1{font-size:23px}.case-note h2{font-size:22px}.tree-stage{min-height:650px}.project-aside{min-height:650px}}
+@media(max-width:700px){body[data-mode=clock] header{height:65px;margin:0 5%}body[data-mode=clock] .brand{font-size:17px}body[data-mode=clock] .brand span{display:none}body[data-mode=clock] nav{gap:12px;font-size:10px}body[data-mode=clock] nav button{font-size:10px;padding-left:12px}.clock-home{display:block;padding:0 5%;min-height:0}.tree-stage{height:calc(100svh - 65px);min-height:580px;max-height:800px}.tree-topline{top:20px;font-size:8px}.botanical-wrap{top:46px;bottom:130px;left:-8%;right:-8%}.tree-art{max-width:100%;width:100%;height:auto;max-height:100%;aspect-ratio:8/7}#botanical-tree{width:100%;height:auto}.tree-bottom{bottom:0;height:145px}.tree-bottom>span{font-size:8px;min-width:85px}.season-clock{width:135px;height:135px;margin:0}.clock-spring{left:52px}.project-aside{border-left:0;border-top:1px solid #56655021;padding:30px 0;min-height:0}.season-heading h1{font-size:27px;margin:8px 0}.season-heading>p{max-width:none}#project-description{padding:25px 0}.empty-state{padding-top:0}.empty-state h2{font-size:21px}.empty-state p{font-size:11px}.empty-flower{display:none}.aside-bottom{margin-top:10px}.case-note h2{font-size:25px}.case-note>p{max-width:500px}.project-flower{width:44px;height:44px;margin:-22px 0 0 -22px}.node-label{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.tree-crown{transition:none}.clock-hand{transition:none}}
+body[data-project]{color-scheme:light;background:#f7f7f2;color:#3b4942;--accent:#a47f8d!important}
+body[data-project] header{border-color:#56655021}
+body[data-project] .brand span,body[data-project] nav,body[data-project] nav button{color:#89917f}
+body[data-project] nav button{border-color:#56655021}
+body[data-project] .stars{display:none}
+body[data-project] .back,body[data-project] .detail-top p,body[data-project] .case-grid p{color:#7a8673}
+body[data-project] .back{border-color:#b3bca6}
+body[data-project] .eyebrow,body[data-project] .preview-section>p,body[data-project] .preview-legend{color:#949d8b}
+body[data-project] .case-grid{border-color:#56655021}
+body[data-project] .tags span,body[data-project] .slide-tabs button,body[data-project] .demo-steps button{border-color:#56655030}
+body[data-project] .slide-tabs button[aria-pressed=true],body[data-project] .demo-steps button[aria-pressed=true]{background:#e7dce0;color:#78616a}
+body[data-project] .demo{background:#eef0e8;border-color:#56655021}
+body[data-project] .demo-title,body[data-project] .demo-output{color:#74816a}
+body[data-project] .demo-output{background:#f8f9f4}
+body[data-project] .preview-image{border:1px solid #56655021}
+@media(max-width:700px){.tree-stage{height:min(650px,calc(100svh - 65px));min-height:560px}.botanical-wrap{top:40px;bottom:125px}}

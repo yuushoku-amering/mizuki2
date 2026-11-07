@@ -83,7 +83,7 @@ const formatExperience = (exp: { years: number; months: number }) => {
 					</span>
 				</div>
 				<p class="text-xs text-black/50 dark:text-white/50">
-					{formatExperience(skill.experience)}
+					{skill.experience && formatExperience(skill.experience)}
 				</p>
 			</div>
 		</div>

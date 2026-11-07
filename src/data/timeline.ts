@@ -12,7 +12,7 @@ export const timelineData: TimelineItem[] = [
 		location: "广东湛江",
 		organization: "广东海洋大学",
 		position: "社会学本科生",
-		skills: ["社会统计学", "SPSS", "SQL", "定量研究", "定性研究"],
+		skills: ["社会统计学", "SPSS", "MySQL", "定量研究", "定性研究"],
 		achievements: [
 			"专业排名前 25%",
 			"计算机二级证书",

@@ -8,7 +8,7 @@ export interface Skill {
 	icon: string; // Iconify icon name
 	category: "frontend" | "backend" | "database" | "tools" | "other";
 	level: "beginner" | "intermediate" | "advanced" | "expert";
-	experience: {
+	experience?: {
 		years: number;
 		months: number;
 	};
@@ -48,10 +48,10 @@ export const skillsData: Skill[] = [
 	},
 	{
 		id: "sql",
-		name: "SQL",
+		name: "MySQL",
 		description:
-			"掌握SQL数据查询与操作，能够完成数据采集、清洗等基础数据处理工作。",
-		icon: "vscode-icons:file-type-sql",
+			"掌握 MySQL 基础查询与数据操作，能够完成数据采集、清洗等基础数据处理工作。",
+		icon: "logos:mysql-icon",
 		category: "database",
 		level: "beginner",
 		experience: { years: 0, months: 6 },
@@ -107,9 +107,8 @@ export const skillsData: Skill[] = [
 	// AI/Agent 工具
 	{
 		id: "ccswitch",
-		name: "CCSwitch",
-		description:
-			"熟练使用CCSwitch等Agent工具进行网站搭建与项目的辅助进行，提升开发与工作效率。",
+		name: "DeepSeek Harness",
+		description: "使用 DeepSeek Harness 参与本地项目讨论、任务协作与资料整理。",
 		icon: "material-symbols:smart-toy",
 		category: "tools",
 		level: "intermediate",
@@ -119,15 +118,33 @@ export const skillsData: Skill[] = [
 	},
 	{
 		id: "cherry-studio",
-		name: "Cherry Studio",
-		description:
-			"熟练使用Cherry Studio等AI辅助工具进行项目协作与内容管理，能够利用Agent能力提升工作产出质量。",
+		name: "Codex",
+		description: "使用 Codex 搭建网站、实现功能并验证改动。",
 		icon: "material-symbols:auto-awesome",
 		category: "tools",
 		level: "intermediate",
 		experience: { years: 0, months: 8 },
 		projects: ["mizuki-website"],
 		color: "#EC4899",
+	},
+
+	{
+		id: "product-design",
+		name: "产品设计",
+		description: "梳理使用场景与需求，设计功能结构和工作流程，并用原型验证方案。",
+		icon: "material-symbols:design-services",
+		category: "other",
+		level: "intermediate",
+		projects: ["vesper-research-workbench", "ai-collaboration-office"],
+	},
+	{
+		id: "interaction-design",
+		name: "交互体验设计",
+		description: "设计页面导航、操作反馈与任务路径，通过可操作的预览检验体验。",
+		icon: "material-symbols:touch-app",
+		category: "other",
+		level: "intermediate",
+		projects: ["mizuki-website", "melodyaiming", "ai-collaboration-office"],
 	},
 
 	// 设计工具
