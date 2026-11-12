@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="澪是一款以 Android 为语音入口、接入电脑端 Codex 的多端助手原型。">
+  <title>澪 · 多端语音助手 | 吕家欣作品集</title>
+  <link rel="stylesheet" href="../font.css">
+  <link rel="stylesheet" href="../case-notebook.css">
+  <link rel="stylesheet" href="../mio-case.css">
+  <script src="../mio-case.js" defer></script>
+</head>
+<body class="case-page" data-season="winter">
+  <main class="notebook">
+    <nav class="notebook-nav" aria-label="案例导航">
+      <a href="../index.html" data-case-return>← 返回作品集</a>
+      <a href="../assets/portfolio.pdf" download>下载作品集 ↓</a>
+    </nav>
+    <header class="notebook-cover">
+      <div class="notebook-cover-copy">
+        <p class="notebook-season">冬 · 雪梅 · 产品交互设计能力</p>
+        <h1>澪 · 多端语音助手</h1>
+        <p class="notebook-summary">手机里喊一声「mio」，就能开口与电脑端的 Codex 聊两句，或确认一条简单指令。</p>
+        <ul class="notebook-tags"><li>语音交互</li><li>Android</li><li>Windows</li></ul>
+        <a class="notebook-jump" href="#experience">查看体验 ↓</a>
+      </div>
+    </header>
+
+    <section class="notebook-section notebook-notes" aria-labelledby="notes-title">
+      <h2 id="notes-title">项目手记</h2>
+      <div class="notebook-entries">
+        <details class="notebook-entry" open>
+          <summary><span class="note-number" aria-hidden="true">01</span><span>手机识别唤醒和口述</span><span class="note-toggle" aria-hidden="true"></span></summary>
+          <div class="note-text"><p>Android 端先判断是否听到「mio」，再识别接下来这句话。把唤醒和口述分开，能分别排查误唤醒与指令听错的问题。</p></div>
+        </details>
+        <details class="notebook-entry">
+          <summary><span class="note-number" aria-hidden="true">02</span><span>电脑接续对话</span><span class="note-toggle" aria-hidden="true"></span></summary>
+          <div class="note-text"><p>手机把识别出的文字发给已配对的电脑端，由电脑端接入 Codex。短时间内可以沿用同一会话，下一句能接着前一句聊。回复返回手机，可按需朗读。</p></div>
+        </details>
+        <details class="notebook-entry">
+          <summary><span class="note-number" aria-hidden="true">03</span><span>涉及操作时先确认</span><span class="note-toggle" aria-hidden="true"></span></summary>
+          <div class="note-text"><p>查时间这类简单请求可以直接返回。打开电脑应用或写入便签时，手机先显示将要执行的动作，用户确认后才执行预设能力，并在手机上看到结果。</p></div>
+        </details>
+        <details class="notebook-entry">
+          <summary><span class="note-number" aria-hidden="true">04</span><span>原型验证</span><span class="note-toggle" aria-hidden="true"></span></summary>
+          <div class="note-text"><p>电脑端已与真实 Codex 联调多轮对话，也验证了查询时间、批准写入测试便签和拒绝打开应用三种路径。0.13 版已构建 Android 安装包。新版手机到电脑的完整流程、锁屏唤醒和异地网络仍待实测。</p></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="notebook-section notebook-preview mio-experience" id="experience" aria-labelledby="experience-title">
+      <div class="experience-copy">
+        <h2 id="experience-title">体验语音流程</h2>
+        <p>选择轻量闲聊或电脑指令，再点按模拟唤醒。此演示使用预设台词，不访问麦克风、不连接 Codex，也不执行电脑操作。</p>
+      </div>
+      <div class="phone-preview" aria-label="澪助手手机交互示意">
+        <div class="phone-heading">
+          <span class="mio-icon" aria-hidden="true">澪</span>
+          <div><strong>澪助手</strong><small>流程演示</small></div>
+        </div>
+        <div class="demo-choices" role="group" aria-label="选择场景">
+          <button type="button" data-scenario="chat" aria-pressed="true">轻量闲聊</button>
+          <button type="button" data-scenario="command" aria-pressed="false">电脑指令</button>
+        </div>
+        <div class="demo-dialogue" aria-live="polite" aria-atomic="true">
+          <p class="demo-status" id="demo-status">等待唤醒</p>
+          <p class="demo-message user" id="demo-user" hidden></p>
+          <p class="demo-message assistant" id="demo-reply" hidden></p>
+        </div>
+        <div class="demo-actions" id="demo-confirmation" hidden>
+          <button type="button" id="demo-allow">确认打开</button>
+          <button type="button" id="demo-decline">取消</button>
+        </div>
+        <button class="primary-action" type="button" id="demo-next">模拟说「mio」</button>
+      </div>
+    </section>
+    <footer class="notebook-footer"><a href="../index.html" data-case-return>← 返回作品集</a></footer>
+  </main>
+</body>
+</html>

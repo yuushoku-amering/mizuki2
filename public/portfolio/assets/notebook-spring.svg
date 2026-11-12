@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 350" fill="none">
+  <defs>
+    <radialGradient id="petal"><stop stop-color="#c16b84"/><stop offset=".62" stop-color="#ecc0cb"/><stop offset="1" stop-color="#ffe9e8"/></radialGradient>
+    <g id="blossom">
+      <g fill="url(#petal)" stroke="#9d566b" stroke-width=".55">
+        <path id="p" d="M0 2C-18-8-23-32-12-36Q-6-39 0-32Q6-39 12-36C23-31 18-8 0 2Z"/>
+        <use href="#p" transform="rotate(72)"/><use href="#p" transform="rotate(144)"/><use href="#p" transform="rotate(216)"/><use href="#p" transform="rotate(288)"/>
+      </g>
+      <path d="M0 0l-2-13m2 13 9-9M0 0l12 4M0 0l-2 12M0 0l-11 1" stroke="#a95a72" stroke-width="1"/>
+      <circle r="3" fill="#e2b16d"/>
+    </g>
+  </defs>
+  <g stroke-linecap="round" stroke="#75535b">
+    <path d="M455 48Q362 50 313 101T186 191Q137 217 114 257" stroke-width="8"/>
+    <path d="M375 63Q332 64 292 50T206 52M310 105Q297 145 297 191L285 218M245 158Q189 151 148 129L116 118M189 190Q159 192 125 183L83 194" stroke-width="3.3"/>
+    <path d="M355 70Q333 98 337 120M268 47L251 26M175 144l-12-34M145 217l14 32M114 184l-9-22" stroke-width="1.5"/>
+  </g>
+  <g fill="#af6a7a"><ellipse cx="248" cy="24" rx="6" ry="11" transform="rotate(-40 248 24)"/><ellipse cx="163" cy="107" rx="7" ry="11" transform="rotate(-22 163 107)"/><ellipse cx="106" cy="159" rx="6" ry="9"/></g>
+  <use href="#blossom" transform="translate(213 59) rotate(10) scale(.91)"/>
+  <use href="#blossom" transform="translate(286 111) rotate(26) scale(1.1)"/>
+  <use href="#blossom" transform="translate(115 119) rotate(-16) scale(.79)"/>
+  <use href="#blossom" transform="translate(193 171) rotate(28) scale(1.2)"/>
+  <use href="#blossom" transform="translate(298 195) rotate(6) scale(.72)"/>
+  <use href="#blossom" transform="translate(113 241) rotate(-13) scale(.69)"/>
+  <g fill="#dca1b2" opacity=".75"><path d="M233 234q11 2 16 18-17 0-16-18Z"/><path d="M200 294q16 4 22 12-16 8-22-12Z"/><path d="M315 272q14-7 21-2-3 15-21 2Z"/><path d="M68 248q-3 12-13 16-5-14 13-16Z"/></g>
+</svg>

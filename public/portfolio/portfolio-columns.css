@@ -1,0 +1,157 @@
+body.portfolio-page {
+  background: radial-gradient(ellipse at 76% 19%, #2e4653, transparent 53rem), #101b23;
+  color: #eef2ee;
+}
+.portfolio-page > header, .portfolio-page #journey {
+  width: min(calc(100% - 3rem), 78rem);
+  margin-inline: auto;
+}
+.portfolio-page > header {
+  height: auto;
+  min-height: 72px;
+  padding-block: 14px;
+  flex-wrap: wrap;
+  gap: .65rem 1.4rem;
+  border-color: #91b3bd55;
+}
+.portfolio-page > header nav { gap: 1rem; font-size: .94rem; }
+.portfolio-page #journey { height: auto; padding: clamp(2.15rem, 4.4vw, 4.5rem) 0 4rem; }
+.portfolio-page #stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, .91fr) minmax(0, 1.09fr);
+  align-items: start;
+  gap: clamp(2rem, 6vw, 5.8rem);
+  height: auto;
+  overflow: visible;
+  background: transparent;
+}
+.portfolio-page #stage::after { display: none; }
+.portfolio-page #catalogue { padding-top: clamp(.8rem, 3.2vw, 2.8rem); }
+.portfolio-page #catalogue h1 {
+  margin: 0 0 .68rem;
+  font: 400 clamp(2.3rem, 4.15vw, 4.4rem)/1.25 "LXGW WenKai", "Microsoft YaHei", sans-serif;
+  letter-spacing: -.025em;
+}
+.portfolio-page #catalogue a { color: #d3e9eb; text-underline-offset: .25em; }
+.portfolio-page #catalogue a:hover { color: #ffebda; text-decoration: underline; }
+.portfolio-page #catalogue nav { font-size: .94rem; }
+.portfolio-page #catalogue nav a { text-decoration: underline; }
+.portfolio-page .capabilities { margin-top: clamp(1.55rem, 4vw, 3rem); }
+.portfolio-page .capability {
+  --accent: #e9bbcc;
+  border: 0;
+  border-top: 1px solid #8babb346;
+  padding: 0;
+}
+.portfolio-page .capability:last-child { border-bottom: 1px solid #8babb346; }
+.portfolio-page .capability[data-season="autumn"] { --accent: #e9cf97; }
+.portfolio-page .capability[data-season="winter"] { --accent: #b8d6ea; }
+.portfolio-page .capability summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: .7rem;
+  align-items: center;
+  padding: .83rem .18rem .83rem .84rem;
+  list-style: none;
+  cursor: pointer;
+  box-shadow: inset 2px 0 transparent;
+}
+.portfolio-page .capability[open] summary { box-shadow: inset 2px 0 var(--accent); }
+.portfolio-page .capability summary::-webkit-details-marker { display: none; }
+.portfolio-page .capability summary:hover { background: #aacbd008; }
+.portfolio-page .capability summary::after {
+  content: "";
+  width: .42rem;
+  height: .42rem;
+  border: solid var(--accent);
+  border-width: 0 1px 1px 0;
+  margin: -.23rem .25rem 0 .15rem;
+  transform: rotate(45deg);
+}
+.portfolio-page .capability[open] summary::after { transform: rotate(225deg); margin-top: .22rem; }
+.portfolio-page .capability h2 { margin: 0; color: var(--accent); font-size: 1.22rem; font-weight: 400; }
+.portfolio-page .project-count { color: #b8cbd1; font-size: .82rem; white-space: nowrap; }
+.portfolio-page .capability-content { padding: .1rem .9rem 1.25rem; }
+.portfolio-page .capability-content > p { margin: .05rem 0 .6rem; color: #d7e3e5; font-size: .94rem; }
+.portfolio-page .capability-content ul { list-style: none; margin: 0; padding: 0; }
+.portfolio-page .capability-content li { padding-block: .36rem; }
+.portfolio-page .capability-content li p { margin: .08rem 0 0; color: #b5c7cc; font-size: .86rem; }
+.portfolio-page .capability[open] .capability-content { animation: capability-unfold .25s ease-out both; }
+@keyframes capability-unfold { from { opacity: 0; translate: 0 -.24rem; } to { opacity: 1; translate: 0 0; } }
+
+.portfolio-page .season-panel { min-width: 0; }
+.portfolio-page .season-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  min-height: 2rem;
+  border-bottom: 1px solid #91b3bd43;
+}
+.portfolio-page .season-panel-head h2 { margin: 0; color: #eef2e9; font-size: 1.03rem; font-weight: 400; }
+.portfolio-page .season-panel-head button { padding: 4px 0 4px 10px; color: #bdccce; font-size: .85rem; }
+.portfolio-page .season-visual {
+  position: relative;
+  aspect-ratio: 8 / 7;
+  min-height: 0;
+  isolation: isolate;
+}
+.portfolio-page .portrait-view {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  background: radial-gradient(ellipse at 54% 44%, #9fc7d62b, transparent 68%);
+}
+.portfolio-page .portrait-view img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  padding: .7rem .45rem .38rem;
+  filter: drop-shadow(0 12px 32px #06131f6b);
+}
+.portfolio-page .canopy-view {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  place-items: center;
+}
+.portfolio-page[data-chapter="0"] .canopy-view,
+.portfolio-page:not([data-chapter="0"]) .portrait-view { display: none; }
+.portfolio-page .tree-camera { width: 100%; }
+.portfolio-page .orbit { width: 94%; top: auto; }
+.portfolio-page .orbit-inner { width: 84%; }
+.portfolio-page .branch-project-label { max-width: min(12vw, 10rem); }
+.portfolio-page .branch-project:nth-child(3) .branch-project-label {
+  position: absolute;
+  right: 36px;
+  transform-origin: right center;
+  text-align: right;
+}
+.portfolio-page .season-navigation {
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .3rem clamp(.8rem, 2vw, 1.6rem);
+  border-top: 1px solid #91b3bd43;
+}
+.portfolio-page .season-navigation a { border-bottom: 1px solid transparent; }
+.portfolio-page .season-navigation a[aria-current] { color: var(--season); border-color: var(--season); }
+.portfolio-page .project-note { margin: .65rem 0 0; }
+@media (max-width: 790px) {
+  .portfolio-page #stage { grid-template-columns: minmax(0, 1fr); }
+  .portfolio-page .season-panel { width: min(100%, 36rem); margin-inline: auto; }
+  .portfolio-page .branch-project-label { max-width: 28vw; }
+}
+@media (max-width: 480px) {
+  .portfolio-page > header, .portfolio-page #journey { width: calc(100% - 2rem); }
+  .portfolio-page #catalogue { padding-top: 0; }
+  .portfolio-page .capability h2 { font-size: 1.08rem; }
+  .portfolio-page .season-visual { aspect-ratio: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-page .capability[open] .capability-content { animation: none; }
+}
+.portfolio-page.reduced .capability[open] .capability-content { animation: none; }

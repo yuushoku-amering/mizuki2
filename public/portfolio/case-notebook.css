@@ -1,0 +1,148 @@
+.case-page {
+  --page: #f1e7e5;
+  --paper: #fff8f5;
+  --paper-tint: #f4e3e6;
+  --ink: #36292f;
+  --muted: #66535a;
+  --accent: #91485f;
+  --line: #dfc7cb;
+  --branch-art: url("assets/notebook-spring.svg");
+  margin: 0;
+  color-scheme: light;
+  background: var(--page);
+  color: var(--ink);
+  font: 16px/1.75 "LXGW WenKai", "Microsoft YaHei", sans-serif;
+}
+.case-page[data-season="autumn"] {
+  --page: #f0e8d6;
+  --paper: #fffbef;
+  --paper-tint: #f4e8cc;
+  --ink: #392d20;
+  --muted: #665641;
+  --accent: #785324;
+  --line: #e0d0ae;
+  --branch-art: url("assets/notebook-autumn.svg");
+}
+.case-page[data-season="winter"] {
+  --page: #e9edf0;
+  --paper: #f9f9f8;
+  --paper-tint: #e5ebef;
+  --ink: #29343e;
+  --muted: #50606c;
+  --accent: #76495c;
+  --line: #cdd6dd;
+  --branch-art: url("assets/notebook-winter.svg");
+}
+.case-page *, .case-page *::before, .case-page *::after { box-sizing: border-box; }
+.case-page [hidden] { display: none !important; }
+.case-page a { color: var(--accent); text-underline-offset: .25em; }
+.case-page button { font: inherit; color: inherit; cursor: pointer; }
+.case-page :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.notebook { width: min(1080px, 100% - 64px); margin: 0 auto; padding: 0 0 62px; }
+.notebook-nav, .notebook-footer { display: flex; justify-content: space-between; flex-wrap: wrap; column-gap: 22px; }
+.notebook-nav { min-height: 66px; align-items: center; padding: 13px 0; }
+.notebook-nav a, .notebook-footer a { font-size: .9rem; }
+.notebook-cover {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 325px;
+  display: grid;
+  align-items: center;
+  padding: clamp(24px, 5.7vw, 66px);
+  border: 1px solid var(--line);
+  border-radius: 7px 24px 7px 7px;
+  background: linear-gradient(109deg, var(--paper) 28%, var(--paper-tint));
+}
+.notebook-cover::before {
+  position: absolute;
+  z-index: -1;
+  inset: 5px 0 5px auto;
+  width: min(44%, 470px);
+  background: var(--branch-art) right center / contain no-repeat;
+  content: "";
+}
+.notebook-cover::after {
+  position: absolute;
+  inset: 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  border-radius: 2px 16px 2px 2px;
+  pointer-events: none;
+  content: "";
+}
+.notebook-cover-copy { width: 65%; }
+.notebook-season { display: flex; align-items: center; gap: 10px; color: var(--accent); font-size: .9rem; }
+.notebook-season::before { width: 20px; height: 1px; background: currentColor; content: ""; }
+.notebook h1, .notebook h2, .notebook h3 { margin: 0; line-height: 1.28; font-weight: 500; }
+.notebook h1 { margin-top: 11px; font-size: clamp(2rem, 4.6vw, 3.7rem); }
+.notebook h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); }
+.notebook h3 { font-size: 1.05rem; }
+.notebook p { margin: 0; }
+.notebook-cover .notebook-summary { max-width: 34em; margin-top: 14px; color: var(--muted); font-size: 1.05rem; }
+.notebook-tags { display: flex; flex-wrap: wrap; gap: 6px 8px; padding: 0; margin: 17px 0 0; list-style: none; }
+.notebook-tags li { border: 1px solid var(--line); border-radius: 3px; padding: 2px 9px; color: var(--accent); font-size: .8rem; }
+.notebook-cover .notebook-jump { display: inline-block; margin-top: 17px; font-size: .9rem; }
+.notebook-section {
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--paper);
+  padding: clamp(18px, 4vw, 40px);
+}
+.notebook-notes { padding-left: clamp(32px, 7vw, 76px); position: relative; }
+.notebook-notes::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: clamp(20px, 4vw, 44px);
+  border-right: 1px solid var(--line);
+  border-radius: 6px 0 0 6px;
+  background: radial-gradient(circle, var(--page) 0 3px, var(--line) 3.5px 4.5px, transparent 5px) center 14px / 19px 34px repeat-y, var(--paper-tint);
+  content: "";
+}
+.notebook-entries { margin-top: 17px; border-top: 1px solid var(--line); }
+.notebook-entry { border-bottom: 1px solid var(--line); }
+.notebook-entry summary {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 2.15em 1fr 1em;
+  align-items: center;
+  gap: 8px;
+  min-height: 54px;
+  cursor: pointer;
+  font-size: 1.06rem;
+}
+.notebook-entry summary::-webkit-details-marker { display: none; }
+.notebook-entry summary:hover, .notebook-entry[open] summary { color: var(--accent); }
+.note-number { font-variant-numeric: tabular-nums; font-size: .83rem; color: var(--accent); }
+.note-toggle { width: .65em; height: .65em; border: solid currentColor; border-width: 0 1px 1px 0; transform: rotate(45deg); }
+.notebook-entry[open] .note-toggle { transform: rotate(225deg); }
+.note-text { padding: 0 26px 17px calc(2.15em + 8px); color: var(--muted); }
+.note-text > * { max-width: 50em; }
+.note-text p + p { margin-top: .75em; }
+.notebook-preview { scroll-margin-top: 16px; }
+.notebook-preview h2 + p { margin-top: 9px; color: var(--muted); }
+.notebook-preview .slide-tabs, .notebook-preview .demo-steps { display: flex; flex-wrap: wrap; gap: 8px; }
+.notebook-preview .slide-tabs { margin: 18px 0 13px; }
+.notebook-preview button {
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 5px 11px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.notebook-preview button[aria-pressed="true"], .notebook-preview button:hover { background: var(--paper-tint); color: var(--accent); border-color: var(--accent); }
+.notebook-preview .preview-image { width: 100%; display: block; border: 1px solid var(--line); border-radius: 5px; }
+.notebook-preview .preview-legend { color: var(--muted); margin-top: 8px; font-size: .86rem; }
+.notebook-preview .demo { margin: 15px 0; padding: 15px; border: 1px solid var(--line); border-radius: 5px; background: var(--paper-tint); }
+.notebook-preview .demo-steps, .notebook-preview .demo-output { margin-top: 10px; }
+.notebook-preview .experience-live { margin: 16px 0 0; border-color: var(--line); background: var(--paper); }
+.notebook-preview .experience-bar, .notebook-preview .experience-note { color: var(--muted); border-color: var(--line); }
+.notebook-footer { margin-top: 22px; row-gap: 8px; }
+@media (max-width: 680px) {
+  .notebook { width: calc(100% - 32px); }
+  .notebook-nav { min-height: 55px; }
+  .notebook-cover { min-height: 0; padding-top: clamp(91px, 24vw, 152px); }
+  .notebook-cover::before { inset: -16px -6px auto auto; height: clamp(122px, 31vw, 210px); width: 67%; }
+  .notebook-cover-copy { width: 100%; }
+  .note-text { padding-left: 0; padding-right: 6px; }
+}

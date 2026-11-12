@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 350" fill="none">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#f6d88f"/><stop offset="1" stop-color="#b17538"/></linearGradient>
+    <g id="fan">
+      <path d="M0 8Q2-11-19-18Q-43-27-53-44Q-61-54-49-59Q-54-70-39-70Q-40-81-24-79Q-19-90-4-81L1-72Q6-84 14-83Q26-88 30-76Q44-79 48-66Q62-66 55-53Q56-38 33-27Q5-14 0 8Z" fill="url(#gold)" stroke="#9e692e" stroke-width="1"/>
+      <path d="M0 4Q-4-19-45-50M0 4Q-7-24-37-68M0 4Q-2-22-19-75M0 4Q5-24 0-69M0 4Q9-23 18-75M0 4Q13-22 37-67M0 4Q19-21 48-54" stroke="#9e672e" stroke-opacity=".65" stroke-width=".8"/>
+    </g>
+  </defs>
+  <g stroke="#795c3d" stroke-linecap="round">
+    <path d="M465 265Q383 251 339 215T206 155Q144 131 117 73" stroke-width="7"/>
+    <path d="M356 228Q303 234 267 247L238 256M295 185Q297 138 319 101M224 161Q209 118 218 85M167 139Q126 152 91 127M337 214l30-53M139 107L104 86" stroke-width="2.8"/>
+  </g>
+  <use href="#fan" transform="translate(109 79) rotate(-37) scale(.78)"/>
+  <use href="#fan" transform="translate(218 94) rotate(4) scale(.87)"/>
+  <use href="#fan" transform="translate(102 133) rotate(-64) scale(.6)"/>
+  <use href="#fan" transform="translate(315 111) rotate(26) scale(.99)"/>
+  <use href="#fan" transform="translate(365 169) rotate(43) scale(.67)"/>
+  <use href="#fan" transform="translate(247 255) rotate(-117) scale(.9)"/>
+  <use href="#fan" transform="translate(154 268) rotate(-126) scale(.42)" opacity=".75"/>
+  <use href="#fan" transform="translate(58 208) rotate(-104) scale(.28)" opacity=".55"/>
+</svg>
