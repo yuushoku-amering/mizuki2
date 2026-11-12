@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="穿过一场雨，近看一滴雨的折射。沿途可进入 Mizuki 的文章、项目、作品集与关于我。">
+  <title>一场雨 · Mizuki</title>
+  <style>
+    @font-face { font-family: WenKai; src: local("LXGW WenKai"), local("LXGW WenKai Regular"), url("/portfolio/assets/fonts/LXGWWenKai-Regular.ttf") format("truetype"); font-display: swap; }
+    :root { color-scheme: dark; --ink: #f2f2e8; --quiet: #c1cfce; --edge: #c3dbd155; --night: #0d171d; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--night); color: var(--ink); font: 16px/1.65 WenKai, "Microsoft YaHei", sans-serif; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    a:focus-visible, button:focus-visible { outline: 2px solid #c7e6e2; outline-offset: 5px; }
+    [hidden] { display: none !important; }
+    .journey { height: calc(575svh + var(--sunbreak-span, 0svh)); }
+    .stage { position: sticky; top: 0; height: 100svh; min-height: 320px; overflow: hidden; isolation: isolate; touch-action: pan-y pinch-zoom; background: radial-gradient(ellipse at 66% 54%, #5d7580, #101724 80%); }
+    .stage canvas, .stage::before { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .stage::before { content: ""; z-index: 1; pointer-events: none; background: linear-gradient(90deg,#0c131dce 0%,#0c131d70 35%,transparent 69%),linear-gradient(0deg,#0a1018cb 0%,transparent 32%,transparent 80%,#0b141a73); }
+    .sr-only { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+    .mast, .story, .travel { position: absolute; z-index: 3; }
+    .story[hidden] { display: block !important; visibility: hidden; pointer-events: none; }
+    .mast, .travel { left: clamp(18px,5vw,84px); right: clamp(18px,5vw,84px); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .mast { top: clamp(14px,4.2svh,48px); }
+    .brand { display: inline-flex; align-items: center; gap: 9px; font-size: .94rem; }
+    .brand-mark { border: 1px solid #d6e7dc80; border-radius: 50%; width: 32px; height: 32px; display: inline-grid; place-items: center; }
+    .tools { display: flex; align-items: center; gap: clamp(12px,3.5vw,32px); }
+    .tools button, .tools a { background: transparent; border: none; padding: 5px 0; font-size: .8rem; color: var(--quiet); white-space: nowrap; }
+    .tools button:hover, .tools a:hover { color: var(--ink); }
+    .story { --current: #badce5; left: clamp(20px,9vw,145px); top: 49%; transform: translateY(-42%); width: min(34vw,375px); text-shadow: 0 2px 15px #0a1420; }
+    .story[data-chapter="1"] { --current: #c4ddf2; }
+    .story[data-chapter="2"] { --current: #e7dbb7; }
+    .story[data-chapter="3"] { --current: #bce3d9; }
+    .passage { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 5px 18px; padding: 15px 0; border-block: 1px solid var(--edge); }
+    .passage h2 { grid-column: 1; margin: 0; font-weight: 400; font-size: clamp(2.1rem,4.7vw,4.6rem); line-height: 1.12; letter-spacing: .04em; }
+    .passage p { grid-column: 1; margin: 0; color: #e2e7de; font-size: clamp(.88rem,1.26vw,1.12rem); }
+    .passage-arrow { grid-area: 1 / 2 / 3; width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid var(--edge); border-radius: 50%; color: var(--current); font: 1.32rem/1 system-ui,sans-serif; transition: transform .22s, background .22s, border-color .22s; }
+    .passage:is(:hover,:focus-visible) .passage-arrow { transform: translateX(4px); background: #b9dfdf24; border-color: var(--current); }
+    @media (prefers-reduced-motion: reduce) {
+      .passage-arrow { transition: none; }
+      .passage:is(:hover,:focus-visible) .passage-arrow { transform: none; }
+    }
+    .column-nav { position:absolute; z-index:4; right:clamp(18px,4vw,65px); top:50%; transform:translateY(-50%); display:grid; gap:.1rem; text-align:right; border-right:1px solid #e3eeee69; }
+    .column-nav a { display:block; padding:.36rem .72rem; border-right:2px solid transparent; margin-right:-1px; color:#edf4ef; text-shadow:0 1px 4px #091722,0 0 10px #091722; font-size:.88rem; }
+    .column-nav a:is(:hover,[aria-current]) { border-color:#e8ddbb; color:#fff4d5; }
+    .story[data-chapter="2"] .passage h2 { transform:scale(var(--copy-scale,1)); transform-origin:left bottom; }
+    .story[data-chapter="2"] .passage p { opacity:var(--copy-quiet,1); }
+    .story[data-chapter="2"] .passage-arrow { opacity:max(.55,var(--copy-quiet,1)); }
+    .drag-zone { position:absolute; z-index:2; left:var(--drag-left,53%); top:var(--drag-top,25%); width:var(--drag-width,28%); height:var(--drag-height,45%); cursor:grab; touch-action:pan-y pinch-zoom; }
+    .drag-zone[data-dragging] { cursor:grabbing; }
+    @media (max-width:740px) { .column-nav { top:4.5rem; right:18px; transform:none; grid-auto-flow:column; gap:.22rem; border-right:0; border-bottom:1px solid #e3eeee69; } .column-nav a { font-size:.78rem; padding:.50rem .46rem; border-right:0; border-bottom:2px solid transparent; margin:0 0 -1px; } }
+    @media (prefers-reduced-motion:reduce) { .journey { height:100svh; } }
+    .rain-loader progress:indeterminate { appearance:auto; accent-color:#c4e9ed; }
+    .rain-skip { display:inline-block; margin-top:.55rem; padding:.25rem .7rem; border:1px solid var(--edge); border-radius:4px; font-size:.8rem; }
+    .travel { bottom: clamp(12px,3.8svh,40px); }
+    .travel nav { display: flex; align-items: center; gap: clamp(10px,2.4vw,32px); }
+    .travel nav a { color: #c0d0d1; padding: 4px 1px; font-size: .81rem; white-space: nowrap; }
+    .travel nav a[aria-current] { color: #f5f5eb; border-bottom: 1px solid #e6dfb8; }
+    .travel progress { appearance: none; width: clamp(55px,12vw,166px); height: 2px; border: 0; background: #c3dbd14a; }
+    .travel progress::-webkit-progress-bar { background: #c3dbd14a; }
+    .travel progress::-webkit-progress-value { background: #d9ebdf; }
+    .travel progress::-moz-progress-bar { background: #d9ebdf; }
+    .rain-exit { position: fixed; inset: 0; z-index: 20; overflow: hidden; outline: none; touch-action: none; }
+    .rain-exit canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .rain-loader { position: absolute; top: 64%; left: 50%; width: min(62vw,450px); transform: translateX(-50%); text-align: center; }
+    .rain-loader progress { display: block; width: 100%; height: 2px; appearance: none; border: none; background: #a8cfd249; }
+    .rain-loader progress::-webkit-progress-bar { background: #a8cfd249; }
+    .rain-loader progress::-webkit-progress-value { background: #c4e9ed; }
+    .rain-loader progress::-moz-progress-bar { background: #c4e9ed; }
+    .rain-loader p { margin: 13px 0 0; font-size: .84rem; letter-spacing: .16em; color: #d8eff1; text-shadow: 0 2px 6px #0b1924; }
+    @media (max-width: 740px) {
+      .stage::before { background: linear-gradient(0deg,#0a1018ed, #0a101851 33%,transparent 64%,#0a1018a0); }
+      .story { top: auto; bottom: max(65px,10svh); left: 20px; transform: none; width: min(calc(100% - 40px),375px); }
+      .story[data-chapter="3"] { top: 22%; bottom: auto; }
+      .passage { padding-block: 10px; }
+      .passage h2 { font-size: clamp(1.85rem,8.3vw,3.3rem); }
+      .passage-arrow { width: 42px; height: 42px; }
+      .travel nav { gap: clamp(9px,3.6vw,23px); }
+      .travel nav a { font-size: .77rem; }
+      .travel progress { width: min(18vw,90px); }
+    }
+    @media (max-height: 520px) and (min-width: 741px) {
+      .story { top: 40%; }
+      .passage h2 { font-size: clamp(2rem,5vw,4rem); }
+    }
+    @media (max-width: 380px) { .mast, .tools { gap: 8px; } .tools button, .tools a { font-size: .74rem; } }
+  </style>
+  <link rel="stylesheet" href="/rain/sunbreak.css">
+</head>
+<body>
+  <main id="rain-page">
+    <h1 class="sr-only">一场雨 · Mizuki</h1>
+    <section class="journey" aria-label="从雨幕到一滴雨">
+      <div class="stage">
+        <canvas aria-hidden="true"></canvas>
+        <div class="mast">
+          <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">雨</span> Mizuki</a>
+          <div class="tools"><button type="button" id="ambient" aria-pressed="false" aria-label="暂停环境动效">暂停环境</button><button type="button" id="sound" aria-pressed="false">开启铃声</button><a href="#home">直接浏览 ↓</a></div>
+        </div>
+        <nav class="column-nav" aria-label="直接浏览博客栏目">
+          <a href="/archive/" data-rain-exit="文章">文章</a>
+          <a href="/projects/" data-rain-exit="项目">项目</a>
+          <a href="/portfolio/" data-rain-exit="作品集">作品集</a>
+          <a href="/about/" data-rain-exit="关于我">关于我</a>
+        </nav>
+        <div class="drag-zone" aria-hidden="true" hidden></div>
+        <div class="story" data-chapter="0">
+          <a class="passage" href="/archive/" data-rain-exit="文章">
+            <h2>文章</h2>
+            <p>社会学、阅读与写作</p>
+            <span class="passage-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="story" data-chapter="1" hidden>
+          <a class="passage" href="/projects/" data-rain-exit="项目">
+            <h2>项目</h2>
+            <p>研究、数据分析与交互实验</p>
+            <span class="passage-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="story" data-chapter="2" hidden>
+          <a class="passage" href="/portfolio/" data-rain-exit="作品集">
+            <h2>作品集</h2>
+            <p>代表案例与交互体验</p>
+            <span class="passage-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="story" data-chapter="3" hidden>
+          <a class="passage" href="/about/" data-rain-exit="关于我">
+            <h2>关于我</h2>
+            <p>个人简介、技能与联系方式</p>
+            <span class="passage-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="sunwash" aria-hidden="true"></div>
+        <div class="travel">
+          <nav aria-label="下落章节">
+            <a href="#cloud" data-seek="0" aria-current="step">雨幕</a>
+            <a href="#fall" data-seek=".29">微观</a>
+            <a href="#chime" data-seek=".675">风铃</a>
+            <a href="#ripple" data-seek=".96">倒影</a>
+          </nav>
+          <progress max="1" value="0" aria-label="下落进度"></progress>
+        </div>
+      </div>
+    </section>
+    <section class="sun-home" id="home" aria-labelledby="home-title" tabindex="-1">
+      <div class="sun-intro">
+        <h2 id="home-title">雨后初晴</h2>
+        <p>这里是吕家欣（優色雨铃）的个人博客，收录社会学课程文章、用户研究与数据分析项目，也记录音乐、游戏和日常照片。</p>
+      </div>
+      <nav class="sun-map" aria-label="博客栏目">
+        <svg class="sun-links" viewBox="0 0 760 360" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M380 180C309 168 239 99 141 83M380 180C464 161 512 96 617 83M380 180C307 202 234 273 145 288M380 180C461 200 529 266 620 280" />
+        </svg>
+        <span class="sun-orb sun-core" aria-hidden="true"><span>Mizuki</span></span>
+        <a class="sun-orb sun-articles" href="/archive/"><strong>文章</strong><span>社会学、阅读与写作</span></a>
+        <a class="sun-orb sun-projects" href="/projects/"><strong>项目</strong><span>研究与交互实验</span></a>
+        <a class="sun-orb sun-portfolio" href="/portfolio/"><strong>作品集</strong><span>案例与交互体验</span></a>
+        <a class="sun-orb sun-about" href="/about/"><strong>关于我</strong><span>个人介绍</span></a>
+      </nav>
+    </section>
+  </main>
+  <aside class="rain-exit" id="rain-exit" hidden tabindex="-1" aria-label="页面转场">
+    <canvas aria-hidden="true"></canvas>
+    <div class="rain-loader">
+      <progress aria-label="页面加载中"></progress>
+      <p role="status"></p>
+      <a class="rain-skip" href="/">直接打开</a>
+    </div>
+  </aside>
+  <script src="/rain/water-particles.js"></script>
+  <script src="/rain/rain-space.js"></script>
+  <script src="/rain/liquid-surface.js"></script>
+  <script src="/rain/water-meshes.js"></script>
+  <script src="/rain/water-points.js"></script>
+  <script src="/rain/water-views.js"></script>
+  <script src="/rain/canvas-warp.js"></script>
+  <script src="/rain/cloud-scene.js"></script>
+  <script src="/rain/cloud-wind.js"></script>
+  <script src="/rain/drop-lens.js"></script>
+  <script src="/rain/rain-departure.js"></script>
+  <script src="/rain/sunbreak.js"></script>
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const stage = document.querySelector('.stage');
+    const journey = document.querySelector('.journey');
+    const progress = document.querySelector('progress');
+    const panels = [...document.querySelectorAll('.story')];
+    const columnLinks = [...document.querySelectorAll('.column-nav a')];
+    const tabs = [...document.querySelectorAll('.travel [data-seek]')];
+    const sound = document.querySelector('#sound');
+    const ambient = document.querySelector('#ambient');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const { createPointerField, openingCamera, projectOpeningRain, projectRain } = window.RainSpace;
+    const field = createPointerField();
+    const dropSurface = window.createLiquidSurface();
+    const bellSurface = window.createLiquidSurface();
+    const look = { yaw: 0, pitch: 0, targetYaw: 0, targetPitch: 0 };
+    const clamp = x => Math.max(0, Math.min(1, x));
+    const mix = (a, b, t) => a + (b - a) * t;
+    const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+    const color = (a, b, t) => `rgb(${a.map((n, i) => Math.round(mix(n, b[i], t))).join(' ')})`;
+    const tau = 2 * Math.PI;
+
+    function seeded(seed) {
+      return () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+    }
+
+    const random = seeded(1093);
+    const makeOffsets = () => ({ offsetX: 0, offsetY: 0, vx: 0, vy: 0 });
+    const rain = Array.from({ length: 492 }, (_, index) => ({
+      x: random(), y: random(), depth: index < 32 ? .72 + random() * .44 : 1.16 + random() * 2.0,
+      speed: random(), light: random(), angle: random() * tau, ...makeOffsets(),
+    }));
+    const impactAt = .862;
+    const chimeAt = .677;
+    const particleSamples = window.rainParticles;
+    const bellTipRatio = particleSamples?.bellTip ?? .931;
+    const bellPivot = particleSamples?.bellPivot ?? .31;
+    const trajectories = Array.from({ length: particleSamples?.drop.length ?? 0 }, () => ({
+      angle: random() * tau, distance: random() ** .65, curl: random(), delay: random() * .20,
+      size: .39 + random() ** 2.2 * 1.32, glint: random(), ...makeOffsets(),
+    }));
+    function makeSpray(samples) {
+      return (samples ?? []).filter((_, index) => index % 8 === 0).map(([x, y, r, g, b, depth], index) => ({
+        index: index * 8, u: x / 255, v: y / 255, color: `rgb(${r},${g},${b})`,
+        radius: .55 + random() * 1.10, angle: random() * tau, depth, ...makeOffsets(),
+      }));
+    }
+    const dropSpray = makeSpray(particleSamples?.drop);
+    const bellSpray = makeSpray(particleSamples?.bell);
+    const waterTouches = [];
+    let width = 0, height = 0, pixelRatio = 1, frame = 0, chapter = -1, lastProgress = 0;
+    let ambientPaused = false, ambientTime = 0, clockAt = null, paintedAt = -Infinity, paintedProgress = null, dirty = true;
+    let simulatedAt = 0, cameraProgress = null, frameAt = null;
+
+    function loadPlate(path) {
+      const image = new Image();
+      image.addEventListener('load', requestFrame);
+      image.src = '/rain/' + path;
+      return image;
+    }
+
+    const cloudPlate = loadPlate('cloud.webp');
+    const cloudDescent = Array.from({ length: 27 }, (_, index) =>
+      loadPlate(`cloud-sea/${String(1 + 4 * index).padStart(3, '0')}.webp`));
+    const waterPlate = loadPlate('pool.webp');
+    const dropPlate = loadPlate('drop-water.webp');
+    const bellPlate = loadPlate('bell-water.webp');
+    const dropViews = window.createWaterViews('drop', dropPlate, 540, 500, requestFrame);
+    const bellViews = window.createWaterViews('bell', bellPlate, 476, 702, requestFrame);
+
+    const cloudWisps = loadPlate('cloud-wisp.webp');
+    const sheen = document.createElement('canvas');
+    sheen.width = 540;
+    sheen.height = 500;
+    const sheenContext = sheen.getContext('2d');
+
+    function createMist() {
+      const tile = document.createElement('canvas');
+      tile.width = 480;
+      tile.height = 140;
+      const brush = tile.getContext('2d');
+      if (!brush) return tile;
+      const plumes = [
+        [74, 87, 65, 27, .15], [153, 74, 94, 35, .16], [236, 68, 108, 41, .21],
+        [291, 66, 79, 39, .20], [370, 83, 104, 28, .14],
+      ];
+      for (const [x, y, w, h, alpha] of plumes) {
+        brush.save();
+        brush.translate(x, y);
+        brush.scale(w, h);
+        const mist = brush.createRadialGradient(0, 0, .06, 0, 0, 1);
+        mist.addColorStop(0, `rgba(185,203,204,${alpha})`);
+        mist.addColorStop(.44, `rgba(159,182,192,${alpha * .62})`);
+        mist.addColorStop(1, 'rgba(131,160,175,0)');
+        brush.fillStyle = mist;
+        brush.fillRect(-1, -1, 2, 2);
+        brush.restore();
+      }
+      return tile;
+    }
+    const cloudScene = window.CloudSpace.createCloudScene(cloudWisps, createMist());
+    const cloudWind = window.createCloudWind();
+    const waterLens = window.createWaterLens();
+
+    function paintPlate(plate, opacity, zoom, focalX, focalY, {
+      driftX = 0, driftY = 0, disturbance = 0, phase = 0,
+      target = ctx, viewportWidth = width, viewportHeight = height, cameraRatio = width < 741 ? .53 : .67,
+    } = {}) {
+      if (opacity <= 0 || !plate.naturalWidth) return;
+      const width = viewportWidth, height = viewportHeight, ctx = target;
+      const scale = Math.max(width / plate.naturalWidth, height / plate.naturalHeight) * zoom;
+      const dw = plate.naturalWidth * scale;
+      const dh = plate.naturalHeight * scale;
+      const cameraX = width * cameraRatio;
+      const dx = Math.min(0, Math.max(width - dw, cameraX - dw * focalX + driftX));
+      const dy = Math.min(0, Math.max(height - dh, (height - dh) * focalY + driftY));
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      if (!disturbance) {
+        ctx.drawImage(plate, dx, dy, dw, dh);
+      } else {
+        const waterY = height * .50;
+        const split = (waterY - dy) / scale;
+        ctx.drawImage(plate, 0, 0, plate.naturalWidth, split, dx, dy, dw, waterY - dy);
+        const strip = 6;
+        for (let y = waterY; y < height; y += strip) {
+          const sourceY = (y - dy) / scale;
+          const sourceHeight = Math.min(strip / scale, plate.naturalHeight - sourceY);
+          const depth = (y - waterY) / (height - waterY);
+          const offset = Math.sin(depth * 35 - phase) * disturbance * Math.sin(depth * Math.PI);
+          if (sourceHeight > 0) ctx.drawImage(plate, 0, sourceY, plate.naturalWidth, sourceHeight,
+            dx + offset, y, dw, sourceHeight * scale + .25);
+        }
+      }
+      ctx.restore();
+    }
+
+    function paintCloudDescent(p, time, zoom = 1.025, blur = 0) {
+      const position = clamp(p / .35) * (cloudDescent.length - 1);
+      const index = Math.floor(position);
+      const previous = cloudDescent[index];
+      const next = cloudDescent[Math.min(index + 1, cloudDescent.length - 1)];
+      const ready = plate => plate.complete && plate.naturalWidth > 0;
+      const base = ready(previous) ? previous : ready(next) ? next : cloudDescent[0];
+      if (!ready(base)) return false;
+      const focalX = width < 741 ? .56 : .66;
+      const following = base !== next && ready(next) ? next : null;
+      const blend = following ? position - index : 0;
+      const draw = (target, viewportWidth, viewportHeight) => {
+        const frame = { target, viewportWidth, viewportHeight };
+        paintPlate(base, 1, zoom, focalX, .55, frame);
+        if (following) paintPlate(following, blend, zoom, focalX, .55, frame);
+      };
+      ctx.save();
+      if (blur > .1) {
+        const overscan = blur * 2.6;
+        ctx.translate(-overscan, -overscan);
+        ctx.scale(1 + overscan * 2 / width, 1 + overscan * 2 / height);
+        ctx.filter = `blur(${blur}px)`;
+      }
+      if (reduced.matches || !cloudWind.paint(ctx, width, height, p, time, base, following, blend, zoom, draw)) draw(ctx, width, height);
+      ctx.restore();
+      return true;
+    }
+
+    function paintSky(p) {
+      const opening = smooth(.14, .58, p);
+      const evening = smooth(.67, .94, p);
+      const skyTop = opening < 1 ? color([13, 20, 38], [41, 64, 87], opening) : color([41, 64, 87], [19, 40, 56], evening);
+      const skyBottom = opening < 1 ? color([67, 91, 109], [142, 173, 175], opening) : color([142, 173, 175], [212, 169, 124], evening);
+      const sky = ctx.createLinearGradient(0, 0, 0, height * .96);
+      sky.addColorStop(0, skyTop);
+      sky.addColorStop(.57, color([71, 91, 112], [101, 144, 153], opening));
+      sky.addColorStop(1, skyBottom);
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, width, height);
+      const lx = width * .69, ly = height * mix(.31, .47, evening);
+      const light = ctx.createRadialGradient(lx, ly, 0, lx, ly, Math.max(width, height) * .55);
+      light.addColorStop(0, `rgba(249,230,193,${.18 + opening * .32})`);
+      light.addColorStop(.32, 'rgba(181,222,217,.15)');
+      light.addColorStop(1, 'rgba(130,179,203,0)');
+      ctx.fillStyle = light;
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    function paintRain(p, time, dt, close, camera, centerX, centerY) {
+      const curtain = 1 - smooth(.11, .225, p);
+      const opacity = mix(.27, 1, curtain) * (1 - smooth(.72, .85, p));
+      if (!opacity) return;
+      ctx.save();
+      if (curtain > .02) {
+        const veil = ctx.createLinearGradient(0, height, width, 0);
+        veil.addColorStop(0, '#42667c0b');
+        veil.addColorStop(.42, '#29475638');
+        veil.addColorStop(.73, '#789bab29');
+        veil.addColorStop(1, '#0e2a4712');
+        ctx.globalAlpha = curtain;
+        ctx.fillStyle = veil;
+        ctx.fillRect(0, 0, width, height);
+        ctx.globalAlpha = 1;
+      }
+      const handoff = smooth(.345, .47, p);
+      function streak(point, projected, weight) {
+        if (!projected || weight < .015) return;
+        const x = projected.x + (reduced.matches ? 0 : point.offsetX);
+        const y = projected.y + (reduced.matches ? 0 : point.offsetY);
+        const scale = Math.min(3.4, projected.perspective);
+        const len = Math.min(height * .64, mix(38, 179, point.speed ** 1.48) * scale *
+          Math.min(1.4, height / 610) * (1 + close * .25));
+        if (x < -len * .23 || x > width + 36 || y < 0 || y > height + len) return;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.quadraticCurveTo(x + len * .062 - point.vx * .009, y - len * .51,
+          x + len * .145 - point.vx * .024, y - len);
+        const light = weight * opacity * (mix(.045, .075, curtain) + mix(.29, .43, curtain) * point.light) * Math.min(1, scale * 1.68);
+        if (scale > .78) {
+          ctx.lineWidth = (3.2 + close * 3.0 + curtain * .65) * scale;
+          ctx.strokeStyle = `rgba(159,205,221,${light * .49})`;
+          ctx.stroke();
+        }
+        ctx.lineWidth = .42 + scale * (.70 + close * .46);
+        ctx.strokeStyle = `rgba(205,231,239,${light * (1 - close * .46)})`;
+        ctx.stroke();
+      }
+      for (const point of rain) {
+        const near = handoff < 1 ? projectOpeningRain(point, camera, time, width, height, centerX, centerY) : null;
+        const beyond = handoff > 0 ? projectRain(point, p, time, width, height) : null;
+        const projected = handoff >= .5 ? beyond ?? near : near ?? beyond;
+        if (dt && projected) field.apply(point, projected.x, projected.y, dt, .32 * Math.min(2, projected.perspective));
+        streak(point, near, near ? near.visibility * (1 - handoff) : 0);
+        streak(point, beyond, handoff);
+      }
+      ctx.restore();
+    }
+
+    function paintFocusStreak(x, y, p) {
+      const light = smooth(.074, .133, p) * (1 - smooth(.158, .214, p));
+      if (light <= .01) return;
+      const length = Math.min(height * .21, 190);
+      const tail = ctx.createLinearGradient(x + length * .145, y - length, x, y);
+      tail.addColorStop(0, 'rgba(205,232,239,0)');
+      tail.addColorStop(.59, `rgba(178,224,241,${light * .22})`);
+      tail.addColorStop(1, `rgba(223,247,245,${light * .88})`);
+      ctx.save();
+      ctx.strokeStyle = tail;
+      ctx.lineWidth = 1.2 + light * .85;
+      ctx.beginPath();
+      ctx.moveTo(x + length * .145, y - length);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function propBox(plate, x, y, height, pivot) {
+      const width = plate.naturalWidth ? height * plate.naturalWidth / plate.naturalHeight : height;
+      return { left: x - width / 2, top: y - height * pivot, width, height };
+    }
+
+    function paintDrop(opacity, time, motion) {
+      if (!dropPlate.naturalWidth || opacity <= 0) return;
+      const view = dropViews.image(look.yaw, look.pitch);
+      if (!motion) {
+        dropSurface.paint(ctx, dropSurface.texture(view), opacity);
+        return;
+      }
+      const move = Math.sin(time * 1.12);
+      const roll = Math.sin(time * .94 + .45);
+      let source = view;
+      if (sheenContext) {
+        const sw = sheen.width, sh = sheen.height;
+        sheenContext.clearRect(0, 0, sw, sh);
+        sheenContext.drawImage(view, 0, 0, sw, sh);
+        sheenContext.globalCompositeOperation = 'source-atop';
+        const glowX = sw * (.48 + .26 * Math.sin(time * 1.17));
+        const glowY = sh * (.39 + .11 * roll);
+        const glow = sheenContext.createRadialGradient(glowX, glowY, 2, glowX, glowY, sh * .47);
+        glow.addColorStop(0, `rgba(224,239,246,${.07 + .052 * (move + 1)})`);
+        glow.addColorStop(.43, 'rgba(198,223,232,.10)');
+        glow.addColorStop(1, 'rgba(198,223,232,0)');
+        sheenContext.fillStyle = glow;
+        sheenContext.fillRect(0, 0, sw, sh);
+        sheenContext.globalCompositeOperation = 'source-over';
+        source = sheen;
+      }
+      dropSurface.paint(ctx, dropSurface.texture(source), opacity);
+    }
+
+    function paintMolecules(p, x, y, size, time, dt, formingBell) {
+      if (reduced.matches || !particleSamples || p < .286 || p > .719) return;
+      const visible = smooth(.338, .403, p) * (1 - (formingBell ? smooth(.562,.626,p) : smooth(.627,.688,p)));
+      if (!visible) return;
+      const splitting = smooth(.355, .480, p);
+      const forming = smooth(.48, .689, p);
+      const particleSize = Math.min(1.4, Math.max(.74, size * .62));
+      const start = {}, end = {}, bead = {};
+      for (let i = 0; i < trajectories.length; i++) {
+        const from = particleSamples.drop[i];
+        const to = particleSamples.bell[i];
+        const track = trajectories[i];
+        const out = smooth(track.delay, .83 + track.delay, splitting);
+        const arrive = smooth(track.delay, .80 + track.delay, forming);
+        const angle = track.angle + track.curl * (.85 * splitting + .75 * forming + time * .085);
+        const drift = (29 + track.distance * 118) * size;
+        const cx = x + Math.cos(angle) * drift;
+        const cy = y + Math.sin(angle) * drift * .71 - (track.curl - .5) * 65 * size;
+        const depth = 1 - mix(from[5], to[5], arrive) * .16;
+        dropViews.project(dropSurface, from[0] / 255, from[1] / 255, i, look.yaw, look.pitch, start);
+        bellViews.project(bellSurface, to[0] / 255, to[1] / 255, i, look.yaw, look.pitch, end);
+        const baseX = mix(mix(start.x, cx, out), end.x, arrive);
+        const baseY = mix(mix(start.y, cy, out), end.y, arrive);
+        if (dt) field.apply(track, baseX, baseY, dt, depth);
+        field.avoid(baseX + track.offsetX, baseY + track.offsetY, track.angle, bead);
+        const light = .40 + track.glint * .6;
+        const r = Math.round(mix(mix(from[2], to[2], arrive), 225, .34));
+        const g = Math.round(mix(mix(from[3], to[3], arrive), 225, .34));
+        const b = Math.round(mix(mix(from[4], to[4], arrive), 211, .34));
+        const radius = track.size * particleSize * depth * mix(1, 1.34, Math.sin(out * Math.PI) * (1 - arrive));
+        ctx.fillStyle = `rgba(${r},${g},${b},${visible * light})`;
+        ctx.beginPath(); ctx.arc(bead.x, bead.y, radius, 0, tau); ctx.fill();
+        if (track.glint > .95 && radius > 1.2) {
+          ctx.fillStyle = `rgba(244,221,183,${visible * .12})`;
+          ctx.beginPath(); ctx.arc(bead.x, bead.y, radius * 2.6, 0, tau); ctx.fill();
+        }
+      }
+    }
+
+    function paintSpray(points, shape, views, opacity, dt) {
+      const contact = {}, bead = {};
+      for (const point of points) {
+        if (reduced.matches || opacity < .02) {
+          point.offsetX = point.offsetY = point.vx = point.vy = 0;
+          continue;
+        }
+        views.project(shape, point.u, point.v, point.index, look.yaw, look.pitch, contact);
+        if (dt) field.apply(point, contact.x, contact.y, dt, .78 - point.depth * .12, true);
+        const distance = Math.hypot(point.offsetX, point.offsetY);
+        if (distance <= 2) continue;
+        field.avoid(contact.x + point.offsetX, contact.y + point.offsetY, point.angle, bead);
+        ctx.globalAlpha = opacity * smooth(2, 20, distance) * .88;
+        ctx.fillStyle = point.color;
+        ctx.beginPath();
+        ctx.arc(bead.x, bead.y, point.radius, 0, tau);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function paintMirror(frame, tip, surface, gap, p, impact, time) {
+      if (!frame) return;
+      const opacity = smooth(.863, .916, p);
+      if (!opacity) return;
+      const { source, left, top, width: frameWidth, height: frameHeight } = frame;
+      const sourceW = source.naturalWidth || source.width;
+      const sourceH = source.naturalHeight || source.height;
+      const crop = clamp((tip.y - top) / frameHeight);
+      const endRow = Math.max(1, Math.round(sourceH * crop));
+      const reflectedTop = surface + Math.max(0, gap) * .51;
+      const reflectionHeight = Math.min(frameHeight * .63, (height - reflectedTop - 5) / crop);
+      if (reflectionHeight <= 0) return;
+      const step = Math.max(2, Math.round(sourceH * .007));
+      const waterMotion = reduced.matches ? .8 : 1.2 + 4.8 * Math.sin(impact * Math.PI);
+      ctx.save();
+      ctx.translate(left, reflectedTop);
+      ctx.scale(1, -1);
+      for (let row = 0; row < endRow; row += step) {
+        const slice = Math.min(step, endRow - row);
+        const depth = (endRow - row) / endRow;
+        const shift = Math.sin(depth * 23 - impact * 20 - time * 1.64) * waterMotion * (.55 + depth * 1.17);
+        ctx.globalAlpha = opacity * mix(.81, .46, depth) * (1 - smooth(.91, 1, depth));
+        ctx.drawImage(source, 0, row, sourceW, slice, shift,
+          (row - endRow) / sourceH * reflectionHeight, frameWidth, slice / sourceH * reflectionHeight + .2);
+      }
+      ctx.restore();
+    }
+
+    function paintWaterHighlights(x, y, impact, time) {
+      if (impact <= 0) return;
+      const maxRadius = Math.min(width * .37, height * .64);
+      for (let i = 0; i < 5; i++) {
+        const advance = clamp((impact - i * .097) / (1 - i * .097));
+        if (!advance) continue;
+        const radius = mix(6, maxRadius * (1 - i * .105), advance ** .76);
+        const strength = smooth(0, .13, advance) * (1 - advance * .53);
+        for (let arc = 0; arc < 9; arc++) {
+          const a = arc * tau / 9 + i * .31 + Math.sin(arc * 4.2) * .06;
+          const end = a + .38 + .23 * Math.sin(i * 4.3 + arc * 1.7) ** 2;
+          const highlight = strength * (.10 + Math.sin(a + .6 + time * .44) ** 2 * .32);
+          ctx.beginPath(); ctx.ellipse(x + Math.sin(i * 2.3) * radius * .019, y + 1,
+            radius, radius * (.165 + i * .003), -.013, a, end);
+          ctx.strokeStyle = `rgba(6,22,26,${highlight * .95})`;
+          ctx.lineWidth = mix(1.8, .7, advance); ctx.stroke();
+          ctx.beginPath(); ctx.ellipse(x + Math.sin(i * 2.3) * radius * .019, y,
+            radius, radius * (.165 + i * .003), -.013, a, end);
+          ctx.strokeStyle = `rgba(225,194,150,${highlight})`;
+          ctx.lineWidth = mix(1.45, .6, advance); ctx.stroke();
+        }
+      }
+      const sparkle = 1 - smooth(.025, .27, impact);
+      if (!sparkle) return;
+      const flash = ctx.createRadialGradient(x, y, 0, x, y, 26 + impact * 43);
+      flash.addColorStop(0, `rgba(255,227,176,${sparkle * .68})`);
+      flash.addColorStop(1, 'rgba(255,227,176,0)');
+      ctx.fillStyle = flash; ctx.fillRect(x - 42, y - 42, 84, 84);
+    }
+
+    function paintWaterTouches(time) {
+      if (reduced.matches) return;
+      for (let i = waterTouches.length - 1; i >= 0; i--) {
+        const wake = waterTouches[i];
+        const elapsed = time - wake.time;
+        if (elapsed >= 1.8) { waterTouches.splice(i, 1); continue; }
+        const x = wake.x * width, y = wake.y * height;
+        ctx.save();
+        ctx.globalAlpha = wake.strength;
+        for (let ring = 0; ring < 3; ring++) {
+          const progress = clamp((elapsed - ring * .12) / 1.35);
+          if (progress <= 0 || progress >= 1) continue;
+          const radius = 3 + 107 * progress ** .82;
+          ctx.beginPath(); ctx.ellipse(x, y, radius, radius * .24, -.025, 0, tau);
+          ctx.strokeStyle = `rgba(233,212,180,${.59 * (1 - progress) ** 2})`;
+          ctx.lineWidth = 1.15 - progress * .5; ctx.stroke();
+        }
+        ctx.restore();
+      }
+    }
+
+    function paint(p, time, dt) {
+      if (!ctx) return;
+      field.begin(Math.max(42, Math.min(111, Math.min(width, height) * .133)), dt);
+      const compact = width < 741;
+      const quiet = smooth(.707,.761,p) * (1 - smooth(.837,.868,p));
+      stage.style.setProperty('--copy-scale', 1 - .54 * quiet);
+      stage.style.setProperty('--copy-quiet', 1 - .66 * quiet);
+      const x = width * (compact ? .53 : .67);
+      const size = Math.min(width * (compact ? .012 : .00215), height * (compact ? .00245 : .00325), 2.62);
+      const approach = smooth(.862, .94, p);
+      const impact = clamp((p - impactAt) / (1 - impactAt));
+      const water = smooth(.82, .892, p);
+      const skyCenter = height * (compact ? .335 : .385);
+      const waterline = height * (compact ? .514 : .60);
+      const camera = openingCamera(p);
+      const centerY = height * (compact ? .415 : .475);
+      const depthCue = camera.focus * (1 - smooth(.345, .474, p));
+      const cameraPush = (camera.cloudZoom - 1) * (1 - smooth(.332, .472, p));
+      const isolated = reduced.matches ? 0 : 1 - smooth(.372, .424, p);
+      const dropY = centerY + (camera.fall - camera.y) * height / camera.distance +
+        Math.sin(time * .93) * size * 3.6 * isolated * camera.focus;
+      const macroHeight = Math.min(height * .69, width * (compact ? .85 : .66), 202 * size);
+      const dropHeight = macroHeight * camera.magnification;
+      const dropX = x - camera.x * height / camera.distance +
+        Math.sin(time * .73) * size * 2.7 * isolated * camera.focus;
+      const dropBox = propBox(dropPlate, dropX, dropY, dropHeight, .51);
+      const bellHeight = 287 * size * mix(1, .64, smooth(.86, .99, p));
+      const intendedTip = waterline - height * .177 * (1 - approach);
+      const bellY = mix(skyCenter, intendedTip - bellHeight * (bellTipRatio - bellPivot), smooth(.862, .94, p));
+      const bellBox = propBox(bellPlate, x, bellY, bellHeight, bellPivot);
+      const moving = !reduced.matches;
+      const focus = p >= .205 && p <= .348 ? 'drop' : p >= .605 && p < .70 ? 'bell' : '';
+      setDragZone(moving && !ambientPaused ? focus : '', focus === 'drop' ? dropBox : bellBox);
+      const returnToPath = 1 - smooth(.669, .702, p);
+      const orbit = .55 * smooth(.485,.625,p) * returnToPath;
+      const wantYaw = signed((drag ? 0 : orbit) + look.targetYaw * returnToPath);
+      const wantPitch = look.targetPitch * returnToPath;
+      if (moving) {
+        const follow = 1 - Math.exp(-dt * 7.6);
+        look.yaw = mix(look.yaw, wantYaw, follow);
+        look.pitch = mix(look.pitch, wantPitch, follow);
+        if (Math.abs(look.yaw - wantYaw) < .0006) look.yaw = wantYaw;
+        if (Math.abs(look.pitch - wantPitch) < .0006) look.pitch = wantPitch;
+      } else look.yaw = look.pitch = 0;
+      const dropTilt = Math.sin(time * .94 + .45) * .058 * isolated;
+      const bellSway = moving ? Math.sin((p - .59) * 26) * .044 * (1 - smooth(.793, .844, p)) : 0;
+      dropSurface.update(dropBox, .51, dropTilt, field, dt, moving && p >= .205 && p < .48);
+      bellSurface.update(bellBox, bellPivot, bellSway, field, dt, moving && p > .55);
+      const tip = {};
+      bellViews.anchor(bellSurface, 'tip', .62, bellTipRatio, look.yaw, look.pitch, tip);
+      const gap = waterline - tip.y;
+      const bellFrame = water > 0 && bellPlate.naturalWidth ?
+        bellSurface.texture(bellViews.image(look.yaw, look.pitch)) : null;
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      paintSky(p);
+      const cloudProgress = p <= .35 ? camera.cloudProgress : p;
+      const renderedClouds = paintCloudDescent(cloudProgress, time, 1.025 + cameraPush, depthCue * (compact ? 2.5 : 4.3));
+      if (!renderedClouds) {
+        const zoom = mix(1.055, 1.73, reduced.matches ? 0 : smooth(0, .72, p)) + cameraPush;
+        paintPlate(cloudPlate, 1, zoom, mix(.70, .77, smooth(.29, .67, p)), .55, {
+          driftX: Math.sin(time * .235) * Math.min(24, width * .029),
+          driftY: Math.sin(time * .158) * Math.min(13, height * .019),
+        });
+      }
+      cloudScene.paint(ctx, width, height, p, time, dt, reduced.matches,
+        (renderedClouds ? .28 : 1) * (1 - depthCue * .43), camera);
+      paintRain(p, time, dt, depthCue, camera, x, centerY);
+      if (water > 0) {
+        paintPlate(waterPlate, water, 1.045, .65, .52, {
+          disturbance: reduced.matches ? 0 : 1.1 + Math.sin(impact * Math.PI) * 3.2,
+          phase: impact * 21 + time * 1.04,
+        });
+        paintMirror(bellFrame, tip, waterline, gap, p, impact, time);
+        paintWaterHighlights(x, waterline, impact, time);
+        paintWaterTouches(time);
+      }
+      const becomingParticles = reduced.matches || !particleSamples ? 0 : smooth(.351, .429, p);
+      const dropOpacity = smooth(.138, .192, p) * (1 - smooth(.357, .43, p)) *
+        mix(1, .24, becomingParticles);
+      const dropGrain = moving ? 1 - smooth(.298, .349, p) : 0;
+      const dropPoints = dropGrain > .004 && dropOpacity > .004 ?
+        dropViews.points(look.yaw, look.pitch, smooth(.139,.237,p), time) : null;
+      paintFocusStreak(dropX, dropY, p);
+      if (dropPoints) dropSurface.paint(ctx, dropSurface.texture(dropPoints), dropOpacity * dropGrain);
+      paintDrop(dropOpacity * (dropPoints ? 1 - dropGrain : 1), time, isolated);
+      const bellOpacity = smooth(.57, .684, p) * (1 - smooth(.706, .781, p));
+      const bellGrain = moving ? smooth(.557,.614,p) * (1 - smooth(.671,.712,p)) : 0;
+      const bellPoints = bellGrain > .004 ?
+        bellViews.points(look.yaw, look.pitch, smooth(.543,.642,p), time) : null;
+      if (p > .35 && p < .48) {
+        const reveal = smooth(.35,.466,p);
+        const radius = 3 + Math.hypot(width,height) * 1.85 * reveal;
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(dropX,dropY,radius,radius * mix(.40,.67,reveal),0,0,tau);
+        ctx.clip();
+        paintMolecules(p, x, dropY, size, time, dt, Boolean(bellPoints));
+        ctx.restore();
+      } else paintMolecules(p, x, dropY, size, time, dt, Boolean(bellPoints));
+      if (bellPoints) bellSurface.paint(ctx, bellSurface.texture(bellPoints), bellGrain);
+      const bellWater = bellOpacity * (bellPoints ? smooth(.671,.712,p) : 1);
+      if (bellWater > .004 && bellPlate.naturalWidth) {
+        const frame = bellFrame ?? bellSurface.texture(bellViews.image(look.yaw, look.pitch));
+        bellSurface.paint(ctx, frame, bellWater);
+      }
+      paintSpray(dropSpray, dropSurface, dropViews, dropOpacity * smooth(.215, .24, p) * (1 - smooth(.30, .41, p)), dt);
+      paintSpray(bellSpray, bellSurface, bellViews, bellOpacity * .32 * smooth(.642, .70, p), dt);
+      if (moving && p > .35 && p < .48) {
+        waterLens.paintRipple(ctx, canvas, width, height, p, time, { x: dropX, y: dropY });
+      }
+      if (moving && p > .70 && p < .895) {
+        const rim = {};
+        bellViews.anchor(bellSurface, 'rim', .51, .48, look.yaw, look.pitch, rim);
+        waterLens.paintBell(ctx, canvas, width, height, p, time, rim, bellBox.width, bellViews.camera(p), x, waterline);
+      }
+      field.end(dt);
+    }
+
+    let audio;
+    let audioEnabled = false;
+    let rang = false;
+    const Audio = window.AudioContext || window.webkitAudioContext;
+    sound.hidden = !Audio;
+    function playChime() {
+      if (!audioEnabled || audio?.state !== 'running') return false;
+      const start = audio.currentTime;
+      for (const [pitch, volume, tail] of [[864, .071, 1.48], [870.3, .023, 1.17], [1761, .025, .86], [2674, .012, .42]]) {
+        const tone = audio.createOscillator();
+        const gain = audio.createGain();
+        tone.frequency.value = pitch;
+        gain.gain.setValueAtTime(.0001, start);
+        gain.gain.exponentialRampToValueAtTime(volume, start + .008);
+        gain.gain.exponentialRampToValueAtTime(.0001, start + tail);
+        tone.connect(gain).connect(audio.destination);
+        tone.start(start); tone.stop(start + tail + .02);
+      }
+      return true;
+    }
+    sound.addEventListener('click', async () => {
+      if (audioEnabled) {
+        audioEnabled = false;
+      } else {
+        try { audio ??= new Audio(); await audio.resume(); audioEnabled = audio.state === 'running'; }
+        catch { audioEnabled = false; }
+      }
+      sound.setAttribute('aria-pressed', String(audioEnabled));
+      sound.textContent = audioEnabled ? '关闭铃声' : '开启铃声';
+    });
+
+    const sunbreak = window.createSunbreak(stage, journey, reduced, requestFrame);
+    const distance = () => Math.max(1, journey.offsetHeight - stage.offsetHeight - sunbreak.span());
+    const still = [0, .29, .675, .96];
+    let staticChapter = 0;
+    const zone = document.querySelector('.drag-zone');
+    let drag = null, zoneType = '', lastWake = null;
+    const signed = value => Math.max(-1, Math.min(1, value));
+    function setDragZone(type, box) {
+      if (zoneType !== type && drag) finishDrag();
+      zoneType = type;
+      zone.hidden = !type;
+      if (!type) return;
+      zone.style.setProperty('--drag-left', `${box.left}px`);
+      zone.style.setProperty('--drag-top', `${box.top}px`);
+      zone.style.setProperty('--drag-width', `${box.width}px`);
+      zone.style.setProperty('--drag-height', `${box.height}px`);
+    }
+    function render(now) {
+      frame = 0;
+      if (document.hidden) { clockAt = frameAt = null; return; }
+      const bounds = journey.getBoundingClientRect();
+      const rainDistance = distance();
+      const sunny = sunbreak.paint(-bounds.top - rainDistance);
+      const target = clamp(-bounds.top / rainDistance);
+      const visible = bounds.bottom > 0 && bounds.top < height;
+      const animate = Boolean(ctx) && visible && !sunny && !ambientPaused && !departure.active && !reduced.matches;
+      const elapsed = frameAt === null ? 0 : Math.min(.05, (now - frameAt) / 1000);
+      frameAt = animate ? now : null;
+      if (!animate || cameraProgress === null || target >= .48 || Math.abs(target - cameraProgress) > .22) {
+        cameraProgress = target;
+      } else {
+        const speed = mix(14, 39, smooth(.34, .48, target));
+        cameraProgress = mix(cameraProgress, target, 1 - Math.exp(-elapsed * speed));
+        if (Math.abs(target - cameraProgress) < .00012) cameraProgress = target;
+      }
+      const p = cameraProgress;
+      if (animate && clockAt !== null) ambientTime += Math.min(.10, (now - clockAt) / 1000);
+      clockAt = animate ? now : null;
+      const step = reduced.matches ? staticChapter : p < .18 ? 0 : p < .48 ? 1 : p < impactAt ? 2 : 3;
+      if (step !== chapter) {
+        const restoreFocus = panels.some(panel => panel.contains(document.activeElement));
+        panels.forEach((panel, i) => { panel.hidden = i !== step; });
+        tabs.forEach((tab, i) => { if (i === step) tab.setAttribute('aria-current', 'step'); else tab.removeAttribute('aria-current'); });
+        columnLinks.forEach((link, i) => {
+          if (i === step) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+        if (restoreFocus) tabs[step].focus({ preventScroll: true });
+        chapter = step;
+      }
+      const changed = dirty || p !== paintedProgress;
+      const interval = width >= 741 && p <= .35 ? 15 : 32;
+      if (changed || (animate && now - paintedAt >= interval)) {
+        const dt = animate ? Math.min(.048, ambientTime - simulatedAt) : 0;
+        paint(reduced.matches ? still[step] : p, reduced.matches ? 0 : ambientTime, dt);
+        simulatedAt = ambientTime;
+        if (changed) progress.value = p;
+        paintedProgress = p;
+        paintedAt = now;
+        dirty = false;
+      }
+      if (!rang && lastProgress < chimeAt && p >= chimeAt && !departure.active && !reduced.matches) rang = playChime();
+      lastProgress = p;
+      if (animate) frame = requestAnimationFrame(render);
+    }
+
+    function requestFrame() {
+      dirty = true;
+      if (!frame && !document.hidden) frame = requestAnimationFrame(render);
+    }
+    function resize() {
+      width = stage.clientWidth;
+      height = stage.clientHeight;
+      pixelRatio = Math.min(devicePixelRatio || 1, 1.8);
+      canvas.width = Math.round(width * pixelRatio);
+      canvas.height = Math.round(height * pixelRatio);
+      requestFrame();
+    }
+    const jumps = [...document.querySelectorAll('[data-seek]')];
+    function seek(position, instant) {
+      if (reduced.matches) {
+        staticChapter = still.indexOf(position);
+        scrollTo({top: 0, behavior: 'instant'});
+        requestFrame();
+        return;
+      }
+      const top = journey.getBoundingClientRect().top + scrollY + position * distance();
+      if (instant) cameraProgress = null;
+      scrollTo({ top, behavior: instant || reduced.matches ? 'instant' : 'smooth' });
+      requestFrame();
+    }
+    jumps.forEach(link => link.addEventListener('click', event => {
+      if (event.button > 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      seek(Number(link.dataset.seek), false);
+    }));
+    addEventListener('resize', resize);
+    addEventListener('scroll', requestFrame, { passive: true });
+    function pointOnStage(event) {
+      const bounds = stage.getBoundingClientRect();
+      return { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
+    }
+    function aimAt(x, y) {
+      const midpoint = width * (width < 741 ? .53 : .67);
+      look.targetYaw = .24 * signed((x - midpoint) / Math.max(1, width * .30));
+      look.targetPitch = .24 * signed((height * .44 - y) / Math.max(1, height * .33));
+    }
+    stage.addEventListener('pointermove', event => {
+      if (ambientPaused || reduced.matches) return;
+      const { x, y } = pointOnStage(event);
+      if (drag?.id === event.pointerId) {
+        look.targetYaw = signed(drag.yaw + (x - drag.x) / 110);
+        look.targetPitch = signed(drag.pitch - (y - drag.y) / 105);
+      } else if (event.pointerType !== 'touch') aimAt(x, y);
+      else return;
+      if (lastProgress >= .88 && y > height * .5 &&
+          (!lastWake || (ambientTime - lastWake.time > .16 && Math.hypot(x - lastWake.x, y - lastWake.y) > 23))) {
+        lastWake = {x, y, time: ambientTime};
+        addWake(x, y, .32);
+      }
+      field.move(x, y);
+      cloudScene.stir(x, y, ambientTime);
+    }, { passive: true });
+    function addWake(x,y,strength) {
+      if (waterTouches.length >= 7) waterTouches.shift();
+      waterTouches.push({x:x/width,y:y/height,time:ambientTime,strength});
+    }
+    function finishDrag() {
+      if (!drag) return;
+      const id = drag.id;
+      drag = null;
+      delete zone.dataset.dragging;
+      if (zone.hasPointerCapture(id)) zone.releasePointerCapture(id);
+      look.targetYaw = look.targetPitch = 0;
+    }
+    zone.addEventListener('lostpointercapture', finishDrag);
+    zone.addEventListener('pointerdown', event => {
+      if (event.button !== 0 || drag || ambientPaused || reduced.matches) return;
+      const {x,y} = pointOnStage(event);
+      drag = {id:event.pointerId,x,y,yaw:look.yaw,pitch:look.pitch};
+      zone.setPointerCapture(event.pointerId);
+      zone.dataset.dragging = '';
+    });
+    function leaveStage() {
+      finishDrag();
+      look.targetYaw = look.targetPitch = 0;
+      field.leave();
+      cloudScene.leave();
+    }
+    stage.addEventListener('pointerleave', leaveStage);
+    stage.addEventListener('pointercancel', leaveStage);
+    stage.addEventListener('pointerup', event => {
+      finishDrag();
+    });
+    stage.addEventListener('pointerdown', event => {
+      if (event.button > 0 || ambientPaused || reduced.matches || event.target.closest?.('a, button')) return;
+      const { x, y } = pointOnStage(event);
+      if (event.pointerType === 'touch') {
+        aimAt(x, y);
+        field.move(x, y, true);
+        cloudScene.stir(x, y, ambientTime, true);
+      }
+      if (lastProgress >= .88 && y > height * .42) addWake(x, y, 1);
+    }, { passive: true });
+    ambient.addEventListener('click', () => {
+      ambientPaused = !ambientPaused;
+      clockAt = null;
+      leaveStage();
+      if (ambientPaused) zone.hidden = true;
+      ambient.textContent = ambientPaused ? '恢复环境' : '暂停环境';
+      ambient.setAttribute('aria-pressed', String(ambientPaused));
+      requestFrame();
+    });
+    document.addEventListener('visibilitychange', () => {
+      clockAt = null;
+      if (document.hidden) {
+        leaveStage();
+        if (frame) cancelAnimationFrame(frame);
+        frame = 0;
+      } else requestFrame();
+    });
+    function updateMotionPreference() {
+      clockAt = null;
+      ambient.hidden = reduced.matches || !ctx;
+      if (reduced.matches) { leaveStage(); zone.hidden = true; }
+      requestFrame();
+    }
+    reduced.addEventListener('change', updateMotionPreference);
+    const departure = window.createRainDeparture({
+      overlay: document.querySelector('#rain-exit'),
+      content: document.querySelector('#rain-page'),
+      reduced,
+      getWater() {
+        const stageVisible = stage.getBoundingClientRect().bottom > stage.clientHeight * .8;
+        if (stageVisible && lastProgress > .21 && lastProgress < .42) {
+          const center = {}, bottom = {};
+          dropSurface.project(.5, .5, center);
+          dropSurface.project(.5, 1, bottom);
+          return { source: dropPlate, points: particleSamples?.drop, ...center,
+            height: Math.hypot(bottom.x - center.x, bottom.y - center.y) * 2 };
+        }
+        if (stageVisible && lastProgress > .64 && lastProgress < .86) {
+          const center = {}, bottom = {};
+          bellSurface.project(.5, .5, center);
+          bellSurface.project(.5, 1, bottom);
+          return { source: bellPlate, points: particleSamples?.bell, ...center,
+            height: Math.hypot(bottom.x - center.x, bottom.y - center.y) * 2 };
+        }
+        return { source: bellPlate, points: particleSamples?.bell };
+      },
+      onStateChange(active) {
+        if (active) leaveStage();
+        requestFrame();
+      },
+    });
+    addEventListener('pagehide', () => {
+      try { history.replaceState({...history.state, rainY:scrollY, staticChapter}, ''); } catch {}
+    });
+    addEventListener('pageshow', event => {
+      const state = history.state;
+      if (state && typeof state.rainY === 'number') {
+        staticChapter = state.staticChapter ?? 0;
+        if (!event.persisted) scrollTo({top: state.rainY, behavior:'instant'});
+        requestFrame();
+      }
+    });
+    updateMotionPreference();
+    resize();
+  </script>
+</body>
+</html>

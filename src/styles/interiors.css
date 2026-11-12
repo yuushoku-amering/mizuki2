@@ -9,14 +9,14 @@
 [data-interior="archive"],[data-interior="posts"] {
   --interior-accent:#825866; --interior-paper:#f4eae9;
 }
-[data-interior="archive"] .post-list { counter-reset:entries; }
 [data-interior="archive"] .post-item {
-  display:grid; grid-template-columns:56px minmax(0,1fr); gap:16px;
-  padding:22px 0; border-bottom:1px solid var(--line);
+  display:block; padding:22px 0; border-bottom:1px solid var(--line);
 }
-[data-interior="archive"] .post-number { color:var(--interior-accent); font:italic 24px Georgia,serif; }
-[data-interior="archive"] .post-info { display:block; }
-[data-interior="archive"] .post-info p { max-width:70ch; }
+[data-interior="archive"] .post-number { display:none; }
+[data-interior="archive"] .post-info { display:block; width:100%; min-width:0; }
+[data-interior="archive"] .post-info .meta { flex-wrap:wrap; }
+[data-interior="archive"] .post-info time { white-space:nowrap; }
+[data-interior="archive"] .post-info p { max-width:72ch; }
 [data-interior="posts"] .journal-post-grid { grid-template-columns:minmax(0,760px) minmax(145px,200px); justify-content:center; }
 [data-interior="posts"] .journal-post-content { min-width:0; }
 [data-interior="posts"] .article-sidebar details { background:var(--interior-paper); border-left:2px solid var(--interior-accent); padding:14px; }
@@ -54,7 +54,6 @@
 @media(max-width:760px) {
   [data-interior="posts"] .journal-post-grid,[data-interior="about"] .about-layout { grid-template-columns:minmax(0,1fr); }
   [data-interior="albums"] .album-list { grid-template-columns:minmax(0,1fr); }
-  [data-interior="archive"] .post-item { grid-template-columns:32px minmax(0,1fr); gap:10px; }
 }
 
 @font-face {
@@ -67,7 +66,17 @@
 }
 [data-interior="archive"] .page-intro { padding:clamp(24px,4vw,46px); margin-bottom:clamp(30px,5vw,54px); }
 [data-interior="archive"] .filters { row-gap:10px; margin-bottom:16px; }
-[data-interior="archive"] .post-list { margin-top:28px; }
+[data-interior="archive"] .post-list { margin-top:16px; }
 [data-interior="archive"] .post-item { padding-block:clamp(22px,3vw,38px); }
 [data-interior="archive"] .post-info h3 { margin:8px 0 10px; line-height:1.45; }
 [data-interior="archive"] .post-info p { line-height:1.85; margin-bottom:12px; }
+
+.journal-site[data-interior] {
+  --bg:#fbf8f2;
+  --surface:#fffdf7;
+  --line:#e8dcd2;
+}
+[data-interior="projects"] { --interior-paper:#edf2e7; }
+[data-interior="about"] { --interior-paper:#f3ebe9; }
+[data-interior="posts"] .reading-body { overflow-wrap:anywhere; }
+[data-interior="posts"] .reading-body :is(img,table) { max-width:100%; }

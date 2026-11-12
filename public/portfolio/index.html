@@ -10,55 +10,73 @@
   <link rel="stylesheet" href="branch.css">
   <link rel="stylesheet" href="portfolio-columns.css">
 </head>
-<body class="portfolio-page" data-mode="clock" data-clock-season="spring" data-chapter="0">
+<body class="portfolio-page" data-mode="clock" data-clock-season="spring" data-chapter="1">
   <header><a href="/">Mizuki · 首页</a><nav aria-label="博客栏目"><a href="/archive/">文章</a><a href="/projects/">项目</a><a href="/portfolio/" aria-current="page">作品集</a><a href="/about/">关于我</a></nav></header>
   <main id="journey">
     <div id="stage">
+      <div class="book-object" aria-hidden="true">
+        <div class="book-volume">
+          <div class="book-cover"></div>
+          <div class="book-leaf book-leaf-left"></div>
+          <div class="book-leaf book-leaf-right">
+            <span class="page-corner" data-corner="back-spine"></span>
+            <span class="page-corner" data-corner="back-edge"></span>
+            <span class="page-corner" data-corner="front-spine"></span>
+            <span class="page-corner" data-corner="front-edge"></span>
+          </div>
+        </div>
+      </div>
       <section id="catalogue" aria-labelledby="catalogue-title">
         <h1 id="catalogue-title">吕家欣 · 作品集</h1>
         <nav aria-label="作品集下载"><a href="assets/portfolio.pdf" download>下载作品集 PDF <span aria-hidden="true">↓</span></a></nav>
         <div class="capabilities">
-          <details class="capability" data-season="spring" name="capability" open>
-            <summary><h2>社会调查能力</h2><span class="project-count">3 个项目</span></summary>
-            <div class="capability-content">
-              <p>用问卷、访谈和实地观察理解人的行为。</p>
-              <ul>
-                <li><a href="projects/game.html">游戏付费公平感知调查</a><p>以大学生玩家为样本，探索游戏付费动机、消费后悔与公平感知。</p></li>
-                <li><a href="projects/snack.html">好想来消费者行为研究</a><p>把问卷里的消费选择与真实门店里的行为放在一起，理解大学生的零食消费场景。</p></li>
-                <li><a href="projects/mangrove.html">红树林社区共治研究</a><p>从政府、基层与村民的不同位置，理解社区保护中的公众参与机制。</p></li>
-              </ul>
-            </div>
-          </details>
-          <details class="capability" data-season="autumn" name="capability">
-            <summary><h2>数据分析能力</h2><span class="project-count">2 个项目</span></summary>
-            <div class="capability-content">
-              <p>从数据中寻找经营线索，并验证判断。</p>
-              <ul>
-                <li><a href="projects/retail.html">服饰零售数据分析</a><p>围绕人、货、场组织零售数据，把分散指标转化为可阅读的经营线索。</p></li>
-                <li><a href="projects/model.html">风险预警与干预方案建模</a><p>MathorCup建模项目：综合多维特征，探索风险分层与约束条件下的方案优化。</p></li>
-              </ul>
-            </div>
-          </details>
-          <details class="capability" data-season="winter" name="capability">
-            <summary><h2>产品交互设计能力</h2><span class="project-count">4 个项目</span></summary>
-            <div class="capability-content">
-              <p>把需求和工作流程转化为可以体验的原型。</p>
-              <ul>
-                <li><a href="projects/vesper.html">岚苔 Vesper · 用户研究工作台</a><p>把研究过程中“下一步做什么、为何选择这个方法”的问题，转成可以理解和操作的流程。</p></li>
-                <li><a href="projects/melody.html">MelodyAiming · 节奏射击</a><p>将音乐节拍与鼠标瞄准结合，让点射、跟枪、得分和连击形成可体验的反馈循环。</p></li>
-                <li><a href="projects/office.html">本机 AI 协作办公室</a><p>把多人讨论、任务分工与人工审阅串成可追踪的工作空间，让参与者、任务和决定保持可见。</p></li>
-                <li><a href="projects/mio.html">澪 · 多端语音助手</a><p>在手机上唤醒澪，接入电脑端 Codex 继续轻量对话，也可以确认并发出预设的电脑指令。</p></li>
-              </ul>
-            </div>
-          </details>
+          <span class="capability-root">能力与项目</span>
+          <div class="capability-branches">
+            <details class="capability" data-season="spring" name="capability">
+              <summary><h2>社会调查能力</h2><span class="project-count">3 个项目</span></summary>
+              <div class="capability-content">
+                <p>用问卷、访谈和实地观察理解人的行为。</p>
+                <ul>
+                  <li><a href="projects/game.html">游戏付费公平感知调查</a><p>以大学生玩家为样本，探索游戏付费动机、消费后悔与公平感知。</p></li>
+                  <li><a href="projects/snack.html">好想来消费者行为研究</a><p>把问卷里的消费选择与真实门店里的行为放在一起，理解大学生的零食消费场景。</p></li>
+                  <li><a href="projects/mangrove.html">红树林社区共治研究</a><p>到红树林保护区走访，了解管理方、基层工作人员和村民怎样参与保护。</p></li>
+                </ul>
+              </div>
+            </details>
+            <details class="capability" data-season="autumn" name="capability">
+              <summary><h2>数据分析能力</h2><span class="project-count">2 个项目</span></summary>
+              <div class="capability-content">
+                <p>从数据中寻找经营线索，并验证判断。</p>
+                <ul>
+                  <li><a href="projects/retail.html">服饰零售数据分析</a><p>围绕人、货、场组织零售数据，把分散指标转化为可阅读的经营线索。</p></li>
+                  <li><a href="projects/model.html">风险预警与干预方案建模</a><p>MathorCup建模项目：综合多维特征，探索风险分层与约束条件下的方案优化。</p></li>
+                </ul>
+              </div>
+            </details>
+            <details class="capability" data-season="winter" name="capability">
+              <summary><h2>产品交互设计能力</h2><span class="project-count">4 个项目</span></summary>
+              <div class="capability-content">
+                <p>把需求和工作流程转化为可以体验的原型。</p>
+                <ul>
+                  <li><a href="projects/vesper.html">岚苔 Vesper · 用户研究工作台</a><p>把研究过程中“下一步做什么、为何选择这个方法”的问题，转成可以理解和操作的流程。</p></li>
+                  <li><a href="projects/melody.html">MelodyAiming · 节奏射击</a><p>将音乐节拍与鼠标瞄准结合，让点射、跟枪、得分和连击形成可体验的反馈循环。</p></li>
+                  <li><a href="projects/office.html">本机 AI 协作办公室</a><p>把多人讨论、任务分工与人工审阅串成可追踪的工作空间，让参与者、任务和决定保持可见。</p></li>
+                  <li><a href="projects/mio.html">澪 · 多端语音助手</a><p>在手机上唤醒澪，接入电脑端 Codex 继续轻量对话，也可以确认并发出预设的电脑指令。</p></li>
+                </ul>
+              </div>
+            </details>
+          </div>
         </div>
+        <section id="selected-project" class="project-note" aria-live="polite" hidden></section>
       </section>
-      <aside class="season-panel" aria-labelledby="season-heading">
-        <div class="season-panel-head"><h2 id="season-heading">雨铃</h2><button id="motion" type="button" aria-pressed="false">减弱动态</button></div>
+      <figure class="portrait-view" role="img" aria-label="绘本里穿着浅蓝披肩的雨铃">
+        <div class="portrait-puppet">
+          <img class="portrait-looking-back" src="assets/yuling-portfolio-portrait.webp" alt="" fetchpriority="high">
+          <img class="portrait-reading" src="assets/yuling-book-reading.webp" alt="">
+        </div>
+      </figure>
+      <aside class="season-panel" aria-label="三季之树">
         <div class="season-visual">
-          <figure class="portrait-view">
-            <img src="assets/yuling-portfolio-portrait.webp" alt="银发的雨铃身穿浅蓝披肩，向左前方微微俯身，回头看向镜头。" fetchpriority="high">
-          </figure>
           <div class="canopy-view" aria-label="季节树项目入口">
         <div class="canopy-light"></div>
         <div class="orbit orbit-outer" aria-hidden="true"></div>
@@ -71,6 +89,13 @@
 <radialGradient id="pink"><stop stop-color="#f4d3d6"/><stop offset=".8" stop-color="#e4b8c3"/><stop offset="1" stop-color="#c78eaa" stop-opacity=".2"/></radialGradient>
 <radialGradient id="gold"><stop stop-color="#edd28c"/><stop offset=".8" stop-color="#d4b76f"/><stop offset="1" stop-color="#bba05e" stop-opacity=".2"/></radialGradient>
 <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
+<filter id="paper-cut" x="-12%" y="-12%" width="124%" height="127%" color-interpolation-filters="sRGB">
+  <feMorphology in="SourceAlpha" operator="dilate" radius="5.2" result="cut"/>
+  <feFlood flood-color="#fff" result="paper"/>
+  <feComposite in="paper" in2="cut" operator="in" result="edge"/>
+  <feDropShadow in="edge" dx="2" dy="5" stdDeviation="3" flood-color="#484832" flood-opacity=".28" result="edge-shadow"/>
+  <feMerge><feMergeNode in="edge-shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
 <g id="cherry"><path d="M0 0 C-4 -2 -7 -8 -4 -10 L-1 -9 L0 -12 C5 -11 6 -4 0 0Z" fill="currentColor"/><path d="M0 0 C-4 -2 -7 -8 -4 -10 L-1 -9 L0 -12 C5 -11 6 -4 0 0Z" fill="currentColor" transform="rotate(72)"/><path d="M0 0 C-4 -2 -7 -8 -4 -10 L-1 -9 L0 -12 C5 -11 6 -4 0 0Z" fill="currentColor" transform="rotate(144)"/><path d="M0 0 C-4 -2 -7 -8 -4 -10 L-1 -9 L0 -12 C5 -11 6 -4 0 0Z" fill="currentColor" transform="rotate(216)"/><path d="M0 0 C-4 -2 -7 -8 -4 -10 L-1 -9 L0 -12 C5 -11 6 -4 0 0Z" fill="currentColor" transform="rotate(288)"/><circle r="1.5" fill="#d5af73"/></g>
 <g id="ginkgo"><path d="M0 5 L-11 -7 Q-13 -15 -4 -17 L0 -14 L3 -17 Q13 -16 12 -7Z" fill="currentColor"/><path d="M0 5 L-7 -11 M0 5 L0 -13 M0 5 L8 -11" stroke="#a68b4f" stroke-width=".5" opacity=".5"/><path d="M0 5 L1 10" stroke="#8f805a" stroke-width="1"/></g>
 <g id="plum"><circle cy="-5" r="4" fill="currentColor"/><circle cx="5" cy="-1" r="4" fill="currentColor"/><circle cx="3" cy="5" r="4" fill="currentColor"/><circle cx="-4" cy="4" r="4" fill="currentColor"/><circle cx="-5" cy="-2" r="4" fill="currentColor"/><circle r="1.5" fill="#dfc08e"/><path d="M-2 -2 L-3 -4 M1 -2 L2 -5 M2 1 L5 2" stroke="#eed8a5" stroke-width=".5"/></g>
@@ -86,17 +111,17 @@
           </div>
         </div>
         <nav class="season-navigation" aria-label="作品集章节">
-          <a href="#overview" data-jump="0" aria-current="location">总览</a>
-          <a href="#spring" data-jump="1">春 · 调查</a>
+          <a href="#spring" data-jump="1" aria-current="location">春 · 调查</a>
           <a href="#autumn" data-jump="2">秋 · 分析</a>
           <a href="#winter" data-jump="3">冬 · 交互</a>
         </nav>
-        <section id="selected-project" class="project-note" aria-live="polite" hidden></section>
       </aside>
+      <canvas class="paper-turn" aria-hidden="true"></canvas>
     </div>
   </main>
-  <div id="transition" aria-hidden="true"><div class="bubbles"></div><div class="loading-scene"><p class="eyebrow">穿过季节，走近一个问题</p><div class="runner"><div class="oc-runner" role="img" aria-label="Q版雨铃跑步动画"></div></div><div class="run-track"></div><h2 id="loading-title"></h2><p class="loading-caption">雨铃正在带你前往案例</p></div><button id="skip">跳过转场 ↗</button></div>
+  <div id="transition" aria-hidden="true"><div class="bubbles"></div><div class="loading-scene"><div class="runner"><div class="oc-runner" role="img" aria-label="Q版雨铃跑步动画"></div></div><div class="run-track"></div><h2 id="loading-title"></h2><p class="loading-caption">正在打开案例…</p></div><button id="skip">跳过转场 ↗</button></div>
   <script src="notebook-app.js"></script>
+  <script src="paper-turn.js"></script>
   <script src="branch.js"></script>
 </body>
 </html>

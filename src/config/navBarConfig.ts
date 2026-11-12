@@ -136,8 +136,6 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Projects,
 		// 技能展示
 		LinkPreset.Skills,
-		// 友链
-		LinkPreset.Friends,
 		// 时间线
 		LinkPreset.Timeline,
 		// 简历
@@ -158,15 +156,9 @@ export const navBarConfig: NavBarConfig = {
 			url: "#",
 			icon: "material-symbols:more-horiz",
 			children: [
-				LinkPreset.Anime,
 				LinkPreset.Games,
 				LinkPreset.AITools,
 				LinkPreset.Albums,
-				{
-					name: "设备",
-					url: "/devices/",
-					icon: "material-symbols:devices",
-				},
 			],
 		},
 	],

@@ -2,6 +2,7 @@
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 
 const title = "简历";
+const resumePdf = "/documents/简历.pdf?v=20261113";
 ---
 <MainGridLayout title={title}>
 	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
@@ -16,7 +17,7 @@ const title = "简历";
 					<p class="text-black/50 dark:text-white/50 text-sm">吕家欣 · 社会学本科生</p>
 				</div>
 				<a
-					href="/documents/简历.pdf"
+					href={resumePdf}
 					target="_blank"
 					download
 					class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-(--primary) text-white text-sm font-medium hover:opacity-90 transition-opacity"
@@ -30,7 +31,7 @@ const title = "简历";
 
 			<div class="rounded-lg overflow-hidden border border-(--line-divider)" style="height: calc(100vh - 16rem);">
 				<iframe
-					src="/documents/简历.pdf"
+					src={resumePdf}
 					class="w-full h-full"
 					style="border: none;"
 					title="简历预览"

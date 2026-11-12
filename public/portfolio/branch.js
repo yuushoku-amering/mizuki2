@@ -40,12 +40,15 @@ const scrollCue = document.querySelector("#scroll-cue");
 const ring = document.querySelector(".pointer-ring");
 const finePointer = matchMedia("(pointer: fine)");
 const compact = matchMedia("(max-width: 760px), (max-height: 600px)");
-const jumpLinks = [...document.querySelectorAll("[data-jump]")];
+const jumpLinks = new Map([...document.querySelectorAll("[data-jump]")].map(link => [Number(link.dataset.jump), link]));
 const revealOffsets = [.12, .32, .53, .72];
 const inlineTree = document.body.classList.contains("portfolio-page");
-const seasonHeading = document.querySelector("#season-heading");
+const capabilities = document.querySelector(".capabilities");
+const paperTurn = document.querySelector(".paper-turn");
+const portrait = document.querySelector(".portrait-puppet");
+const stackedBook = matchMedia("(max-width: 900px)");
 const returnKey = inlineTree ? "branch-return-inline" : "branch-return";
-let inlinePosition = 0;
+let inlinePosition = chapters[1].jump;
 let activeChapter = -1;
 let currentPosition = 0;
 let frame = 0;
@@ -59,6 +62,12 @@ let ringX = 0;
 let ringY = 0;
 let parallaxX = 0;
 let parallaxY = 0;
+let cancelPaperTurn;
+let turnTarget;
+let wheelTravel = 0;
+let wheelDirection = 0;
+let lastWheelTime = -Infinity;
+let wheelTurned = false;
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
 const lerp = (from, to, amount) => from + (to - from) * amount;
@@ -69,11 +78,59 @@ function requestFrame() {
   if (!frame) frame = requestAnimationFrame(renderFrame);
 }
 
+function showBookNote(visible) {
+  if (!paperTurn) {
+    note.hidden = !visible;
+    return;
+  }
+
+  const revealNote = () => {
+    if (visible && stackedBook.matches) {
+      note.scrollIntoView({ block: "nearest", behavior: reduced ? "instant" : "smooth" });
+    }
+  };
+
+  const commit = () => {
+    const poseChanged = document.body.classList.contains("book-reading") !== visible;
+    document.body.classList.toggle("book-reading", visible);
+    note.hidden = !visible;
+    capabilities.hidden = visible;
+    if (poseChanged && !reduced && paperTurn.classList.contains("is-turning")) {
+      portrait.animate([{ opacity: .45, translate: "3px 0" }, { opacity: 1, translate: "0 0" }], {
+        duration: 220, easing: "ease-out",
+      });
+      (visible ? note : capabilities).animate([{ opacity: .22 }, { opacity: 1 }], {
+        duration: 180, easing: "ease-out",
+      });
+    }
+  };
+
+  const reading = document.body.classList.contains("book-reading");
+  if (reduced || turnTarget !== undefined && turnTarget !== visible) {
+    cancelPaperTurn?.();
+    cancelPaperTurn = undefined;
+    turnTarget = undefined;
+  }
+  if (turnTarget === visible) return;
+  if (reading === visible || reduced) {
+    commit();
+    revealNote();
+    return;
+  }
+
+  turnTarget = visible;
+  cancelPaperTurn = animatePaperTurn(paperTurn, commit, () => {
+    cancelPaperTurn = undefined;
+    turnTarget = undefined;
+    revealNote();
+  });
+}
+
 function closeNote(restoreFocus = false) {
-  note.hidden = true;
+  showBookNote(false);
   if (activeMarker) {
     activeMarker.setAttribute("aria-pressed", "false");
-    if (restoreFocus && !activeMarker.hidden) activeMarker.focus();
+    if (restoreFocus && !activeMarker.hidden) activeMarker.focus({ preventScroll: true });
   }
   activeMarker = null;
 }
@@ -102,8 +159,8 @@ function describeProject(marker, id) {
   const close = document.createElement("button");
   close.id = "close-note";
   close.type = "button";
-  close.setAttribute("aria-label", "关闭项目简介");
-  close.textContent = "×";
+  close.textContent = inlineTree ? "← 返回能力图" : "×";
+  if (!inlineTree) close.setAttribute("aria-label", "关闭项目简介");
   close.addEventListener("click", () => closeNote(true));
   const title = document.createElement("h2");
   title.textContent = project.title;
@@ -114,7 +171,7 @@ function describeProject(marker, id) {
   link.textContent = "打开案例 ↗";
   link.addEventListener("click", event => openCase(event, id));
   note.replaceChildren(close, title, summary, link);
-  note.hidden = false;
+  showBookNote(true);
 }
 
 function renderChapter(index) {
@@ -125,7 +182,6 @@ function renderChapter(index) {
   activeChapter = index;
   document.body.dataset.chapter = String(index);
   document.body.dataset.clockSeason = chapter.season;
-  if (seasonHeading) seasonHeading.textContent = index === 0 ? "雨铃" : "三季之树";
   if (!inlineTree) {
     document.querySelector("#chapter-kicker").textContent = chapter.kicker;
     const title = document.querySelector("#chapter-title");
@@ -173,7 +229,7 @@ function renderChapter(index) {
     return marker;
   });
   markerGroup.replaceChildren(...markers);
-  if (keyboardWasOnProject) jumpLinks[index].focus({ preventScroll: true });
+  if (keyboardWasOnProject) jumpLinks.get(index)?.focus({ preventScroll: true });
 }
 
 function updateCamera(position) {
@@ -231,7 +287,7 @@ function renderFrame() {
     if (marker.hidden === !revealed) return;
     if (!revealed && marker === activeMarker) closeNote();
     if (!revealed && marker.contains(document.activeElement)) {
-      jumpLinks[activeChapter].focus({ preventScroll: true });
+      jumpLinks.get(activeChapter)?.focus({ preventScroll: true });
     }
     marker.hidden = !revealed;
     marker.classList.toggle("is-new", revealed && !reduced);
@@ -244,26 +300,60 @@ function renderFrame() {
 }
 
 function jumpTo(position, behavior) {
-  if (inlineTree) inlinePosition = position;
+  if (inlineTree) inlinePosition = Math.max(chapters[1].jump, position);
   else window.scrollTo({ top: journey.offsetTop + journeyDistance() * position / totalJourney, behavior });
   requestFrame();
+}
+
+function selectSeason(index) {
+  history.replaceState(null, "", "#" + chapterNames[index]);
+  jumpTo(chapters[index].jump, reduced ? "instant" : "smooth");
 }
 
 jumpLinks.forEach((link, index) => {
   link.addEventListener("click", event => {
     if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    history.replaceState(null, "", link.hash);
-    jumpTo(chapters[index].jump, reduced ? "instant" : "smooth");
+    selectSeason(index);
   });
 });
+
+canopy.closest(".season-panel")?.addEventListener("wheel", event => {
+  const { deltaMode, deltaX, deltaY } = event;
+  if (event.ctrlKey || event.metaKey || event.shiftKey || Math.abs(deltaX) >= Math.abs(deltaY)) return;
+  const direction = Math.sign(deltaY);
+  const now = performance.now();
+  if (direction !== wheelDirection || now - lastWheelTime > 165) {
+    wheelTravel = 0;
+    wheelTurned = false;
+    wheelDirection = direction;
+  }
+  lastWheelTime = now;
+
+  const chapter = chapters.findLastIndex(season => inlinePosition >= season.start);
+  const next = chapter + direction;
+  if (!wheelTurned && (next < 1 || next >= chapters.length)) return;
+  event.preventDefault();
+  if (wheelTurned) return;
+
+  const unit = deltaMode === 1 ? 16 : deltaMode === 2 ? innerHeight : 1;
+  wheelTravel += Math.abs(deltaY) * unit;
+  if (wheelTravel < 42) return;
+  wheelTurned = true;
+  selectSeason(next);
+}, { passive: false });
+
 document.querySelector("#start-journey")?.addEventListener("click", event => {
   if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
   event.preventDefault();
   history.replaceState(null, "", "#spring");
   jumpTo(chapters[1].jump, reduced ? "instant" : "smooth");
 });
-document.querySelector("#motion").addEventListener("click", requestFrame);
+motionButton?.addEventListener("click", requestFrame);
+reducedQuery.addEventListener("change", () => {
+  if (paperTurn && reduced) showBookNote(Boolean(activeMarker));
+  requestFrame();
+});
 window.addEventListener("scroll", requestFrame, { passive: true });
 window.addEventListener("resize", requestFrame);
 window.addEventListener("pageshow", requestFrame);

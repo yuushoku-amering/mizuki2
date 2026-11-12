@@ -5,7 +5,7 @@ const seasons = {spring:{name:'春 · 樱花',color:'#ecc0d2',wash:'#e7d3df',sym
 const projects = {
  game:{title:'游戏付费公平感知调查',tags:['问卷设计','消费心理','量化分析'],image:'slide-6.webp',season:'spring',summary:'以大学生玩家为样本，探索游戏付费动机、消费后悔与公平感知。',question:'大学生为何为游戏付费？审美、社交和竞争动机如何影响消费体验与公平评价？',method:'结构化问卷覆盖经济、社交、心理、行为与公平感知五个维度，结合统计分析与开放回答归纳。作品集记录有效样本为54份。',finding:'项目将审美驱动与消费后的期望落差作为重点分析线索。结论应放在该课程项目的小样本与地区限制下理解。',reflection:'扩大受访群体，按游戏类型进一步划分，并补充深度访谈，核对不同动机与负面体验之间的关系。',slides:[['slide-4.webp','研究概述'],['slide-5.webp','研究框架'],['slide-6.webp','分析图表'],['slide-8.webp','反思与优化']]},
  snack:{title:'好想来消费者行为研究',tags:['问卷调查','实地观察','混合方法'],image:'slide-11.webp',season:'spring',summary:'把问卷里的消费选择与真实门店里的行为放在一起，理解大学生的零食消费场景。',question:'学生为什么走出校园购买零食？结伴、顺路与渠道选择在消费过程中如何发生联系？',method:'220份有效问卷，结合三个典型日的门店观察。对照消费频率、结伴行为、场景与商品偏好，补充自报数据无法呈现的现场细节。',finding:'作品集把零食消费嵌入日常与社交动线的特点作为核心洞察，并比较问卷偏好与现场停留之间的差异。',reflection:'区分观察窗口与长期行为，明确各比例的统计分母。将发现转为可验证的门店陈列和场景运营假设。',slides:[['slide-10.webp','研究概述'],['slide-11.webp','行为图表'],['slide-12.webp','核心洞察'],['slide-13.webp','交叉验证']]},
- mangrove:{title:'红树林社区共治研究',tags:['深度访谈','田野调查','定性研究'],image:'slide-19.webp',season:'spring',summary:'从政府、基层与村民的不同位置，理解社区保护中的公众参与机制。',question:'多方参与的治理结构中，村民为什么仍可能处于旁观位置？参与动力和反馈渠道有哪些断点？',method:'以参与式治理为视角，结合实地走访与不同主体的深度访谈，围绕动力、联系、运行、反馈与保障机制整理材料。',finding:'项目关注治理主体之间的权力与执行断层，以及村民参与空间受到限制的现象。',reflection:'在正式案例中继续补充可追溯的访谈证据、编码过程和反例，清楚区分受访者陈述与研究解释。',slides:[['slide-19.webp','定性研究概览']]},
+ mangrove:{title:'红树林社区共治研究',tags:['深度访谈','田野调查','定性研究'],image:'slide-19.webp',season:'spring',summary:'到红树林保护区走访，了解管理方、基层工作人员和村民怎样参与保护。',question:'村民平时能通过哪些途径参与红树林保护？遇到问题可以向谁反映？',method:'走访保护区并访谈相关人员，按分工、沟通、参与机会和反馈等主题整理记录。',finding:'这次走访主要看到两处难点：管理要求传到基层时会遇到执行问题，村民能直接参与的机会也有限。',reflection:'有些说法来自个别受访者。下一步会补看不同意见，区分访谈原话和我自己的解释。',slides:[['slide-19.webp','定性研究概览']]},
  retail:{title:'服饰零售数据分析',tags:['数据可视化','人货场','经营分析'],image:'slide-16.webp',season:'autumn',summary:'围绕人、货、场组织零售数据，把分散指标转化为可阅读的经营线索。',question:'核心客群、商品组合与渠道分布分别呈现什么特点？哪些经营问题值得优先关注？',method:'以人货场框架组织分析，通过可视化比较客群、商品和渠道维度，并将分析结果归纳为运营建议。',finding:'作品集重点展示客群聚焦、基本盘商品与渠道布局三个方面的分析结果。',reflection:'进一步补充数据来源、指标口径和时间窗口，明确相关性分析与实际运营成效之间的区别。',slides:[['slide-15.webp','分析概述'],['slide-16.webp','人货场图表'],['slide-17.webp','仪表板与建议']]},
  model:{title:'风险预警与干预方案建模',tags:['数学建模','特征分析','成本优化'],image:'slide-20.webp',season:'autumn',summary:'MathorCup建模项目：综合多维特征，探索风险分层与约束条件下的方案优化。',question:'如何组织体质、活动能力与血常规数据，建立风险预警思路，并考虑干预成本约束？',method:'作品集记录1000例个案数据，围绕关键特征筛选、风险分层与成本优化建立建模路径。',finding:'项目展示多源特征融合与成本约束下的模型设计思路，具体表现需结合完整建模报告评估。',reflection:'明确训练与验证划分，补充模型指标、误差与适用边界。此处作为竞赛项目成果展示。',slides:[['slide-20.webp','建模方案概览']]},
  vesper:{title:'岚苔 Vesper · 用户研究工作台',tags:['产品交互','研究流程','工具设计'],image:'slide-21-renamed.jpg',season:'winter',summary:'把研究过程中“下一步做什么、为何选择这个方法”的问题，转成可以理解和操作的流程。',question:'研究者如何在材料整理、方法选择、统计分析与结果归档之间保持清晰的判断路径？',method:'围绕访谈、编码、问卷、清洗和分析等环节组织工作流，让输入、方法依据与产物保持可见。',finding:'设计重点是把研究者的判断放进流程：呈现材料与依据，让关键决定可追溯。下方提供这一思路的交互示意。',reflection:'页面中的交互组件是作品集演示，并未连接实际工作台；真实功能与完成度以实际项目验证为准。',slides:[['slide-21-renamed.jpg','产品概览'],['slide-22-renamed.jpg','设计取舍']]}
@@ -15,10 +15,30 @@ const projects = {
 projects["melody"]={"title": "MelodyAiming · 节奏射击", "tags": ["交互设计", "节奏游戏", "网页开发"], "image": "melodyaiming.png", "season": "winter", "summary": "将音乐节拍与鼠标瞄准结合，让点射、跟枪、得分和连击形成可体验的反馈循环。", "question": "如何让目标出现、节奏提示和瞄准反馈协同工作，让玩家理解并进入音乐驱动的操作？", "method": "桌面浏览器 Demo 支持三首曲目、难度选择、灵敏度设置、点射与按住跟枪，以及后屏画面切换。谱面依据音频节拍和段落能量生成，再按难度筛选目标。", "finding": "通过可玩的界面呈现音乐、目标、操作与反馈之间的关系，下方可直接体验现有 Demo。", "reflection": "后续可继续评估节奏可读性、目标密度和学习成本；作品集演示以现有版本为准。", "slides": [["melodyaiming.png", "游戏界面"]]};
 projects["office"]={"title": "本机 AI 协作办公室", "tags": ["协作流程", "产品交互", "本地工具"], "image": "office-preview.png", "season": "winter", "summary": "把多人讨论、任务分工与人工审阅串成可追踪的工作空间，让参与者、任务和决定保持可见。", "question": "两位 AI 共同参与项目时，如何看清谁在处理什么、在哪一步需要人决定，以及改动从何而来？", "method": "将话题时间线与工作台并排组织；围绕目标讨论、文件范围分工、审批、差异审阅与合入安排操作。", "finding": "下方提供已有的独立交互体验版，可浏览话题、试用讨论、切换工作区与茶水间，并查看工作台。", "reflection": "此处演示使用预设消息与浏览器本地状态，不连接真实 Agent，也不启动本机办公室服务。", "slides": [["office-preview.png", "办公室界面"]]};
 let activeSeason = null, transitionTimer = null, busy = false;
-const reducedQuery=matchMedia('(prefers-reduced-motion: reduce)');
-let reduced = localStorage.getItem('worldtree-reduced') === 'true' || (localStorage.getItem('worldtree-reduced') === null && reducedQuery.matches);
-function applyMotion(){document.body.classList.toggle('reduced', reduced);document.body.classList.toggle('motion-override',!reduced);const btn=document.querySelector('#motion');if(btn){btn.setAttribute('aria-pressed',String(reduced));btn.textContent=reduced?'开启动画':'减弱动态';}}
-applyMotion();document.querySelector('#motion')?.addEventListener('click',()=>{reduced=!reduced;localStorage.setItem('worldtree-reduced',reduced);applyMotion();});
+const reducedQuery = matchMedia('(prefers-reduced-motion: reduce)');
+const motionButton = document.querySelector('#motion');
+let motionPreference = motionButton ? localStorage.getItem('worldtree-reduced') : null;
+let reduced = motionPreference === null ? reducedQuery.matches : motionPreference === 'true';
+function applyMotion() {
+  document.body.classList.toggle('reduced', reduced);
+  document.body.classList.toggle('motion-override', !reduced);
+  if (motionButton) {
+    motionButton.setAttribute('aria-pressed', String(reduced));
+    motionButton.textContent = reduced ? '开启动画' : '减弱动态';
+  }
+}
+applyMotion();
+motionButton?.addEventListener('click', () => {
+  reduced = !reduced;
+  motionPreference = String(reduced);
+  localStorage.setItem('worldtree-reduced', motionPreference);
+  applyMotion();
+});
+reducedQuery.addEventListener('change', ({ matches }) => {
+  if (motionPreference !== null) return;
+  reduced = matches;
+  applyMotion();
+});
 const svgNS='http://www.w3.org/2000/svg';
 function el(tag, attrs, parent){const n=document.createElementNS(svgNS,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);parent.append(n);return n;}
 let seed=232;function rand(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646;}

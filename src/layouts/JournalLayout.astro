@@ -31,7 +31,7 @@ const {title = "首页", description = "社会学学习、用户研究、数据�
 const pathname = Astro.url.pathname;
 const isPost = Boolean(postSlug);
 const nav = [{href:"/",label:"首页"},{href:"/archive/",label:"文章"},{href:"/projects/",label:"项目"},{href:"/albums/",label:"相册"},{href:"/about/",label:"关于"}];
-const more = [{href:"/skills/",label:"技能"},{href:"/timeline/",label:"时间线"},{href:"/resume/",label:"简历"},{href:"/portfolio/",label:"作品集"},{href:"/friends/",label:"友链与资源"},{href:"/anime/",label:"追番"},{href:"/games/",label:"游戏"},{href:"/ai-tools/",label:"AI 工具"},{href:"/devices/",label:"设备"}];
+const more = [{href:"/skills/",label:"技能"},{href:"/timeline/",label:"时间线"},{href:"/resume/",label:"简历"},{href:"/portfolio/",label:"作品集"},{href:"/games/",label:"游戏"},{href:"/ai-tools/",label:"AI 工具"}];
 const active = (href: string) => href === "/" ? pathname === "/" : pathname.startsWith(href) || (href === "/archive/" && isPost);
 const canonical = new URL(pathname, Astro.site || siteConfig.siteURL);
 const pageTitle = `${title} · ${siteConfig.title}`;
