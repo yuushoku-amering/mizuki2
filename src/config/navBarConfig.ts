@@ -128,37 +128,37 @@ import { LinkPreset } from "../types/config";
  */
 export const navBarConfig: NavBarConfig = {
 	links: [
-		// 主页
-		LinkPreset.Home,
-		// 关于我
-		LinkPreset.About,
-		// 项目展示
-		LinkPreset.Projects,
-		// 技能展示
-		LinkPreset.Skills,
-		// 时间线
-		LinkPreset.Timeline,
-		// 简历
 		{
-			name: "简历",
-			url: "/resume/",
-			icon: "material-symbols:description",
+			name: "文章",
+			url: "/archive/",
+			icon: "material-symbols:archive",
 		},
-		// 作品集
+		{
+			name: "技能",
+			url: "/skills/",
+			icon: "material-symbols:psychology",
+		},
 		{
 			name: "作品集",
 			url: "/portfolio/",
 			icon: "material-symbols:collections-bookmark",
 		},
-		// 更多
 		{
-			name: "更多",
+			name: "其他",
 			url: "#",
 			icon: "material-symbols:more-horiz",
 			children: [
+				LinkPreset.Projects,
+				LinkPreset.Albums,
+				LinkPreset.About,
+				LinkPreset.Timeline,
+				{
+					name: "简历",
+					url: "/resume/",
+					icon: "material-symbols:description",
+				},
 				LinkPreset.Games,
 				LinkPreset.AITools,
-				LinkPreset.Albums,
 			],
 		},
 	],
