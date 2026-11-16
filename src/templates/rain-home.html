@@ -18,6 +18,7 @@
     .journey { height: calc(575svh + var(--sunbreak-span, 0svh)); }
     .stage { position: sticky; top: 0; height: 100svh; min-height: 320px; overflow: hidden; isolation: isolate; touch-action: pan-y pinch-zoom; background: radial-gradient(ellipse at 66% 54%, #5d7580, #101724 80%); }
     .stage canvas, .stage::before { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .stage .pointer-water { pointer-events: none; }
     .stage::before { content: ""; z-index: 1; pointer-events: none; background: linear-gradient(90deg,#0c131dce 0%,#0c131d70 35%,transparent 69%),linear-gradient(0deg,#0a1018cb 0%,transparent 32%,transparent 80%,#0b141a73); }
     .sr-only { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
     .mast, .story, .travel { position: absolute; z-index: 3; }
@@ -51,13 +52,10 @@
     .drag-zone { position:absolute; z-index:2; left:var(--drag-left,53%); top:var(--drag-top,25%); width:var(--drag-width,28%); height:var(--drag-height,45%); cursor:grab; touch-action:pan-y pinch-zoom; }
     .drag-zone[data-dragging] { cursor:grabbing; }
     @media (max-width:740px) { .column-nav { top:4.5rem; right:18px; transform:none; grid-auto-flow:column; gap:.22rem; border-right:0; border-bottom:1px solid #e3eeee69; } .column-nav a { font-size:.78rem; padding:.50rem .46rem; border-right:0; border-bottom:2px solid transparent; margin:0 0 -1px; } }
-    @media (prefers-reduced-motion:reduce) { .journey { height:100svh; } }
+    @media (prefers-reduced-motion:reduce) { .journey { height:230svh; } }
     .rain-loader progress:indeterminate { appearance:auto; accent-color:#c4e9ed; }
     .rain-skip { display:inline-block; margin-top:.55rem; padding:.25rem .7rem; border:1px solid var(--edge); border-radius:4px; font-size:.8rem; }
-    .travel { bottom: clamp(12px,3.8svh,40px); }
-    .travel nav { display: flex; align-items: center; gap: clamp(10px,2.4vw,32px); }
-    .travel nav a { color: #c0d0d1; padding: 4px 1px; font-size: .81rem; white-space: nowrap; }
-    .travel nav a[aria-current] { color: #f5f5eb; border-bottom: 1px solid #e6dfb8; }
+    .travel { bottom: clamp(12px,3.8svh,40px); justify-content: flex-end; min-height: 26px; }
     .travel progress { appearance: none; width: clamp(55px,12vw,166px); height: 2px; border: 0; background: #c3dbd14a; }
     .travel progress::-webkit-progress-bar { background: #c3dbd14a; }
     .travel progress::-webkit-progress-value { background: #d9ebdf; }
@@ -77,8 +75,6 @@
       .passage { padding-block: 10px; }
       .passage h2 { font-size: clamp(1.85rem,8.3vw,3.3rem); }
       .passage-arrow { width: 42px; height: 42px; }
-      .travel nav { gap: clamp(9px,3.6vw,23px); }
-      .travel nav a { font-size: .77rem; }
       .travel progress { width: min(18vw,90px); }
     }
     @media (max-height: 520px) and (min-width: 741px) {
@@ -95,6 +91,7 @@
     <section class="journey" aria-label="从雨幕到一滴雨">
       <div class="stage">
         <canvas aria-hidden="true"></canvas>
+        <canvas class="pointer-water" aria-hidden="true" hidden></canvas>
         <div class="mast">
           <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">雨</span> Mizuki</a>
           <div class="tools"><button type="button" id="ambient" aria-pressed="false" aria-label="暂停环境动效">暂停环境</button><button type="button" id="sound" aria-pressed="false">开启铃声</button><a href="#home">直接浏览 ↓</a></div>
@@ -136,12 +133,6 @@
         </div>
         <div class="sunwash" aria-hidden="true"></div>
         <div class="travel">
-          <nav aria-label="下落章节">
-            <a href="#cloud" data-seek="0" aria-current="step">雨幕</a>
-            <a href="#fall" data-seek=".29">微观</a>
-            <a href="#chime" data-seek=".675">风铃</a>
-            <a href="#ripple" data-seek=".96">倒影</a>
-          </nav>
           <progress max="1" value="0" aria-label="下落进度"></progress>
         </div>
       </div>
@@ -176,13 +167,16 @@
   <script src="/rain/liquid-surface.js"></script>
   <script src="/rain/water-meshes.js"></script>
   <script src="/rain/water-points.js"></script>
-  <script src="/rain/water-views.js"></script>
+  <script src="/rain/water-views.js?v=20261117"></script>
   <script src="/rain/canvas-warp.js"></script>
   <script src="/rain/cloud-scene.js"></script>
   <script src="/rain/cloud-wind.js"></script>
   <script src="/rain/drop-lens.js"></script>
   <script src="/rain/rain-departure.js"></script>
   <script src="/rain/sunbreak.js"></script>
+  <script src="/rain/rain-ripples.js?v=20261117"></script>
+  <script src="/rain/rain-chime.js?v=20261117"></script>
+  <script src="/rain/water-contact.js?v=20261117"></script>
   <script>
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d', { alpha: false });
@@ -191,7 +185,6 @@
     const progress = document.querySelector('progress');
     const panels = [...document.querySelectorAll('.story')];
     const columnLinks = [...document.querySelectorAll('.column-nav a')];
-    const tabs = [...document.querySelectorAll('.travel [data-seek]')];
     const sound = document.querySelector('#sound');
     const ambient = document.querySelector('#ambient');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -199,6 +192,9 @@
     const field = createPointerField();
     const dropSurface = window.createLiquidSurface();
     const bellSurface = window.createLiquidSurface();
+    const pointerWater = window.createRainRipples(stage.querySelector('.pointer-water'));
+    const dropContact = window.createWaterContact();
+    const bellContact = window.createWaterContact();
     const look = { yaw: 0, pitch: 0, targetYaw: 0, targetPitch: 0 };
     const clamp = x => Math.max(0, Math.min(1, x));
     const mix = (a, b, t) => a + (b - a) * t;
@@ -233,7 +229,6 @@
     }
     const dropSpray = makeSpray(particleSamples?.drop);
     const bellSpray = makeSpray(particleSamples?.bell);
-    const waterTouches = [];
     let width = 0, height = 0, pixelRatio = 1, frame = 0, chapter = -1, lastProgress = 0;
     let ambientPaused = false, ambientTime = 0, clockAt = null, paintedAt = -Infinity, paintedProgress = null, dirty = true;
     let simulatedAt = 0, cameraProgress = null, frameAt = null;
@@ -253,12 +248,10 @@
     const bellPlate = loadPlate('bell-water.webp');
     const dropViews = window.createWaterViews('drop', dropPlate, 540, 500, requestFrame);
     const bellViews = window.createWaterViews('bell', bellPlate, 476, 702, requestFrame);
+    const chime = window.createRainChime();
+    const sampleLighting = window.createWaterLighting();
 
     const cloudWisps = loadPlate('cloud-wisp.webp');
-    const sheen = document.createElement('canvas');
-    sheen.width = 540;
-    sheen.height = 500;
-    const sheenContext = sheen.getContext('2d');
 
     function createMist() {
       const tile = document.createElement('canvas');
@@ -442,33 +435,10 @@
       return { left: x - width / 2, top: y - height * pivot, width, height };
     }
 
-    function paintDrop(opacity, time, motion) {
+    function paintDrop(opacity, motion) {
       if (!dropPlate.naturalWidth || opacity <= 0) return;
-      const view = dropViews.image(look.yaw, look.pitch);
-      if (!motion) {
-        dropSurface.paint(ctx, dropSurface.texture(view), opacity);
-        return;
-      }
-      const move = Math.sin(time * 1.12);
-      const roll = Math.sin(time * .94 + .45);
-      let source = view;
-      if (sheenContext) {
-        const sw = sheen.width, sh = sheen.height;
-        sheenContext.clearRect(0, 0, sw, sh);
-        sheenContext.drawImage(view, 0, 0, sw, sh);
-        sheenContext.globalCompositeOperation = 'source-atop';
-        const glowX = sw * (.48 + .26 * Math.sin(time * 1.17));
-        const glowY = sh * (.39 + .11 * roll);
-        const glow = sheenContext.createRadialGradient(glowX, glowY, 2, glowX, glowY, sh * .47);
-        glow.addColorStop(0, `rgba(224,239,246,${.07 + .052 * (move + 1)})`);
-        glow.addColorStop(.43, 'rgba(198,223,232,.10)');
-        glow.addColorStop(1, 'rgba(198,223,232,0)');
-        sheenContext.fillStyle = glow;
-        sheenContext.fillRect(0, 0, sw, sh);
-        sheenContext.globalCompositeOperation = 'source-over';
-        source = sheen;
-      }
-      dropSurface.paint(ctx, dropSurface.texture(source), opacity);
+      const view = dropViews.image(look.yaw, look.pitch,null,motion);
+      dropSurface.paint(ctx, dropSurface.texture(view), opacity);
     }
 
     function paintMolecules(p, x, y, size, time, dt, formingBell) {
@@ -544,7 +514,7 @@
       const reflectionHeight = Math.min(frameHeight * .63, (height - reflectedTop - 5) / crop);
       if (reflectionHeight <= 0) return;
       const step = Math.max(2, Math.round(sourceH * .007));
-      const waterMotion = reduced.matches ? .8 : 1.2 + 4.8 * Math.sin(impact * Math.PI);
+      const waterMotion = reduced.matches ? 0 : .48 + 2.9 * Math.sin(impact * Math.PI);
       ctx.save();
       ctx.translate(left, reflectedTop);
       ctx.scale(1, -1);
@@ -589,27 +559,6 @@
       ctx.fillStyle = flash; ctx.fillRect(x - 42, y - 42, 84, 84);
     }
 
-    function paintWaterTouches(time) {
-      if (reduced.matches) return;
-      for (let i = waterTouches.length - 1; i >= 0; i--) {
-        const wake = waterTouches[i];
-        const elapsed = time - wake.time;
-        if (elapsed >= 1.8) { waterTouches.splice(i, 1); continue; }
-        const x = wake.x * width, y = wake.y * height;
-        ctx.save();
-        ctx.globalAlpha = wake.strength;
-        for (let ring = 0; ring < 3; ring++) {
-          const progress = clamp((elapsed - ring * .12) / 1.35);
-          if (progress <= 0 || progress >= 1) continue;
-          const radius = 3 + 107 * progress ** .82;
-          ctx.beginPath(); ctx.ellipse(x, y, radius, radius * .24, -.025, 0, tau);
-          ctx.strokeStyle = `rgba(233,212,180,${.59 * (1 - progress) ** 2})`;
-          ctx.lineWidth = 1.15 - progress * .5; ctx.stroke();
-        }
-        ctx.restore();
-      }
-    }
-
     function paint(p, time, dt) {
       if (!ctx) return;
       field.begin(Math.max(42, Math.min(111, Math.min(width, height) * .133)), dt);
@@ -645,8 +594,9 @@
       setDragZone(moving && !ambientPaused ? focus : '', focus === 'drop' ? dropBox : bellBox);
       const returnToPath = 1 - smooth(.669, .702, p);
       const orbit = .55 * smooth(.485,.625,p) * returnToPath;
-      const wantYaw = signed((drag ? 0 : orbit) + look.targetYaw * returnToPath);
-      const wantPitch = look.targetPitch * returnToPath;
+      const turnWeight = drag ? 1 : returnToPath;
+      const wantYaw = signed((drag ? 0 : orbit) + look.targetYaw * turnWeight);
+      const wantPitch = look.targetPitch * turnWeight;
       if (moving) {
         const follow = 1 - Math.exp(-dt * 7.6);
         look.yaw = mix(look.yaw, wantYaw, follow);
@@ -654,15 +604,16 @@
         if (Math.abs(look.yaw - wantYaw) < .0006) look.yaw = wantYaw;
         if (Math.abs(look.pitch - wantPitch) < .0006) look.pitch = wantPitch;
       } else look.yaw = look.pitch = 0;
-      const dropTilt = Math.sin(time * .94 + .45) * .058 * isolated;
-      const bellSway = moving ? Math.sin((p - .59) * 26) * .044 * (1 - smooth(.793, .844, p)) : 0;
-      dropSurface.update(dropBox, .51, dropTilt, field, dt, moving && p >= .205 && p < .48);
-      bellSurface.update(bellBox, bellPivot, bellSway, field, dt, moving && p > .55);
-      const tip = {};
-      bellViews.anchor(bellSurface, 'tip', .62, bellTipRatio, look.yaw, look.pitch, tip);
-      const gap = waterline - tip.y;
-      const bellFrame = water > 0 && bellPlate.naturalWidth ?
-        bellSurface.texture(bellViews.image(look.yaw, look.pitch)) : null;
+      const dropTilt = dropViews.ready() ? 0 : Math.sin(time * .94 + .45) * .058 * isolated;
+      const bellRig = chime.motion(time,dt,moving && p >= .548,smooth(.607,.662,p));
+      const bellYaw = look.yaw;
+      const bellPitch = look.pitch;
+      const dropFlow = moving && p>.138 && p<.43 ? [time*4.15,.09*isolated,Math.sin(time*3.23)*.085*isolated] : null;
+      const interactive = moving && !ambientPaused;
+      const dropMotion = dropContact.sample(dropBox,time,dt,interactive && p>.19 && p<.43,dropFlow);
+      const bellMotion = bellContact.sample(bellBox,time,dt,interactive && p>.595 && p<.716);
+      dropSurface.update(dropBox, .51, dropTilt, field, dt, !dropViews.ready() && interactive && p >= .205 && p < .48);
+      bellSurface.update(bellBox, bellPivot, 0, field, dt, !bellViews.ready() && interactive && p > .55 && p < .70);
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       paintSky(p);
       const cloudProgress = p <= .35 ? camera.cloudProgress : p;
@@ -682,21 +633,32 @@
           disturbance: reduced.matches ? 0 : 1.1 + Math.sin(impact * Math.PI) * 3.2,
           phase: impact * 21 + time * 1.04,
         });
-        paintMirror(bellFrame, tip, waterline, gap, p, impact, time);
+      }
+      // Capture the environment before any model is painted, so its reflection never samples itself.
+      if (p > .138 && p < .43 && dropViews.ready()) {
+        dropViews.lightFrom(sampleLighting(canvas,time,p,dt===0),dropBox,.51,dropTilt,width,height,0);
+      }
+      if (p > .574 && bellViews.ready()) {
+        bellViews.lightFrom(sampleLighting(canvas,time,p,dt===0),bellBox,bellPivot,0,width,height,water);
+      }
+      if (water > 0 && bellPlate.naturalWidth) {
+        const source = bellViews.image(bellYaw,bellPitch,bellRig);
+        const tip = {};
+        bellViews.anchor(bellSurface, 'tip', .62, bellTipRatio, bellYaw, bellPitch, tip, bellRig);
+        paintMirror(bellSurface.texture(source), tip, waterline, waterline-tip.y, p, impact, time);
         paintWaterHighlights(x, waterline, impact, time);
-        paintWaterTouches(time);
       }
       const becomingParticles = reduced.matches || !particleSamples ? 0 : smooth(.351, .429, p);
       const dropOpacity = smooth(.138, .192, p) * (1 - smooth(.357, .43, p)) *
         mix(1, .24, becomingParticles);
-      const dropGrain = moving ? 1 - smooth(.298, .349, p) : 0;
+      const dropGrain = moving ? 1 - smooth(.276, .328, p) : 0;
       const dropPoints = dropGrain > .004 && dropOpacity > .004 ?
         dropViews.points(look.yaw, look.pitch, smooth(.139,.237,p), time) : null;
       paintFocusStreak(dropX, dropY, p);
       if (dropPoints) dropSurface.paint(ctx, dropSurface.texture(dropPoints), dropOpacity * dropGrain);
-      paintDrop(dropOpacity * (dropPoints ? 1 - dropGrain : 1), time, isolated);
-      const bellOpacity = smooth(.57, .684, p) * (1 - smooth(.706, .781, p));
-      const bellGrain = moving ? smooth(.557,.614,p) * (1 - smooth(.671,.712,p)) : 0;
+      paintDrop(dropOpacity * (dropPoints ? 1 - dropGrain : 1),dropMotion);
+      const bellOpacity = smooth(.574, .646, p) * (1 - smooth(.706, .781, p));
+      const bellGrain = moving ? smooth(.557,.607,p) * (1 - smooth(.615,.649,p)) : 0;
       const bellPoints = bellGrain > .004 ?
         bellViews.points(look.yaw, look.pitch, smooth(.543,.642,p), time) : null;
       if (p > .35 && p < .48) {
@@ -710,20 +672,20 @@
         ctx.restore();
       } else paintMolecules(p, x, dropY, size, time, dt, Boolean(bellPoints));
       if (bellPoints) bellSurface.paint(ctx, bellSurface.texture(bellPoints), bellGrain);
-      const bellWater = bellOpacity * (bellPoints ? smooth(.671,.712,p) : 1);
+      const bellWater = bellOpacity * (bellPoints ? smooth(.616,.645,p) : 1);
       if (bellWater > .004 && bellPlate.naturalWidth) {
-        const frame = bellFrame ?? bellSurface.texture(bellViews.image(look.yaw, look.pitch));
-        bellSurface.paint(ctx, frame, bellWater);
+        const surface = bellSurface.texture(bellViews.image(bellYaw,bellPitch,bellRig,bellMotion));
+        bellSurface.paint(ctx,surface,bellWater);
       }
       paintSpray(dropSpray, dropSurface, dropViews, dropOpacity * smooth(.215, .24, p) * (1 - smooth(.30, .41, p)), dt);
-      paintSpray(bellSpray, bellSurface, bellViews, bellOpacity * .32 * smooth(.642, .70, p), dt);
+      paintSpray(bellSpray, bellSurface, bellViews, bellOpacity * .32 * smooth(.642,.67,p) * (1-smooth(.652,.689,p)), dt);
       if (moving && p > .35 && p < .48) {
         waterLens.paintRipple(ctx, canvas, width, height, p, time, { x: dropX, y: dropY });
       }
       if (moving && p > .70 && p < .895) {
         const rim = {};
-        bellViews.anchor(bellSurface, 'rim', .51, .48, look.yaw, look.pitch, rim);
-        waterLens.paintBell(ctx, canvas, width, height, p, time, rim, bellBox.width, bellViews.camera(p), x, waterline);
+        bellViews.anchor(bellSurface, 'rim', .51, .48, bellYaw, bellPitch, rim, bellRig);
+        waterLens.paintBell(ctx, canvas, width, height, p, time, rim, bellBox.width, bellViews.camera(p,bellRig), x, waterline);
       }
       field.end(dt);
     }
@@ -761,8 +723,7 @@
 
     const sunbreak = window.createSunbreak(stage, journey, reduced, requestFrame);
     const distance = () => Math.max(1, journey.offsetHeight - stage.offsetHeight - sunbreak.span());
-    const still = [0, .29, .675, .96];
-    let staticChapter = 0;
+    const still = [0, .333, .692, .96];
     const zone = document.querySelector('.drag-zone');
     let drag = null, zoneType = '', lastWake = null;
     const signed = value => Math.max(-1, Math.min(1, value));
@@ -785,6 +746,7 @@
       const target = clamp(-bounds.top / rainDistance);
       const visible = bounds.bottom > 0 && bounds.top < height;
       const animate = Boolean(ctx) && visible && !sunny && !ambientPaused && !departure.active && !reduced.matches;
+      if(!animate)pointerWater.clear();
       const elapsed = frameAt === null ? 0 : Math.min(.05, (now - frameAt) / 1000);
       frameAt = animate ? now : null;
       if (!animate || cameraProgress === null || target >= .48 || Math.abs(target - cameraProgress) > .22) {
@@ -797,16 +759,15 @@
       const p = cameraProgress;
       if (animate && clockAt !== null) ambientTime += Math.min(.10, (now - clockAt) / 1000);
       clockAt = animate ? now : null;
-      const step = reduced.matches ? staticChapter : p < .18 ? 0 : p < .48 ? 1 : p < impactAt ? 2 : 3;
+      const step = p < .18 ? 0 : p < .48 ? 1 : p < impactAt ? 2 : 3;
       if (step !== chapter) {
         const restoreFocus = panels.some(panel => panel.contains(document.activeElement));
         panels.forEach((panel, i) => { panel.hidden = i !== step; });
-        tabs.forEach((tab, i) => { if (i === step) tab.setAttribute('aria-current', 'step'); else tab.removeAttribute('aria-current'); });
         columnLinks.forEach((link, i) => {
           if (i === step) link.setAttribute('aria-current', 'true');
           else link.removeAttribute('aria-current');
         });
-        if (restoreFocus) tabs[step].focus({ preventScroll: true });
+        if (restoreFocus) columnLinks[step].focus({ preventScroll: true });
         chapter = step;
       }
       const changed = dirty || p !== paintedProgress;
@@ -814,6 +775,7 @@
       if (changed || (animate && now - paintedAt >= interval)) {
         const dt = animate ? Math.min(.048, ambientTime - simulatedAt) : 0;
         paint(reduced.matches ? still[step] : p, reduced.matches ? 0 : ambientTime, dt);
+        if(animate)pointerWater.paint(canvas,ambientTime);
         simulatedAt = ambientTime;
         if (changed) progress.value = p;
         paintedProgress = p;
@@ -837,24 +799,6 @@
       canvas.height = Math.round(height * pixelRatio);
       requestFrame();
     }
-    const jumps = [...document.querySelectorAll('[data-seek]')];
-    function seek(position, instant) {
-      if (reduced.matches) {
-        staticChapter = still.indexOf(position);
-        scrollTo({top: 0, behavior: 'instant'});
-        requestFrame();
-        return;
-      }
-      const top = journey.getBoundingClientRect().top + scrollY + position * distance();
-      if (instant) cameraProgress = null;
-      scrollTo({ top, behavior: instant || reduced.matches ? 'instant' : 'smooth' });
-      requestFrame();
-    }
-    jumps.forEach(link => link.addEventListener('click', event => {
-      if (event.button > 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-      event.preventDefault();
-      seek(Number(link.dataset.seek), false);
-    }));
     addEventListener('resize', resize);
     addEventListener('scroll', requestFrame, { passive: true });
     function pointOnStage(event) {
@@ -867,24 +811,28 @@
       look.targetPitch = .24 * signed((height * .44 - y) / Math.max(1, height * .33));
     }
     stage.addEventListener('pointermove', event => {
-      if (ambientPaused || reduced.matches) return;
+      if (ambientPaused || reduced.matches || stage.classList.contains('sun-ready') || departure.active) return;
       const { x, y } = pointOnStage(event);
       if (drag?.id === event.pointerId) {
         look.targetYaw = signed(drag.yaw + (x - drag.x) / 110);
         look.targetPitch = signed(drag.pitch - (y - drag.y) / 105);
       } else if (event.pointerType !== 'touch') aimAt(x, y);
       else return;
-      if (lastProgress >= .88 && y > height * .5 &&
-          (!lastWake || (ambientTime - lastWake.time > .16 && Math.hypot(x - lastWake.x, y - lastWake.y) > 23))) {
+      touchWater(x,y,.67);
+      if (!lastWake || (ambientTime - lastWake.time > .105 && Math.hypot(x - lastWake.x, y - lastWake.y) > 21)) {
         lastWake = {x, y, time: ambientTime};
-        addWake(x, y, .32);
+        addWake(x, y, .37);
       }
       field.move(x, y);
       cloudScene.stir(x, y, ambientTime);
     }, { passive: true });
     function addWake(x,y,strength) {
-      if (waterTouches.length >= 7) waterTouches.shift();
-      waterTouches.push({x:x/width,y:y/height,time:ambientTime,strength});
+      pointerWater.disturb(x/Math.max(1,width),y/Math.max(1,height),ambientTime,strength);
+      touchWater(x,y,strength>.8 ? 1.18 : .81);
+    }
+    function touchWater(x,y,strength) {
+      dropContact.disturb(x,y,strength,ambientTime);
+      bellContact.disturb(x,y,strength,ambientTime);
     }
     function finishDrag() {
       if (!drag) return;
@@ -907,6 +855,8 @@
       look.targetYaw = look.targetPitch = 0;
       field.leave();
       cloudScene.leave();
+      dropContact.release();
+      bellContact.release();
     }
     stage.addEventListener('pointerleave', leaveStage);
     stage.addEventListener('pointercancel', leaveStage);
@@ -914,14 +864,18 @@
       finishDrag();
     });
     stage.addEventListener('pointerdown', event => {
-      if (event.button > 0 || ambientPaused || reduced.matches || event.target.closest?.('a, button')) return;
+      if (event.button > 0 || ambientPaused || reduced.matches || stage.classList.contains('sun-ready') ||
+          departure.active || event.target.closest?.('a, button')) return;
       const { x, y } = pointOnStage(event);
       if (event.pointerType === 'touch') {
         aimAt(x, y);
         field.move(x, y, true);
         cloudScene.stir(x, y, ambientTime, true);
       }
-      if (lastProgress >= .88 && y > height * .42) addWake(x, y, 1);
+      addWake(x, y, .91);
+      if (zoneType === 'bell' && event.target === zone) {
+        chime.kick(x < width*(width<741?.53:.67) ? 1 : -1);
+      }
     }, { passive: true });
     ambient.addEventListener('click', () => {
       ambientPaused = !ambientPaused;
@@ -975,12 +929,11 @@
       },
     });
     addEventListener('pagehide', () => {
-      try { history.replaceState({...history.state, rainY:scrollY, staticChapter}, ''); } catch {}
+      try { history.replaceState({...history.state, rainY:scrollY}, ''); } catch {}
     });
     addEventListener('pageshow', event => {
       const state = history.state;
       if (state && typeof state.rainY === 'number') {
-        staticChapter = state.staticChapter ?? 0;
         if (!event.persisted) scrollTo({top: state.rainY, behavior:'instant'});
         requestFrame();
       }
