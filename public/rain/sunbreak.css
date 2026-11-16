@@ -9,14 +9,12 @@
 .sunwash { display:none; }
 .sunbreak-motion .sunwash {
   display:block; position:absolute; inset:0; z-index:5; pointer-events:none;
-  clip-path:circle(var(--sun-radius,0px) at 99% 13%);
-  background:
-    radial-gradient(circle at 99% 13%, transparent max(0px,calc(var(--sun-radius,0px) - 8vmax)),
-      #f9b8a0aa calc(var(--sun-radius,0px) - 6vmax), #ffd69fbf calc(var(--sun-radius,0px) - 4.5vmax),
-      #ecedb0c7 calc(var(--sun-radius,0px) - 3.2vmax), #b8e1c9c4 calc(var(--sun-radius,0px) - 2.3vmax),
-      #bddbedd1 calc(var(--sun-radius,0px) - 1.2vmax), #d9c9efae var(--sun-radius,0px)),
-    radial-gradient(ellipse at 75% 12%,#fff4d4,#fbf1ec 58%,#eef5ef);
+  opacity:var(--sun-mist,0);
+  background:radial-gradient(ellipse at 79% 13%,#fff3d3,#faf1e9 56%,#eff5ed);
 }
+.sunbreak-motion .stage::before { opacity:var(--rain-ui,1); }
+.sunbreak-motion .stage > :is(.mast,.story,.column-nav,.travel) { opacity:var(--rain-ui,1); }
+.sunbreak-motion .stage > :is(.mast,.story,.column-nav,.travel)[inert] { pointer-events:none; }
 .sun-home {
   color-scheme:light; color:#433d38; min-height:100svh;
   display:flex; flex-direction:column; align-items:center; justify-content:center;

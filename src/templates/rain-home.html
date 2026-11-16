@@ -83,7 +83,7 @@
     }
     @media (max-width: 380px) { .mast, .tools { gap: 8px; } .tools button, .tools a { font-size: .74rem; } }
   </style>
-  <link rel="stylesheet" href="/rain/sunbreak.css?v=2">
+  <link rel="stylesheet" href="/rain/sunbreak.css?v=3">
 </head>
 <body>
   <main id="rain-page">
@@ -173,10 +173,11 @@
   <script src="/rain/cloud-wind.js"></script>
   <script src="/rain/drop-lens.js"></script>
   <script src="/rain/rain-departure.js"></script>
-  <script src="/rain/sunbreak.js"></script>
+  <script src="/rain/sunbreak.js?v=world-dawn"></script>
   <script src="/rain/rain-ripples.js?v=20261117"></script>
   <script src="/rain/rain-chime.js?v=20261117"></script>
   <script src="/rain/water-contact.js?v=20261117"></script>
+  <script src="/rain/rain-world.js?v=world-dawn"></script>
   <script>
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d', { alpha: false });
@@ -240,18 +241,13 @@
       return image;
     }
 
-    const cloudPlate = loadPlate('cloud.webp');
-    const cloudDescent = Array.from({ length: 27 }, (_, index) =>
-      loadPlate(`cloud-sea/${String(1 + 4 * index).padStart(3, '0')}.webp`));
-    const waterPlate = loadPlate('pool.webp');
+    let cloudPlate, cloudDescent, waterPlate, cloudScene, cloudWind;
     const dropPlate = loadPlate('drop-water.webp');
     const bellPlate = loadPlate('bell-water.webp');
     const dropViews = window.createWaterViews('drop', dropPlate, 540, 500, requestFrame);
     const bellViews = window.createWaterViews('bell', bellPlate, 476, 702, requestFrame);
     const chime = window.createRainChime();
     const sampleLighting = window.createWaterLighting();
-
-    const cloudWisps = loadPlate('cloud-wisp.webp');
 
     function createMist() {
       const tile = document.createElement('canvas');
@@ -277,8 +273,17 @@
       }
       return tile;
     }
-    const cloudScene = window.CloudSpace.createCloudScene(cloudWisps, createMist());
-    const cloudWind = window.createCloudWind();
+    function prepareFallbackScenery() {
+      if (cloudPlate) return;
+      cloudPlate = loadPlate('cloud.webp');
+      cloudDescent = Array.from({ length: 27 }, (_, index) =>
+        loadPlate(`cloud-sea/${String(1 + 4 * index).padStart(3, '0')}.webp`));
+      waterPlate = loadPlate('pool.webp');
+      cloudScene = window.CloudSpace.createCloudScene(loadPlate('cloud-wisp.webp'), createMist());
+      cloudWind = window.createCloudWind();
+    }
+    const rainWorld = window.createRainWorld();
+    let worldProgress = 0;
     const waterLens = window.createWaterLens();
 
     function paintPlate(plate, opacity, zoom, focalX, focalY, {
@@ -501,9 +506,9 @@
       ctx.globalAlpha = 1;
     }
 
-    function paintMirror(frame, tip, surface, gap, p, impact, time) {
+    function paintMirror(frame, tip, surface, gap, p, impact, time, reflection) {
       if (!frame) return;
-      const opacity = smooth(.863, .916, p);
+      const opacity = smooth(.863, .916, p)*reflection;
       if (!opacity) return;
       const { source, left, top, width: frameWidth, height: frameHeight } = frame;
       const sourceW = source.naturalWidth || source.width;
@@ -559,7 +564,7 @@
       ctx.fillStyle = flash; ctx.fillRect(x - 42, y - 42, 84, 84);
     }
 
-    function paint(p, time, dt) {
+    function paint(p, time, dt, dawn = 0) {
       if (!ctx) return;
       field.begin(Math.max(42, Math.min(111, Math.min(width, height) * .133)), dt);
       const compact = width < 741;
@@ -615,24 +620,33 @@
       dropSurface.update(dropBox, .51, dropTilt, field, dt, !dropViews.ready() && interactive && p >= .205 && p < .48);
       bellSurface.update(bellBox, bellPivot, 0, field, dt, !bellViews.ready() && interactive && p > .55 && p < .70);
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      paintSky(p);
-      const cloudProgress = p <= .35 ? camera.cloudProgress : p;
-      const renderedClouds = paintCloudDescent(cloudProgress, time, 1.025 + cameraPush, depthCue * (compact ? 2.5 : 4.3));
-      if (!renderedClouds) {
-        const zoom = mix(1.055, 1.73, reduced.matches ? 0 : smooth(0, .72, p)) + cameraPush;
-        paintPlate(cloudPlate, 1, zoom, mix(.70, .77, smooth(.29, .67, p)), .55, {
-          driftX: Math.sin(time * .235) * Math.min(24, width * .029),
-          driftY: Math.sin(time * .158) * Math.min(13, height * .019),
-        });
+      const worldVisible = rainWorld?.paint(ctx,width,height,p,time,camera,dawn);
+      if (worldVisible && dawn>.44) {
+        worldProgress=p;
+        field.end(dt);
+        return;
       }
-      cloudScene.paint(ctx, width, height, p, time, dt, reduced.matches,
-        (renderedClouds ? .28 : 1) * (1 - depthCue * .43), camera);
-      paintRain(p, time, dt, depthCue, camera, x, centerY);
-      if (water > 0) {
-        paintPlate(waterPlate, water, 1.045, .65, .52, {
-          disturbance: reduced.matches ? 0 : 1.1 + Math.sin(impact * Math.PI) * 3.2,
-          phase: impact * 21 + time * 1.04,
-        });
+      if (!worldVisible) {
+        prepareFallbackScenery();
+        paintSky(p);
+        const cloudProgress = p <= .35 ? camera.cloudProgress : p;
+        const renderedClouds = paintCloudDescent(cloudProgress, time, 1.025 + cameraPush, depthCue * (compact ? 2.5 : 4.3));
+        if (!renderedClouds) {
+          const zoom = mix(1.055, 1.73, reduced.matches ? 0 : smooth(0, .72, p)) + cameraPush;
+          paintPlate(cloudPlate, 1, zoom, mix(.70, .77, smooth(.29, .67, p)), .55, {
+            driftX: Math.sin(time * .235) * Math.min(24, width * .029),
+            driftY: Math.sin(time * .158) * Math.min(13, height * .019),
+          });
+        }
+        cloudScene.paint(ctx, width, height, p, time, dt, reduced.matches,
+          (renderedClouds ? .28 : 1) * (1 - depthCue * .43), camera);
+        paintRain(p, time, dt, depthCue, camera, x, centerY);
+        if (water > 0) {
+          paintPlate(waterPlate, water, 1.045, .65, .52, {
+            disturbance: reduced.matches ? 0 : 1.1 + Math.sin(impact * Math.PI) * 3.2,
+            phase: impact * 21 + time * 1.04,
+          });
+        }
       }
       // Capture the environment before any model is painted, so its reflection never samples itself.
       if (p > .138 && p < .43 && dropViews.ready()) {
@@ -645,9 +659,13 @@
         const source = bellViews.image(bellYaw,bellPitch,bellRig);
         const tip = {};
         bellViews.anchor(bellSurface, 'tip', .62, bellTipRatio, bellYaw, bellPitch, tip, bellRig);
-        paintMirror(bellSurface.texture(source), tip, waterline, waterline-tip.y, p, impact, time);
-        paintWaterHighlights(x, waterline, impact, time);
+        paintMirror(bellSurface.texture(source), tip, waterline, waterline-tip.y, p, impact, time, 1-smooth(.03,.34,dawn));
+        if (!worldVisible) paintWaterHighlights(x, waterline, impact, time);
       }
+      if (worldVisible && moving && worldProgress<impactAt && p>=impactAt) {
+        rainWorld.disturb(x/width,waterline/height,time,.83);
+      }
+      worldProgress=p;
       const becomingParticles = reduced.matches || !particleSamples ? 0 : smooth(.351, .429, p);
       const dropOpacity = smooth(.138, .192, p) * (1 - smooth(.357, .43, p)) *
         mix(1, .24, becomingParticles);
@@ -742,10 +760,14 @@
       if (document.hidden) { clockAt = frameAt = null; return; }
       const bounds = journey.getBoundingClientRect();
       const rainDistance = distance();
-      const sunny = sunbreak.paint(-bounds.top - rainDistance);
+      const afterRain = -bounds.top - rainDistance;
+      const liveSky = Boolean(rainWorld?.available());
+      const dawn = sunbreak.phase(afterRain);
+      const sunny = sunbreak.paint(afterRain,liveSky);
       const target = clamp(-bounds.top / rainDistance);
       const visible = bounds.bottom > 0 && bounds.top < height;
-      const animate = Boolean(ctx) && visible && !sunny && !ambientPaused && !departure.active && !reduced.matches;
+      const playing = Boolean(ctx) && visible && (!sunny || liveSky) && !ambientPaused && !departure.active && !reduced.matches;
+      const animate = playing && dawn<.44;
       if(!animate)pointerWater.clear();
       const elapsed = frameAt === null ? 0 : Math.min(.05, (now - frameAt) / 1000);
       frameAt = animate ? now : null;
@@ -757,8 +779,8 @@
         if (Math.abs(target - cameraProgress) < .00012) cameraProgress = target;
       }
       const p = cameraProgress;
-      if (animate && clockAt !== null) ambientTime += Math.min(.10, (now - clockAt) / 1000);
-      clockAt = animate ? now : null;
+      if (playing && clockAt !== null) ambientTime += Math.min(.10, (now - clockAt) / 1000);
+      clockAt = playing ? now : null;
       const step = p < .18 ? 0 : p < .48 ? 1 : p < impactAt ? 2 : 3;
       if (step !== chapter) {
         const restoreFocus = panels.some(panel => panel.contains(document.activeElement));
@@ -772,9 +794,9 @@
       }
       const changed = dirty || p !== paintedProgress;
       const interval = width >= 741 && p <= .35 ? 15 : 32;
-      if (changed || (animate && now - paintedAt >= interval)) {
-        const dt = animate ? Math.min(.048, ambientTime - simulatedAt) : 0;
-        paint(reduced.matches ? still[step] : p, reduced.matches ? 0 : ambientTime, dt);
+      if (changed || (playing && now - paintedAt >= interval)) {
+        const dt = playing ? Math.min(.048, ambientTime - simulatedAt) : 0;
+        if (!sunny || liveSky) paint(reduced.matches ? still[step] : p, reduced.matches ? 0 : ambientTime, dt,dawn);
         if(animate)pointerWater.paint(canvas,ambientTime);
         simulatedAt = ambientTime;
         if (changed) progress.value = p;
@@ -784,7 +806,7 @@
       }
       if (!rang && lastProgress < chimeAt && p >= chimeAt && !departure.active && !reduced.matches) rang = playChime();
       lastProgress = p;
-      if (animate) frame = requestAnimationFrame(render);
+      if (playing) frame = requestAnimationFrame(render);
     }
 
     function requestFrame() {
@@ -824,10 +846,12 @@
         addWake(x, y, .37);
       }
       field.move(x, y);
-      cloudScene.stir(x, y, ambientTime);
+      rainWorld?.move(x/Math.max(width,1),y/Math.max(height,1),ambientTime);
+      cloudScene?.stir(x, y, ambientTime);
     }, { passive: true });
     function addWake(x,y,strength) {
       pointerWater.disturb(x/Math.max(1,width),y/Math.max(1,height),ambientTime,strength);
+      rainWorld?.disturb(x/Math.max(1,width),y/Math.max(1,height),ambientTime,strength);
       touchWater(x,y,strength>.8 ? 1.18 : .81);
     }
     function touchWater(x,y,strength) {
@@ -854,7 +878,7 @@
       finishDrag();
       look.targetYaw = look.targetPitch = 0;
       field.leave();
-      cloudScene.leave();
+      cloudScene?.leave();
       dropContact.release();
       bellContact.release();
     }
@@ -870,7 +894,7 @@
       if (event.pointerType === 'touch') {
         aimAt(x, y);
         field.move(x, y, true);
-        cloudScene.stir(x, y, ambientTime, true);
+        cloudScene?.stir(x, y, ambientTime, true);
       }
       addWake(x, y, .91);
       if (zoneType === 'bell' && event.target === zone) {
