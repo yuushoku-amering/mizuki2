@@ -1,8 +1,7 @@
 ---
 import { FilterTabs } from "@components/atoms/filter-tabs";
-import { PageHeader } from "@components/features/page-header";
 import { SkillCard } from "@components/features/skills";
-import MainGridLayout from "@layouts/MainGridLayout.astro";
+import JournalLayout from "@layouts/JournalLayout.astro";
 import { Icon } from "astro-icon/components";
 
 import { siteConfig } from "../config";
@@ -69,9 +68,13 @@ const title = i18n(I18nKey.skills);
 const subtitle = i18n(I18nKey.skillsSubtitle);
 ---
 
-<MainGridLayout title={title} description={subtitle}>
+<JournalLayout title={title} description={subtitle}>
+	<div class="page-intro">
+		<a class="breadcrumb" href="/">← 首页</a>
+		<h1>{title}</h1>
+		<p>{subtitle}</p>
+	</div>
 	<script>
-		import("../scripts/right-sidebar-layout.js");
 		import { loadIconify } from "../utils/icon-loader";
 
 		loadIconify().catch((error) => {
@@ -81,51 +84,48 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 
 	<script is:inline src="/js/filter-tabs-handler.js"></script>
 
-	<div
-		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
-	>
-		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
-			<PageHeader title={title} subtitle={subtitle} />
+	<div class="card-base skills-list">
+		<div class="mb-8">
+			<FilterTabs tabs={filterTabs} dataAttr="category" />
+		</div>
 
-			<div class="mb-8">
-				<FilterTabs tabs={filterTabs} dataAttr="category" />
-			</div>
+		<div id="skills-grid">
+			{skillsData.map((skill) => <SkillCard skill={skill} />)}
+		</div>
 
-			<div id="skills-grid" class="grid gap-6 items-start">
-				{skillsData.map((skill) => <SkillCard skill={skill} />)}
-			</div>
-
-			<div id="no-results" class="hidden text-center py-16">
-				<Icon
-					name="material-symbols:search-off-rounded"
-					class="text-6xl text-black/15 dark:text-white/15 mb-4"
-				/>
-				<p class="text-black/40 dark:text-white/40 text-lg">
-					No matching skills
-				</p>
-			</div>
+		<div id="no-results" class="hidden text-center py-16">
+			<Icon
+				name="material-symbols:search-off-rounded"
+				class="text-6xl text-black/15 mb-4"
+			/>
+			<p>没有符合条件的技能。</p>
 		</div>
 	</div>
-</MainGridLayout>
+</JournalLayout>
 
-<style is:global>
+<style>
+	.skills-list {
+		--primary: var(--interior-accent);
+		--btn-content: var(--ink);
+		--btn-regular-bg: var(--interior-paper);
+		--btn-regular-bg-hover: var(--soft);
+		--line-divider: var(--line);
+		--radius-large: 12px;
+		background: transparent;
+	}
 	#skills-grid {
-		grid-template-columns: 1fr;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+		gap: clamp(14px, 2vw, 24px);
 	}
-
-	@media (width >= 640px) {
-		#skills-grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
+	#skills-grid :global(.skill-card) {
+		background: var(--surface);
+		border-color: var(--line);
 	}
-
-	#main-grid[data-layout-mode="grid"] #skills-grid {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-
-	@media (width < 640px) {
-		#main-grid[data-layout-mode="grid"] #skills-grid {
-			grid-template-columns: 1fr;
+	@media (prefers-reduced-motion: reduce) {
+		#skills-grid :global(.skill-card) {
+			animation: none;
+			opacity: 1;
 		}
 	}
 </style>

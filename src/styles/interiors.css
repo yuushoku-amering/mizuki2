@@ -41,7 +41,8 @@
 [data-interior="about"] .profile-aside .avatar { width:86px; height:86px; }
 #content-wrapper[data-interior] { --section-tint:#61766c; }
 #content-wrapper[data-interior="timeline"],#content-wrapper[data-interior="diary"] { --section-tint:#936d54; }
-#content-wrapper[data-interior="skills"],#content-wrapper[data-interior="ai-tools"] { --section-tint:#546d94; }
+[data-interior="skills"] { --interior-accent:#425f68; --interior-paper:#e9f0ed; }
+#content-wrapper[data-interior="ai-tools"] { --section-tint:#546d94; }
 #content-wrapper[data-interior="albums"],#content-wrapper[data-interior="anime"],#content-wrapper[data-interior="games"] { --section-tint:#876584; }
 #content-wrapper[data-interior] > div > .card-base,
 #content-wrapper[data-interior] > .card-base {
@@ -50,7 +51,6 @@
 }
 #content-wrapper[data-interior] h1 { text-decoration:underline; text-decoration-color:color-mix(in srgb,var(--section-tint) 45%,transparent); text-underline-offset:.24em; text-decoration-thickness:2px; }
 #content-wrapper[data-interior="timeline"] #timeline-list { border-inline-start:2px solid color-mix(in srgb,var(--section-tint) 30%,transparent); padding-inline-start:clamp(10px,3vw,26px); }
-#content-wrapper[data-interior="skills"] #skills-grid { gap:clamp(12px,3vw,26px); }
 @media(max-width:760px) {
   [data-interior="posts"] .journal-post-grid,[data-interior="about"] .about-layout { grid-template-columns:minmax(0,1fr); }
   [data-interior="albums"] .album-list { grid-template-columns:minmax(0,1fr); }
