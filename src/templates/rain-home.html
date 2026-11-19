@@ -18,7 +18,6 @@
     .journey { height: calc(575svh + var(--sunbreak-span, 0svh)); }
     .stage { position: sticky; top: 0; height: 100svh; min-height: 320px; overflow: hidden; isolation: isolate; touch-action: pan-y pinch-zoom; background: radial-gradient(ellipse at 66% 54%, #5d7580, #101724 80%); }
     .stage canvas, .stage::before { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .stage .pointer-water { pointer-events: none; }
     .stage::before { content: ""; z-index: 1; pointer-events: none; background: linear-gradient(90deg,#0c131dce 0%,#0c131d70 35%,transparent 69%),linear-gradient(0deg,#0a1018cb 0%,transparent 32%,transparent 80%,#0b141a73); }
     .sr-only { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
     .mast, .story, .travel { position: absolute; z-index: 3; }
@@ -84,75 +83,34 @@
     @media (max-width: 380px) { .mast, .tools { gap: 8px; } .tools button, .tools a { font-size: .74rem; } }
   </style>
   <link rel="stylesheet" href="/rain/sunbreak.css?v=3">
-</head>
+<link rel="stylesheet" href="/folio.css"><link rel="stylesheet" href="/window.css"></head>
 <body>
   <main id="rain-page">
     <h1 class="sr-only">一场雨 · Mizuki</h1>
     <section class="journey" aria-label="从雨幕到一滴雨">
       <div class="stage">
         <canvas aria-hidden="true"></canvas>
-        <canvas class="pointer-water" aria-hidden="true" hidden></canvas>
+        <div class="rain-trail" aria-hidden="true"></div>
         <div class="mast">
-          <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">雨</span> Mizuki</a>
-          <div class="tools"><button type="button" id="ambient" aria-pressed="false" aria-label="暂停环境动效">暂停环境</button><button type="button" id="sound" aria-pressed="false">开启铃声</button><a href="#home">直接浏览 ↓</a></div>
-        </div>
-        <nav class="column-nav" aria-label="直接浏览博客栏目">
-          <a href="/archive/" data-rain-exit="文章">文章</a>
-          <a href="/projects/" data-rain-exit="项目">项目</a>
-          <a href="/portfolio/" data-rain-exit="作品集">作品集</a>
-          <a href="/about/" data-rain-exit="关于我">关于我</a>
-        </nav>
-        <div class="drag-zone" aria-hidden="true" hidden></div>
-        <div class="story" data-chapter="0">
-          <a class="passage" href="/archive/" data-rain-exit="文章">
-            <h2>文章</h2>
-            <p>社会学、阅读与写作</p>
-            <span class="passage-arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-        <div class="story" data-chapter="1" hidden>
-          <a class="passage" href="/projects/" data-rain-exit="项目">
-            <h2>项目</h2>
-            <p>研究、数据分析与交互实验</p>
-            <span class="passage-arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-        <div class="story" data-chapter="2" hidden>
-          <a class="passage" href="/portfolio/" data-rain-exit="作品集">
-            <h2>作品集</h2>
-            <p>代表案例与交互体验</p>
-            <span class="passage-arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-        <div class="story" data-chapter="3" hidden>
-          <a class="passage" href="/about/" data-rain-exit="关于我">
-            <h2>关于我</h2>
-            <p>个人简介、技能与联系方式</p>
-            <span class="passage-arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-        <div class="sunwash" aria-hidden="true"></div>
-        <div class="travel">
+<a class="brand" href="#home"><img src="/rain/amering-pixel-icon.png" alt="">yuushoku-amering</a>
+<div class="tools"><button id="ambient" type="button" aria-pressed="false" aria-label="暂停环境动效">暂停环境</button><button id="sound" type="button" aria-pressed="false">开启铃声</button><a href="#home">雨后目录 ↘</a></div></div>
+<nav class="column-nav" aria-label="直接浏览博客栏目"><a href="/portfolio/">作品集</a><a href="/archive/">文章</a><a href="/skills/">技能</a><a href="/about/">关于我</a></nav>
+<div class="window-scene" aria-hidden="true"><img src="/window.webp" alt="" fetchpriority="high"><canvas></canvas></div>
+<button type="button" class="window-bell" aria-label="轻拨檐下的玻璃风铃"></button>
+<button type="button" class="turn-leaf" aria-label="翻一页，进入下一幕">翻一页 ↗</button>
+<div class="drag-zone" aria-hidden="true" hidden></div>
+        <section class="story" data-chapter="0" ><h2>優色雨铃</h2><em>yuushoku-amering</em><a class="entry" href="/portfolio/">打开作品集 <span>↗</span></a></section><section class="story" data-chapter="1" hidden><h2>文章</h2><em>Journal</em><a class="entry" href="/archive/">阅读文章 <span>↗</span></a></section><section class="story" data-chapter="2" hidden><h2>技能</h2><em>Skills</em><a class="entry" href="/skills/">浏览技能 <span>↗</span></a></section><section class="story" data-chapter="3" hidden><h2>关于我</h2><em>About</em><a class="entry" href="/about/">个人介绍 <span>↗</span></a></section><div class="sunwash" aria-hidden="true"></div>
+        <div class="travel"><span>↓ &nbsp; 向下滚动</span>
           <progress max="1" value="0" aria-label="下落进度"></progress>
         </div>
       </div>
     </section>
     <section class="sun-home" id="home" aria-labelledby="home-title" tabindex="-1">
-      <div class="sun-intro">
-        <h2 id="home-title" lang="en">yuushoku-amering</h2>
-        <p>这里是吕家欣（優色雨铃）的个人博客，收录社会学课程文章、用户研究与数据分析项目，也记录音乐、游戏和日常照片。</p>
-      </div>
-      <nav class="sun-map" aria-label="博客栏目">
-        <svg class="sun-links" viewBox="0 0 760 360" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M380 180C309 168 239 99 141 83M380 180C464 161 512 96 617 83M380 180C307 202 234 273 145 288M380 180C461 200 529 266 620 280" />
-        </svg>
-        <span class="sun-orb sun-core" aria-hidden="true"><span>Mizuki</span></span>
-        <a class="sun-orb sun-articles" href="/archive/"><strong>文章</strong><span>社会学、阅读与写作</span></a>
-        <a class="sun-orb sun-projects" href="/projects/"><strong>项目</strong><span>研究与交互实验</span></a>
-        <a class="sun-orb sun-portfolio" href="/portfolio/"><strong>作品集</strong><span>案例与交互体验</span></a>
-        <a class="sun-orb sun-about" href="/about/"><strong>关于我</strong><span>个人介绍</span></a>
-      </nav>
-    </section>
+      <div class="paper-head"><span>书签</span></div>
+<div class="spread"><div class="paper-copy"><small>作品集　 /　 PORTFOLIO</small><h2 id="home-title">雨铃的作品集</h2><p>这里是吕家欣（優色雨铃）的个人博客，收录社会学课程文章、用户研究与数据分析项目，也记录音乐、游戏和日常照片。</p><a class="book-link" href="/portfolio/">翻开立体绘本　↗</a></div>
+<figure><img src="/portfolio/assets/yuling-book-reading.webp" alt="雨铃坐着读书的原画"><figcaption>優色雨铃 <i>yuushoku-amering</i></figcaption></figure>
+<nav class="cases" aria-label="作品选读"><h3>作品选读</h3><a href="/portfolio/projects/mangrove.html"><small>春 · 社会调查</small>红树林社区共治研究 ↗</a><a href="/portfolio/projects/retail.html"><small>秋 · 数据分析</small>服饰零售数据分析 ↗</a><a href="/portfolio/projects/mio.html"><small>冬 · 产品交互</small>澪 · 多端语音助手 ↗</a></nav></div>
+<nav class="paper-foot" aria-label="博客栏目"><a href="/archive/">文章 ↗</a><a href="/skills/">技能 ↗</a><a href="/projects/">项目 ↗</a><a href="/about/">关于我 ↗</a><a href="/albums/">相册 ↗</a><a href="#rain-page">回到缘侧 ↑</a></nav></section>
   </main>
   <aside class="rain-exit" id="rain-exit" hidden tabindex="-1" aria-label="页面转场">
     <canvas aria-hidden="true"></canvas>
@@ -174,7 +132,6 @@
   <script src="/rain/drop-lens.js"></script>
   <script src="/rain/rain-departure.js"></script>
   <script src="/rain/sunbreak.js?v=world-dawn"></script>
-  <script src="/rain/rain-ripples.js?v=20261117"></script>
   <script src="/rain/rain-chime.js?v=20261117"></script>
   <script src="/rain/water-contact.js?v=20261117"></script>
   <script src="/rain/rain-world.js?v=world-dawn"></script>
@@ -193,7 +150,6 @@
     const field = createPointerField();
     const dropSurface = window.createLiquidSurface();
     const bellSurface = window.createLiquidSurface();
-    const pointerWater = window.createRainRipples(stage.querySelector('.pointer-water'));
     const dropContact = window.createWaterContact();
     const bellContact = window.createWaterContact();
     const look = { yaw: 0, pitch: 0, targetYaw: 0, targetPitch: 0 };
@@ -564,6 +520,22 @@
       ctx.fillStyle = flash; ctx.fillRect(x - 42, y - 42, 84, 84);
     }
 
+    const deskImage = document.querySelector('.window-scene img');
+    function deskReflection(p,time,dawn) {
+      const strength=smooth(.86,.96,p)*(1-smooth(.08,.42,dawn))*.36;
+      if(strength<=0 || !deskImage.naturalWidth)return;
+      ctx.save();
+      const floor=height*.64, band=4;
+      const sourceX=deskImage.naturalWidth*.41, sourceW=deskImage.naturalWidth*.56;
+      for(let y=floor;y<height;y+=band){
+        const t=(y-floor)/(height-floor);
+        ctx.globalAlpha=strength*Math.sin(t*Math.PI);
+        const sy=deskImage.naturalHeight*(.91-t*.31);
+        const dx=Math.sin(t*46-time*.86+t*t*20)*width*.012*t;
+        ctx.drawImage(deskImage,sourceX,sy,sourceW,Math.max(1,deskImage.naturalHeight*.31*band/(height-floor)),dx-width*.025,y,width*1.05,band+.3);
+      }
+      ctx.restore();
+    }
     function paint(p, time, dt, dawn = 0) {
       if (!ctx) return;
       field.begin(Math.max(42, Math.min(111, Math.min(width, height) * .133)), dt);
@@ -705,6 +677,7 @@
         bellViews.anchor(bellSurface, 'rim', .51, .48, bellYaw, bellPitch, rim, bellRig);
         waterLens.paintBell(ctx, canvas, width, height, p, time, rim, bellBox.width, bellViews.camera(p,bellRig), x, waterline);
       }
+      deskReflection(p,time,dawn);
       field.end(dt);
     }
 
@@ -713,10 +686,10 @@
     let rang = false;
     const Audio = window.AudioContext || window.webkitAudioContext;
     sound.hidden = !Audio;
-    function playChime() {
+    function playChime(glass = false) {
       if (!audioEnabled || audio?.state !== 'running') return false;
       const start = audio.currentTime;
-      for (const [pitch, volume, tail] of [[864, .071, 1.48], [870.3, .023, 1.17], [1761, .025, .86], [2674, .012, .42]]) {
+      for (const [pitch, volume, tail] of (glass ? [[1648,.049,1.12],[1653,.011,.88],[4351,.009,.39],[6812,.003,.17]] : [[864, .071, 1.48], [870.3, .023, 1.17], [1761, .025, .86], [2674, .012, .42]])) {
         const tone = audio.createOscillator();
         const gain = audio.createGain();
         tone.frequency.value = pitch;
@@ -743,7 +716,7 @@
     const distance = () => Math.max(1, journey.offsetHeight - stage.offsetHeight - sunbreak.span());
     const still = [0, .333, .692, .96];
     const zone = document.querySelector('.drag-zone');
-    let drag = null, zoneType = '', lastWake = null;
+    let drag = null, zoneType = '';
     const signed = value => Math.max(-1, Math.min(1, value));
     function setDragZone(type, box) {
       if (zoneType !== type && drag) finishDrag();
@@ -764,11 +737,10 @@
       const liveSky = Boolean(rainWorld?.available());
       const dawn = sunbreak.phase(afterRain);
       const sunny = sunbreak.paint(afterRain,liveSky);
-      const target = clamp(-bounds.top / rainDistance);
+      const target = reduced.matches ? 0 : clamp(-bounds.top / rainDistance);
       const visible = bounds.bottom > 0 && bounds.top < height;
       const playing = Boolean(ctx) && visible && (!sunny || liveSky) && !ambientPaused && !departure.active && !reduced.matches;
       const animate = playing && dawn<.44;
-      if(!animate)pointerWater.clear();
       const elapsed = frameAt === null ? 0 : Math.min(.05, (now - frameAt) / 1000);
       frameAt = animate ? now : null;
       if (!animate || cameraProgress === null || target >= .48 || Math.abs(target - cameraProgress) > .22) {
@@ -796,8 +768,12 @@
       const interval = width >= 741 && p <= .35 ? 15 : 32;
       if (changed || (playing && now - paintedAt >= interval)) {
         const dt = playing ? Math.min(.048, ambientTime - simulatedAt) : 0;
-        if (!sunny || liveSky) paint(reduced.matches ? still[step] : p, reduced.matches ? 0 : ambientTime, dt,dawn);
-        if(animate)pointerWater.paint(canvas,ambientTime);
+        const deskCoversWorld = p <= .175 && deskImage.naturalWidth > 0;
+        if (deskCoversWorld) {
+          setDragZone('',null);
+        } else {
+          if (!sunny || liveSky) paint(reduced.matches ? still[step] : p, reduced.matches ? 0 : ambientTime, dt,dawn);
+        }
         simulatedAt = ambientTime;
         if (changed) progress.value = p;
         paintedProgress = p;
@@ -840,17 +816,11 @@
         look.targetPitch = signed(drag.pitch - (y - drag.y) / 105);
       } else if (event.pointerType !== 'touch') aimAt(x, y);
       else return;
-      touchWater(x,y,.67);
-      if (!lastWake || (ambientTime - lastWake.time > .105 && Math.hypot(x - lastWake.x, y - lastWake.y) > 21)) {
-        lastWake = {x, y, time: ambientTime};
-        addWake(x, y, .37);
-      }
       field.move(x, y);
       rainWorld?.move(x/Math.max(width,1),y/Math.max(height,1),ambientTime);
       cloudScene?.stir(x, y, ambientTime);
     }, { passive: true });
     function addWake(x,y,strength) {
-      pointerWater.disturb(x/Math.max(1,width),y/Math.max(1,height),ambientTime,strength);
       rainWorld?.disturb(x/Math.max(1,width),y/Math.max(1,height),ambientTime,strength);
       touchWater(x,y,strength>.8 ? 1.18 : .81);
     }
@@ -965,5 +935,5 @@
     updateMotionPreference();
     resize();
   </script>
-</body>
+<script src="/passage.js"></script><script src="/window-scene.js"></script><script src="/pointer-scene.js"></script></body>
 </html>
