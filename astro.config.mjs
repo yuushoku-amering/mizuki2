@@ -1,3 +1,4 @@
+import storybookPassage from "./scripts/storybook-passage.mjs";
 import sitemap from "@astrojs/sitemap";
 import mdx from '@astrojs/mdx';
 import { unified } from '@astrojs/markdown-remark';
@@ -104,6 +105,7 @@ export default defineConfig({
 	},
 
 	integrations: [
+		storybookPassage(),
 		oddmisc({
 			umami: {
 				shareUrl: false,

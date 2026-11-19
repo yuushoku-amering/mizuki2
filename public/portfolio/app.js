@@ -78,6 +78,10 @@ function selectSeason(season, initial=false){
 function weather(season){const s=seasons[season];document.querySelector('#weather').innerHTML=Array.from({length:20},(_,i)=>`<span class="particle" style="left:${(i*47)%100}%;--duration:${9+i%6}s;--delay:${-i*.9}s;font-size:${season==='winter'?8+i%5:12+i%7}px">${s.symbol}</span>`).join('');}
 function collapse(){activeSeason=null;delete document.body.dataset.active;sessionStorage.removeItem('worldtree-season');document.querySelector('#fruits').innerHTML='';document.querySelector('#weather').innerHTML='';document.querySelector('.garden').classList.remove('open');document.querySelectorAll('[data-season]').forEach(n=>{n.setAttribute('aria-expanded','false');n.querySelector('i').textContent='＋';});document.querySelectorAll('.canopy').forEach(n=>n.classList.remove('selected'));document.querySelector('#collapse').hidden=true;document.querySelector('#status').textContent='选择一条主枝，唤醒一个季节';}
 function showTransition(url,season,title){
+  if (window.engawaPassage) {
+    window.engawaPassage.open(url, title);
+    return;
+  }
  if(busy)return;busy=true;const s=seasons[season];sessionStorage.setItem('worldtree-scroll',String(scrollY));sessionStorage.setItem('worldtree-entry',season);
  const overlay=document.querySelector('#transition');overlay.style.setProperty('--wash',s.wash);overlay.style.setProperty('--accent',s.color);document.querySelector('#loading-title').textContent=title;
  document.querySelector('.bubbles').innerHTML=[-55,-15,25].map((left,i)=>`<div class="bubble" style="left:${left}vw;--delay:${i*.08}s"></div>`).join('');

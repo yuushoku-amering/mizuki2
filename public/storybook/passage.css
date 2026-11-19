@@ -1,0 +1,34 @@
+#storybook-pass{position:fixed;inset:0;z-index:2147483600;isolation:isolate;overflow:hidden;display:grid;place-items:center;pointer-events:auto;--ink:#324947;--paper:#fff5db;--curve:cubic-bezier(.22,.8,.22,1);font:16px/1.45 "Microsoft YaHei",sans-serif;color:var(--ink)}
+#storybook-pass[hidden]{display:none!important}
+#storybook-pass *{box-sizing:border-box}
+#storybook-pass .veil{position:absolute;inset:0;background:#344f57;opacity:.97}
+#storybook-pass .spreadfx{position:relative;width:min(83vw,910px);height:min(53vw,54vh,475px);min-height:225px;background:#b47c50;border:3px solid #354b47;border-radius:9px 19px 19px 9px;box-shadow:0 6px #c9b89b,0 8px #574e41,0 22px 45px #101e264d;perspective:1450px;transform:rotate(-1deg)}
+#storybook-pass .paper,#storybook-pass .leaf{position:absolute;inset:3px;width:calc(50% - 3px);overflow:hidden;background:#f3e6ca;border-radius:4px 0 0 5px}
+#storybook-pass .right,#storybook-pass .leaf{left:50%;border-radius:0 12px 10px 0;background:#fff3d8}
+#storybook-pass .land{position:absolute;inset:0;width:100%;height:100%}
+#storybook-pass .paper:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset -14px 0 18px -18px #716043}
+#storybook-pass .right:after{box-shadow:inset 14px 0 18px -18px #716043}
+#storybook-pass .leaf{z-index:2;transform-origin:0 50%;transform:rotateY(-179deg);backface-visibility:visible;background:linear-gradient(90deg,#c6b798,#f5e8c9 9%,#ffefd1 92%,#d8c7a8);box-shadow:2px 3px 5px #705e3433;animation:story-flip .87s var(--curve) both}
+#storybook-pass .leaf:after{content:"";position:absolute;inset:8%;border:1px solid #a699764a}
+#storybook-pass .leaf .land{transform:scaleX(-1)}
+#storybook-pass .traveller{position:absolute;left:12%;right:12%;bottom:16%;height:50%;z-index:3}
+#storybook-pass .sprite{position:absolute;bottom:29px;left:var(--pass-progress,0%);transform:translateX(-50%);width:clamp(42px,5.8vw,76px);aspect-ratio:3/4;image-rendering:pixelated}
+#storybook-pass .track{position:absolute;left:0;right:0;bottom:20px;height:9px;border:1px solid #4e6258;background:#f1ebd1;border-radius:4px;overflow:hidden}
+#storybook-pass .track i{display:block;height:100%;background:#518578;width:var(--pass-progress,0%)}
+#storybook-pass .destination{position:absolute;bottom:-5px;left:0;right:0;text-align:center;font:14px/18px WenKai,"Microsoft YaHei",sans-serif;color:#293e38;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#storybook-pass .door{position:absolute;top:0;bottom:0;width:50.1%;border:clamp(8px,1vw,16px) solid #564738;background-color:#ebe4cf;background-image:repeating-linear-gradient(90deg,transparent 0 calc(25% - 4px),#776147 calc(25% - 4px) 25%),repeating-linear-gradient(0deg,transparent 0 calc(20% - 5px),#776147 calc(20% - 5px) 20%);box-shadow:inset 0 0 25px #927b4848}
+#storybook-pass .door:after{content:"";position:absolute;top:51%;height:44px;width:9px;background:#443a31;border-radius:6px}
+#storybook-pass .west{left:0;animation:west-close .62s var(--curve) both}
+#storybook-pass .east{right:0;animation:east-close .62s var(--curve) both}
+#storybook-pass .west:after{right:12px}#storybook-pass .east:after{left:12px}
+#storybook-pass[data-mode=book] .door,#storybook-pass[data-mode=screen] :is(.veil,.spreadfx){display:none}
+#storybook-pass.arrive[data-mode=book]{animation:pass-fade .38s ease-out both;pointer-events:none}
+#storybook-pass.arrive .leaf{animation:none}
+#storybook-pass.arrive .west{animation:west-open .52s ease-in-out both}
+#storybook-pass.arrive .east{animation:east-open .52s ease-in-out both}
+@keyframes story-flip{0%,9%{transform:rotateY(0)}50%{transform:rotateY(-85deg) skewY(-3deg)}100%{transform:rotateY(-179deg)}}
+@keyframes west-close{from{transform:translateX(-101%)}to{transform:none}}@keyframes east-close{from{transform:translateX(101%)}to{transform:none}}
+@keyframes west-open{to{transform:translateX(-101%)}}@keyframes east-open{to{transform:translateX(101%)}}
+@keyframes pass-fade{to{opacity:0}}
+@media(max-width:620px){#storybook-pass .spreadfx{width:94vw;height:38vh;min-height:212px}#storybook-pass .traveller{left:7%;right:9%;bottom:13%}#storybook-pass .destination{font-size:12px}}
+@media(prefers-reduced-motion:reduce){#storybook-pass{display:none!important}}
